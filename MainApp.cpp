@@ -47,7 +47,7 @@ bool MainApp::init() {
     return false;
   }
 
-  // 1415*948 is the image resolution
+  // 800*551 is the image resolution
   if ((surfDisplay = SDL_SetVideoMode(800, 551, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
     printf("Unable to set video mode: %s\n", SDL_GetError());
     return false;
@@ -70,7 +70,7 @@ bool MainApp::init() {
      return false;
    
    if (SDL_Flip(surfDisplay) != 0) {
-     printf("Unable to flip display: %s\n", SDL_GetError());
+     printf("Unable to flip display buffers: %s\n", SDL_GetError());
      return false;
    }
    

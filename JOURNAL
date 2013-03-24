@@ -1,11 +1,12 @@
 23.03.2013
   -- project start
   -- create NetBeans project and directory structure
-  -- prepare the environment on my laptop : install WX and SDL packages (libraries and headers)
+  -- prepare the environment : install WX and SDL packages (libraries and headers)
   -- linker configuration : put "`sdl-config --libs` `wx-config --libs` -lSDL_image -lSDL_gfx -lSDL_ttf -lSDL" in Properties->Build->Linker->Libraries->Add Option->Other option instead of Command Line -> Additional Options. Thus to have the correct library and object order on the command line (http://webpages.charter.net/ppluzhnikov/linker.html)
-  -- Run options : no DISPLAY=0 environment variable, Console Type : Internal Terminal
+  -- run options : no DISPLAY=0 environment variable, Console Type : Internal Terminal
 
-24.05.2013
-  -- do project exercise 1
-  -- modify Surface.cpp to add some error checking on SDL functions (return value)
-  -- create a Makefile manually to be able to build without NetBeans
+24.03.2013
+  -- project part 1 implemented and running
+  -- modify Surface.cpp to add some error checking on SDL functions (return values)
+  -- create a Makefile manually to be able to build simply without NetBeans
+  -- create and configure a GIT repository at EPFL : git.epfl.ch/repo/atcsim.git
