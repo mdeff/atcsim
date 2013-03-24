@@ -1,0 +1,17 @@
+# Ignore all temp files
+*~
+
+# Ignore all directories (created and managed by Netbeans)
+*/
+
+# Ignore hidden files
+.*
+
+# But not this one
+!.gitignore
+
+# Ignore NetBeans Makefile
+MakefileNB
+
+# Ignore produced executable
+ATCsim
