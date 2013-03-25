@@ -12,7 +12,7 @@
 #include "Surface.h"
 #include "CEvent.h"
 
-class MainApp : CEvent {
+class MainApp : public CEvent {
   
 public:
   MainApp();

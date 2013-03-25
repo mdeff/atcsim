@@ -9,4 +9,4 @@
   -- project part 1 implemented and running
   -- modify Surface.cpp to add some error checking on SDL functions (return values)
   -- create a Makefile manually to be able to build simply without NetBeans
-  -- create and configure a GIT repository at EPFL : git.epfl.ch/repo/atcsim.git
+  -- create and configure a GIT repos   itory at EPFL : git.epfl.ch/repo/atcsim.git
