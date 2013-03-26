@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Airplane::Airplane(int identification, int altitude, int cape, int velocity, int x, int y) 
+Airplane::Airplane(const int identification, const int altitude, const int cape, const int velocity, const int x, const int y) 
   :
   identification_(identification),   // Flight number
   altitude_(altitude),

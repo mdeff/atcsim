@@ -8,13 +8,13 @@
 #ifndef AIRPLANE_H
 #define	AIRPLANE_H
 
-#include "Entity.h"
+#include "IEntity.h"
 
-class Airplane : public Entity {
+class Airplane : public virtual IEntity {
   
 public:
   
-  Airplane(int id, int altitude, int cape, int velocity, int x, int y);
+  Airplane(const int identification, const int altitude, const int cape, const int velocity, const int x, const int y);
   Airplane(const Airplane& orig);
   virtual ~Airplane();
   
