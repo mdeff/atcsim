@@ -6,7 +6,18 @@
   -- run options : no DISPLAY=0 environment variable, Console Type : Internal Terminal
 
 24.03.2013
-  -- project part 1 implemented and running
+  -- exercise P1 : simulation plateau (main.cpp and MainApp, CEvent, Surface classes)
   -- modify Surface.cpp to add some error checking on SDL functions (return values)
   -- create a Makefile manually to be able to build simply without NetBeans
-  -- create and configure a GIT repos   itory at EPFL : git.epfl.ch/repo/atcsim.git
+  -- create and configure a GIT repository at EPFL : git.epfl.ch/repo/atcsim.git
+
+25.03.2013
+  -- create a TODO file for new idea to be implemented
+  -- create a README file and add indication on how to get, build and run the simulator
+  -- add DESCRIPTION, AUTHORS and GIT WORKFLOW sections to README
+  -- answer question P2.1 (RESPONSES file)
+  -- exercise P2 : base objects (Entity class)
+  -- switch to ISO C++11 (without GNU extensions) to support std::to_string, compiler flags : -std=c++11 -pedantic (to obtain all the diagnostics required by the standard)
+  -- add extra warnings with -Wextra and -Weffc++ (in addition to -Wall)
+  -- exercise P3 : airplanes (Airplane class)
+
