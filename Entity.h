@@ -20,11 +20,10 @@ public:
   Entity(const Entity& orig);
   virtual ~Entity();
 
+  // abstract methods that will have to be defined
   virtual void loop() = 0;
   virtual void render(SDL_Surface* surf_Display) = 0;
   virtual void cleanup() = 0;
-
-private:
 
 };
 

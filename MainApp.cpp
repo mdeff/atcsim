@@ -8,8 +8,8 @@
 #include "MainApp.h"
 
 MainApp::MainApp() {
-  running = true;
-  surfDisplay = NULL;
+  running_ = true;
+  screenSurf_ = NULL;
 }
 
 //MainApp::MainApp(const MainApp& orig) {}
@@ -24,7 +24,7 @@ int MainApp::execute() {
     return -1;
   }
   
-  while (running) {
+  while (running_) {
     while(SDL_PollEvent(&event) == 1)
       onEvent(&event);
     if (!loop()) {
@@ -42,19 +42,24 @@ int MainApp::execute() {
 
 bool MainApp::init() {
 
-  if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+  if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
     printf("Unable to initialize SDL: %s\n", SDL_GetError());
+    return false;
+  }
+  
+  if (TTF_Init() != 0) {
+    printf("Unable to initialize TTF: %s\n", TTF_GetError());
     return false;
   }
 
   // 800*551 is the image resolution
-  if ((surfDisplay = SDL_SetVideoMode(800, 551, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
+  if ((screenSurf_ = SDL_SetVideoMode(800, 551, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
     printf("Unable to set video mode: %s\n", SDL_GetError());
     return false;
   }
   
-  surfBG = Surface::load("background.bmp");
-  if (surfBG == NULL)
+  backgroundSurf_ = Surface::load("background.bmp");
+  if (backgroundSurf_ == NULL)
     return false;
   
   return true;  
@@ -66,10 +71,10 @@ bool MainApp::init() {
  
  bool MainApp::render() {
    
-   if (!Surface::draw(surfDisplay, surfBG, 0, 0))
+   if (!Surface::draw(screenSurf_, backgroundSurf_, 0, 0))
      return false;
    
-   if (SDL_Flip(surfDisplay) != 0) {
+   if (SDL_Flip(screenSurf_) != 0) {
      printf("Unable to flip display buffers: %s\n", SDL_GetError());
      return false;
    }
@@ -78,7 +83,7 @@ bool MainApp::init() {
  }
  
  void MainApp::onExit() {
-   running = false;
+   running_ = false;
  }
  
  void MainApp::onEvent(SDL_Event* event) {
@@ -87,8 +92,9 @@ bool MainApp::init() {
  
 void MainApp::cleanup() {
 
-  SDL_FreeSurface(surfBG);
-  SDL_FreeSurface(surfDisplay);
+  SDL_FreeSurface(backgroundSurf_);
+  SDL_FreeSurface(screenSurf_);
+  TTF_Quit();
   SDL_Quit();
 
 }

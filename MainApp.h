@@ -9,6 +9,7 @@
 #define	MAINAPP_H
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 #include "Surface.h"
 #include "CEvent.h"
 
@@ -34,9 +35,10 @@ public:
   void onEvent(SDL_Event* event);
 
 private:
-  bool running;
-  SDL_Surface* surfDisplay;
-  SDL_Surface* surfBG;
+  
+  bool running_;
+  SDL_Surface* screenSurf_;
+  SDL_Surface* backgroundSurf_;
 
 };
 
