@@ -1,0 +1,31 @@
+-----  TODO  -----
+
+Implement exceptions handling and throwing (with exception specifications at function declarations), catch (exception& e)
+
+Add Doxygen / Javadoc comments to source code
+Add const keyword on methods
+
+Use a tool to automatically check code quality / format (static analysis)
+create unit tests
+verify destructor destroy what was created by constructor (especially free the pointers)
+choose warning and optimization flags
+manually written Makefile : debug or release configuration ?
+Verify answers in REPONSES file
+Always have default constructor
+Implement the copy constructors
+Add licence information (GPL or BSD)
+Generate automatically the class hierarchy
+Unifiy source code style (format, variable / class / method names etc.)
+Apply http://geosoft.no/development/cppstyle.html/
+
+-----  EVENTUALLY  -----
+
+rewrite Surface class to work on object (no static methods)
+JOURNAL, REPONSES, CONCEPTION, README in Latex
+Automatically generate documentation based on Doxygen / Javadoc comments
+Add doc folder to repository
+Add anonymous clone to main GIT repository (hosted on git.epfl.ch)
+
+-----  DONE  -----
+
+create a GIT repository
