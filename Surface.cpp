@@ -8,7 +8,13 @@
 #include "Surface.h"
 
 Surface::Surface() {
+  // Do nothing.
 }
+
+Surface::~Surface() {
+  // Default: call base class'es destructor and destructors of all members.
+}
+
 
 SDL_Surface* Surface::load(const char* file) {
   

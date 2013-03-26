@@ -14,11 +14,12 @@ using namespace std;
 Airplane::Airplane(const int identification, const int altitude, const int cape,
                    const int velocity, const int x, const int y) 
   :
-  identification_(identification),   // Flight number
+  IEntity(), // Parent constructor.
+  identification_(identification),   // Flight number.
   altitude_(altitude),
   cape_(cape),
   velocity_(velocity),
-  x_(x), y_(y)                       // Position
+  x_(x), y_(y)                       // Position.
 {
   
   textFont_ = TTF_OpenFont("/usr/share/fonts/truetype/freefont/FreeMono.ttf", 12);
@@ -29,12 +30,10 @@ Airplane::Airplane(const int identification, const int altitude, const int cape,
 }
 
 
-Airplane::Airplane(const Airplane& orig) {
-}
-
 Airplane::~Airplane() {
   TTF_CloseFont(textFont_);
   SDL_FreeSurface(textSurf_);
+  // Default: call base class'es destructor and destructors of all members.
 }
 
 

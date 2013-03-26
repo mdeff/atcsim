@@ -16,7 +16,10 @@ public:
   
   Airplane(const int identification, const int altitude, const int cape,
            const int velocity, const int x, const int y);
+  
+  // Do not define : use the compiler generated copy constructor.
   Airplane(const Airplane& orig);
+  
   virtual ~Airplane();
   
   // Redefinition of virtual methods inherited from Entity class.

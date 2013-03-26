@@ -7,13 +7,16 @@
 
 #include "MainApp.h"
 
-MainApp::MainApp() {
+MainApp::MainApp()
+: CEvent() // Parent constructor.
+{
   running_ = true;
   screenSurf_ = NULL;
 }
 
-//MainApp::MainApp(const MainApp& orig) {}
-//MainApp::~MainApp() {}
+MainApp::~MainApp() {
+  // Default: call base class'es destructor and destructors of all members.
+}
 
 int MainApp::execute() {
   
@@ -53,7 +56,8 @@ bool MainApp::init() {
   }
 
   // 800*551 is the image resolution
-  if ((screenSurf_ = SDL_SetVideoMode(800, 551, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
+  screenSurf_ = SDL_SetVideoMode(800, 551, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+  if (screenSurf_ == NULL) {
     printf("Unable to set video mode: %s\n", SDL_GetError());
     return false;
   }

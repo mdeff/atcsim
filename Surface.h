@@ -15,8 +15,11 @@ class Surface {
 public:
   
   Surface();
-//  Surface(const Surface& orig);
-//  virtual ~Surface();
+  
+  // Do not define : use the compiler generated copy constructor.
+  Surface(const Surface& orig);
+  
+  virtual ~Surface();
   
   static SDL_Surface* load(const char* file);
   

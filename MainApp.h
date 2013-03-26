@@ -10,15 +10,19 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
-#include "Surface.h"
 #include "CEvent.h"
+#include "Surface.h"
 
 class MainApp : public CEvent {
   
 public:
+  
   MainApp();
-  //    MainApp(const MainApp& orig);
-  //    virtual ~MainApp();
+  
+  // Do not define : use the compiler generated copy constructor.
+  MainApp(const MainApp& orig);
+  
+  virtual ~MainApp();
   
   int execute();
 
