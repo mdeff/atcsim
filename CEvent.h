@@ -26,7 +26,8 @@ public:
 
     virtual void onMouseBlur();
 
-    virtual void onMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle);
+    virtual void onMouseMove(int mX, int mY, int relX, int relY, bool Left,
+                             bool Right, bool Middle);
 
     virtual void onMouseWheel(bool Up, bool Down); //Not implemented
 

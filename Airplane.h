@@ -14,7 +14,8 @@ class Airplane : public virtual IEntity {
   
 public:
   
-  Airplane(const int identification, const int altitude, const int cape, const int velocity, const int x, const int y);
+  Airplane(const int identification, const int altitude, const int cape,
+           const int velocity, const int x, const int y);
   Airplane(const Airplane& orig);
   virtual ~Airplane();
   

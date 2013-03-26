@@ -54,7 +54,8 @@ bool Surface::draw(SDL_Surface* surfDest, SDL_Surface* surfSrc, int x, int y) {
 }
 
 //------------------------------------------------------------------------------
-bool Surface::draw(SDL_Surface* surfDest, SDL_Surface* surfSrc, int x, int y, int x2, int y2, int w, int h) {
+bool Surface::draw(SDL_Surface* surfDest, SDL_Surface* surfSrc, int x, int y,
+                   int x2, int y2, int w, int h) {
 
   if(surfDest == NULL || surfSrc == NULL) {
 		return false;

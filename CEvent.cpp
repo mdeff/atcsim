@@ -59,7 +59,11 @@ void CEvent::onEvent(SDL_Event* Event) {
 
     case SDL_MOUSEMOTION:
     {
-      onMouseMove(Event->motion.x, Event->motion.y, Event->motion.xrel, Event->motion.yrel, (Event->motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0, (Event->motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0, (Event->motion.state & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0);
+      onMouseMove(Event->motion.x, Event->motion.y,
+                  Event->motion.xrel, Event->motion.yrel,
+                  (Event->motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0,
+                  (Event->motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0,
+                  (Event->motion.state & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0);
       break;
     }
 
@@ -115,7 +119,8 @@ void CEvent::onEvent(SDL_Event* Event) {
 
     case SDL_JOYBALLMOTION:
     {
-      onJoyBall(Event->jball.which, Event->jball.ball, Event->jball.xrel, Event->jball.yrel);
+      onJoyBall(Event->jball.which, Event->jball.ball, Event->jball.xrel,
+                Event->jball.yrel);
       break;
     }
 
@@ -162,7 +167,8 @@ void CEvent::onEvent(SDL_Event* Event) {
 
     default:
     {
-      onUser(Event->user.type, Event->user.code, Event->user.data1, Event->user.data2);
+      onUser(Event->user.type, Event->user.code, Event->user.data1,
+             Event->user.data2);
       break;
     }
   }
@@ -206,7 +212,8 @@ void CEvent::onMouseBlur() {
 
 //------------------------------------------------------------------------------
 
-void CEvent::onMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle) {
+void CEvent::onMouseMove(int mX, int mY, int relX, int relY, bool Left,
+                         bool Right, bool Middle) {
   //Pure virtual, do nothing
 }
 

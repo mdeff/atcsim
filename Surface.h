@@ -21,7 +21,8 @@ public:
   static SDL_Surface* load(const char* file);
   
   static bool draw(SDL_Surface* destSurf, SDL_Surface* srcSurf, int x, int y);
-  static bool draw(SDL_Surface* destSurf, SDL_Surface* srcSurf, int x, int y, int x2, int y2, int w, int h);
+  static bool draw(SDL_Surface* destSurf, SDL_Surface* srcSurf, int x, int y,
+                   int x2, int y2, int w, int h);
   
   static bool transparent(SDL_Surface* destSurf, int r, int g, int b);
   
