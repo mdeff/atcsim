@@ -1,5 +1,21 @@
 [Question P2.1]
 
-Une méthode virtuelle pure (abstraite) n'est pas définie (implémentée) dans la classe où elle est déclarée et doit donc obligatoirement être définie dans les classes filles (héritants de la super-classe) (pas forcément les descendants directs). Une méthode virtuelle possède une implémentation par défaut dont les classes filles héritent. Elles peuvent cependant la redéfinir. Une classe contenant une méthode virtuelle pure est dite abstraite et ne peut être instanciée.
+Une méthode virtuelle pure (abstraite) n'est pas définie (implémentée) dans la
+classe où elle est déclarée et doit donc obligatoirement être définie dans les
+classes filles (héritants de la super-classe) (pas forcément les descendants
+directs). Une méthode virtuelle possède une implémentation par défaut dont les
+classes filles héritent. Elles peuvent cependant la redéfinir. Une classe
+contenant une méthode virtuelle pure est dite abstraite et ne peut être instanciée.
 
-Seul les méthodes virtuelles (non abstraites) doivent obligatoirement être définies, dans notre cas il s'agit du constructeur et du destructeur par défaut.
+Seul les méthodes virtuelles (non abstraites) doivent obligatoirement être
+définies, dans notre cas il s'agit du constructeur et du destructeur par défaut.
+
+[Question P3.1]
+
+Il est nécessaire de définir les méthodes comme virtuelles dans la super-class,
+afin que celles-ci puissent être redéfinies dans les classes filles.
+Des références vers les objets (et non les objets eux-mêmes) doivent être stockées
+dans le conteneur, afin que le RTTI (Run-Time Type Information) détermine le type
+de l'objet à l'exécution et non à la compilation comme c'est habituellement le cas.
+
+
