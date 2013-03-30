@@ -7,7 +7,9 @@
 //==============================================================================
 
 class CEvent {
+  
 public:
+  
   CEvent();
 
   // Do not define : use the compiler generated copy constructor.
@@ -67,6 +69,12 @@ public:
   virtual void onExit();
 
   virtual void onUser(Uint8 type, int code, void* data1, void* data2);
+  
+  
+protected:
+  
+private:
+  
 };
 
 //==============================================================================

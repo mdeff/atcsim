@@ -8,12 +8,14 @@
 #include "Polygon.h"
 #include "Surface.h"
 
+using namespace std;
 
 
 
-Polygon::Polygon(const vector<Sint16>& xCorners, const vector<Sint16>& yCorners,
-                 const Uint8 red, const Uint8 green,
-                 const Uint8 blue, const Uint8 alpha)
+Polygon::Polygon(const std::vector<int16_t>& xCorners,
+                 const std::vector<int16_t>& yCorners,
+                 const uint8_t red, const uint8_t green,
+                 const uint8_t blue, const uint8_t alpha)
 :
 IEntity(), // Parent constructor.
 xCorners_(xCorners),
@@ -21,8 +23,9 @@ yCorners_(yCorners),
 red_(red),
 green_(green),
 blue_(blue),
-alpha_(alpha)
-{ }
+alpha_(alpha) {
+}
+
 
 
 Polygon::~Polygon() {
@@ -31,16 +34,27 @@ Polygon::~Polygon() {
 
 
 
-void Polygon::render(SDL_Surface* displaySurf) {
+void Polygon::render(Surface& displaySurf) {
+            
+  // Create a new suface with the size of the real screen window.
+  Surface polygonSurf(displaySurf.getWidth(), displaySurf.getHeight());
   
-  SDL_Surface* polygonSurf;  
-  int nPoints(min(xCorners_.size(), yCorners_.size()));
-          
-  // Data(): returns pointer to the underlying array (C++11) (OK even if empty).
+  // Draw a semi-transparent filled polygon for the inside.
+  polygonSurf.drawFilledPolygon(xCorners_, yCorners_, red_, green_, blue_, alpha_);
   
-  filledPolygonRGBA(polygonSurf, xCorners_.data(), yCorners_.data(),
-                    nPoints, red_, green_, blue_, alpha_);
-  
-  Surface::draw(displaySurf, polygonSurf, 0, 0);
-  SDL_FreeSurface(polygonSurf);
+  // Draw an anti-aliased solid polygon for the contour.
+  polygonSurf.drawAaPolygon(xCorners_, yCorners_, red_, green_, blue_, 255);
+              
+  displaySurf.blit(polygonSurf, 0, 0);
 }
+
+
+
+void Polygon::loop() {
+}
+
+
+
+void Polygon::cleanup() {
+}
+

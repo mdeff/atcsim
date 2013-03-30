@@ -7,11 +7,15 @@
 
 #include "ForbiddenZone.h"
 
-ForbiddenZone::ForbiddenZone(const vector<Sint16>& xCorners,
-                             const vector<Sint16>& yCorners)
-:
-Polygon(xCorners, yCorners, 255, 255, 255, 128) // Parent constructor.
-{ }
+using namespace std;
+
+
+
+ForbiddenZone::ForbiddenZone(const vector<int16_t>& xCorners,
+                             const vector<int16_t>& yCorners)
+: Polygon(xCorners, yCorners, 0, 0, 0, 128) // Parent constructor.
+{
+}
 
 
 

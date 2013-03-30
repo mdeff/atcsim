@@ -14,15 +14,19 @@ class ForbiddenZone : public Polygon {
   
 public:
   
-  ForbiddenZone(const vector<Sint16>& xPoints, const vector<Sint16>& yPoints);
+  ForbiddenZone(const std::vector<int16_t>& xPoints,
+                const std::vector<int16_t>& yPoints);
   
   // Do not define : use the compiler generated copy constructor.
   ForbiddenZone(const ForbiddenZone& orig);
   
   virtual ~ForbiddenZone();
   
+protected:
+  
 private:
 
 };
 
 #endif	/* FORBIDDENZONE_H */
+

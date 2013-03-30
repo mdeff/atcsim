@@ -8,9 +8,8 @@
 #ifndef IENTITY_H
 #define	IENTITY_H
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_gfxPrimitives.h>
-#include <SDL/SDL_ttf.h>
+// Forward declarations (no header including) (namespace pollution, build time).
+class Surface;
 
 // This is an interface (abstract) class like the ones in Java or C#.
 // It contains only pure virtual (abstract) methods
@@ -27,9 +26,13 @@ public:
 
   // abstract methods that will have to be defined
   virtual void loop() = 0;
-  virtual void render(SDL_Surface* displaySurf) = 0;
+  virtual void render(Surface& displaySurf) = 0;
   virtual void cleanup() = 0;
 
+protected:
+  
+private:
+  
 };
 
 #endif	/* IENTITY_H */

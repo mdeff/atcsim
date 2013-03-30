@@ -8,10 +8,15 @@
 #ifndef MAINAPP_H
 #define	MAINAPP_H
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
+#include <vector>
+#include <memory>           // for C++11 unique_ptr
+
 #include "CEvent.h"
 #include "Surface.h"
+
+// Forward declarations (no header including) (namespace pollution, build time).
+class IEntity;
+
 
 class MainApp : public CEvent {
   
@@ -38,11 +43,15 @@ public:
 
   void onEvent(SDL_Event* event);
 
+protected:
+  
 private:
   
   bool running_;
-  SDL_Surface* screenSurf_;
-  SDL_Surface* backgroundSurf_;
+  Surface screen_;
+  Surface background_;
+  
+  std::vector< std::unique_ptr<IEntity> > entities;
 
 };
 

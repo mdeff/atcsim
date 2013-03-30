@@ -10,6 +10,9 @@
 
 #include "IEntity.h"
 
+// Forward declarations (no header including) (namespace pollution, build time).
+class Surface;
+
 class Airplane : public virtual IEntity {
   
 public:
@@ -22,10 +25,12 @@ public:
   
   virtual ~Airplane();
   
-  // Redefinition of virtual methods inherited from Entity class.
+  // Redefinition of virtual methods inherited from IEntity class.
   void loop();
-  void render(SDL_Surface* displaySurf);
+  void render(Surface& displaySurf);
   void cleanup();
+  
+protected:
   
 private:
   
@@ -34,10 +39,11 @@ private:
   int cape_;
   int velocity_;
   int x_, y_;                   // Position.
-  SDL_Surface* textSurf_;
-  TTF_Font* textFont_;
-  SDL_Color textColor_;
+//  SDL_Surface* textSurf_;
+//  TTF_Font* textFont_;
+//  SDL_Color textColor_;
 
+  
 };
 
 #endif	/* AIRPLANE_H */
