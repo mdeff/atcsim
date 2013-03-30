@@ -42,6 +42,8 @@ void CEvent::onEvent(SDL_Event* Event) {
 
           break;
         }
+        default:
+          break;
       }
       break;
     }
@@ -86,6 +88,8 @@ void CEvent::onEvent(SDL_Event* Event) {
           onMButtonDown(Event->button.x, Event->button.y);
           break;
         }
+        default:
+          break;
       }
       break;
     }
@@ -108,6 +112,8 @@ void CEvent::onEvent(SDL_Event* Event) {
           onMButtonUp(Event->button.x, Event->button.y);
           break;
         }
+        default:
+          break;
       }
       break;
     }

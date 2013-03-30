@@ -1,6 +1,5 @@
 -----  TODO  -----
 
-remove all warnings with -Wextra and -Weffc++
 
 exception class : fatal (exit), warning
 Implement exceptions handling and throwing (with exception specifications at function declarations), catch (exception& e) (throw std::invalid_argument("id");)
@@ -43,13 +42,14 @@ Automatically generate documentation based on Doxygen / Javadoc comments
 Add doc folder to repository
 Add anonymous clone to main GIT repository (hosted on git.epfl.ch)
 use template for heterogeneous collection
-use new C++11 typed null pointer 'nullptr' instead of untyped NULL
 
 -----  DONE  -----
 
 create a GIT repository
 use forward declaration (#include "A.h" --> class A;) in header files when possible to avoid namespace pollution and reduce build time
 use atexit(SDL_Quit);
+use new C++11 typed null pointer 'nullptr' instead of NULL (enforced by GCC 4.7 -Wzero-as-null-pointer-constant)
+remove all warnings with -Wextra and -Weffc++ and a bunch of others
 
 
 -----  WILL NOT BE DONE  -----

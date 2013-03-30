@@ -5,9 +5,6 @@
  * Created on 23. mars 2013, 17:54
  */
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
-
 #include "MainApp.h"
 #include "IEntity.h"
 #include "Surface.h"
@@ -23,7 +20,27 @@ MainApp::MainApp()
 : CEvent(),                     // Parent constructor.
 screen_(800, 551, 32),          // Image resolution of 800*551.
 background_("background.bmp"),  // Load the background image.
-running_(true) {
+running_(true),
+entities() {
+ 
+    // Add airplanes, forbidden zones and clouds to the heterogeneous collection.
+  entities.push_back( unique_ptr<IEntity> (
+                      new Airplane(1111, 8000, 10, 700, 40, 400) ) );
+  entities.push_back( unique_ptr<IEntity> (
+                      new Airplane(222222222, 9811, 20, 700, 200, 400) ) );
+  entities.push_back( unique_ptr<IEntity> (
+                      new Airplane(33, 7510, -12, 700, 350, 250) ) );
+  entities.push_back( unique_ptr<IEntity> (
+                      new Airplane(44444, 7240, 44, 700, 750, 300) ) );
+  entities.push_back( unique_ptr<IEntity> (
+                      new ForbiddenZone({0,250,400,0}, {0,0,200,200}) ) );
+  entities.push_back( unique_ptr<IEntity> (
+                      new ForbiddenZone({0,200,400,450,450,0}, {500,350,350,450,551,551}) ) );
+  entities.push_back( unique_ptr<IEntity> (
+                      new ForbiddenZone({500,800,800,600}, {0,0,250,200}) ) );
+  entities.push_back( unique_ptr<IEntity> (
+                      new Cloud({540,620,770,770,700,580}, {400,350,400,500,540,500}) ) );
+                      
 }
 
 
@@ -38,10 +55,10 @@ int MainApp::execute() {
 
   SDL_Event event;
 
-  if (!init()) {
-    cleanup();
-    return -1;
-  }
+//  if (!init()) {
+//    cleanup();
+//    return -1;
+//  }
 
   while (running_) {
     while (SDL_PollEvent(&event) == 1)
@@ -61,28 +78,9 @@ int MainApp::execute() {
 
 
 
-bool MainApp::init() {
-
-  // Add airplanes, forbidden zones and clouds to the heterogeneous collection.
-  entities.push_back( unique_ptr<IEntity> (
-                      new Airplane(1111, 8000, 10, 700, 40, 400) ) );
-  entities.push_back( unique_ptr<IEntity> (
-                      new Airplane(222222222, 9811, 20, 700, 200, 400) ) );
-  entities.push_back( unique_ptr<IEntity> (
-                      new Airplane(33, 7510, -12, 700, 350, 250) ) );
-  entities.push_back( unique_ptr<IEntity> (
-                      new Airplane(44444, 7240, 44, 700, 750, 300) ) );
-  entities.push_back( unique_ptr<IEntity> (
-                      new ForbiddenZone({0,250,400,0}, {0,0,200,200}) ) );
-  entities.push_back( unique_ptr<IEntity> (
-                      new ForbiddenZone({0,200,400,450,450,0}, {500,350,350,450,551,551}) ) );
-  entities.push_back( unique_ptr<IEntity> (
-                      new ForbiddenZone({500,800,800,600}, {0,0,250,200}) ) );
-  entities.push_back( unique_ptr<IEntity> (
-                      new Cloud({540,620,770,770,700,580}, {400,350,400,500,540,500}) ) );
-  
-  return true;
-}
+//bool MainApp::init() {
+//  return true;
+//}
 
 
 

@@ -31,7 +31,7 @@ public:
   
   int execute();
 
-  bool init();
+//  bool init();
 
   void onExit();
 
@@ -47,9 +47,9 @@ protected:
   
 private:
   
-  bool running_;
   Surface screen_;
   Surface background_;
+  bool running_;
   
   std::vector< std::unique_ptr<IEntity> > entities;
 

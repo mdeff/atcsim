@@ -38,3 +38,8 @@
   -- refactor the Surface class as object-oriented (unlike SDL) to be easier to use and exception safe (destructor)
   -- lighten the background image
 
+30.03.2013
+  -- use new C++11 typed null pointer 'nullptr' instead of NULL (enforced by GCC 4.7 -Wzero-as-null-pointer-constant)
+  -- code compile without any warnings (with a lot of them enabled) (except those for unused values from CEvent.cpp)
+
+

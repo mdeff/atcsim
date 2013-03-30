@@ -22,7 +22,7 @@ public:
   Surface(int weight, int height);
   Surface(int weight, int height, int colorDepth);
   Surface(const char* file);
-  Surface(std::string text, int red, int green, int blue,
+  Surface(std::string text, uint8_t red, uint8_t green, uint8_t blue,
           std::string font, int size);
   
   virtual ~Surface();
@@ -30,10 +30,11 @@ public:
   int getWidth();
   int getHeight();
   
-  void blit(const Surface& srcSurf, int x, int y);
-  void blit(const Surface& srcSurf, int x, int y, int x2, int y2, int w, int h);
+  void blit(const Surface& srcSurf, int16_t x, int16_t y);
+  void blit(const Surface& srcSurf, int16_t x, int16_t y, int16_t x2, int16_t y2,
+            uint16_t w, uint16_t h);
   
-  void makeTransparent(int r, int g, int b);
+  void makeTransparent(uint8_t r, uint8_t g, uint8_t b);
   
 //  SDL_Surface* getPointer() const;
   

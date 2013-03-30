@@ -15,15 +15,12 @@
 
 using namespace std;
 
-
-void exit() {
-  TTF_Quit();
-  SDL_Quit();
-  cout << "Simulation stop." << endl;
-}
+// Function declarations.
+void exit();
 
 
-int main(int argc, char** argv) {
+// int main(int argc, char** argv) {
+int main() {
   
   // Be sure to quit the SDL and TTF libraries before exiting.
   atexit(exit);
@@ -40,7 +37,7 @@ int main(int argc, char** argv) {
   }
 
   // Set the window title.
-  SDL_WM_SetCaption("Air Traffic Control simulator, CS-118 project, EPFL", NULL);
+  SDL_WM_SetCaption("Air Traffic Control simulator, CS-118 project, EPFL", nullptr);
   
   try {
     
@@ -53,3 +50,12 @@ int main(int argc, char** argv) {
   }
   
 }
+
+
+
+void exit() {
+  TTF_Quit();
+  SDL_Quit();
+  cout << "Simulation stop." << endl;
+}
+

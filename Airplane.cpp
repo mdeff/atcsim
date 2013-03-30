@@ -15,7 +15,7 @@ using namespace std;
 
 
 Airplane::Airplane(const int identification, const int altitude, const int cape,
-                   const int velocity, const int x, const int y)
+                   const int velocity, const int16_t x, const int16_t y)
 :
 IEntity(), // Parent constructor.
 identification_(identification), // Flight number.
@@ -62,9 +62,9 @@ void Airplane::render(Surface& displaySurf) {
   airplaneSurf.drawLine(0, 20, 20, 0, grey, grey, grey, 255);
           
   // Draw the airplane and his related text informations at it's actual position.
-  displaySurf.blit(airplaneSurf, x_-10, y_-10);
-  displaySurf.blit(textSurf1, x_-20, y_+15);
-  displaySurf.blit(textSurf2, x_-20, y_+30);
+  displaySurf.blit(airplaneSurf, int16_t(x_-10), int16_t(y_-10));
+  displaySurf.blit(textSurf1, int16_t(x_-20), int16_t(y_+15));
+  displaySurf.blit(textSurf2, int16_t(x_-20), int16_t(y_+30));
   
 }
 

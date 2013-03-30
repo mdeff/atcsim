@@ -18,7 +18,7 @@ class Airplane : public virtual IEntity {
 public:
   
   Airplane(const int identification, const int altitude, const int cape,
-           const int velocity, const int x, const int y);
+           const int velocity, const int16_t x, const int16_t y);
   
   // Do not define : use the compiler generated copy constructor.
   Airplane(const Airplane& orig);
@@ -38,7 +38,7 @@ private:
   int altitude_;
   int cape_;
   int velocity_;
-  int x_, y_;                   // Position.
+  int16_t x_, y_;                   // Position.
 //  SDL_Surface* textSurf_;
 //  TTF_Font* textFont_;
 //  SDL_Color textColor_;
