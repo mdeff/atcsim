@@ -1,9 +1,11 @@
 -----  TODO  -----
 
-
 exception class : fatal (exit), warning
 Implement exceptions handling and throwing (with exception specifications at function declarations), catch (exception& e) (throw std::invalid_argument("id");)
+
 Add Doxygen / Javadoc comments to source code
+Automatically generate documentation based on Doxygen / Javadoc comments
+Generate automatically the class hierarchy
 
 Add const keyword on methods parameters and core. (const value param only in definition, not declaration)
 Pass object by reference instead of value
@@ -12,44 +14,41 @@ Use a tool to automatically check code quality / format (static analysis)
 create unit tests
 verify destructor destroy what was created by constructor (especially free the pointers)
 choose warning and optimization flags
-manually written Makefile : debug or release configuration ?
-Verify answers in REPONSES file
-Always have default constructor
-Implement the copy constructors
+Verify answers in RESPONSES file
 Add licence information (GPL or BSD)
-Generate automatically the class hierarchy
 Unifiy source code style (format, variable / class / method names etc.)
 Apply http://geosoft.no/development/cppstyle.html/
-Use virtual inheritance to avoid problems whith multiple inheritance. (There is more often multiple inheritance when we use interfaces.) 
+Use virtual inheritance to avoid problems whith multiple inheritance. (There is more often multiple inheritance when we use interfaces.)
 Start using git branching and merging functions to work on interleaved changes.
 different typecasting : http://www.cplusplus.com/doc/tutorial/typecasting/
 control namespaces
 as much as possible, do not define nor declare default copy constructor or assignement operator and use the compiler-generated one (OK if not using pointers etc.)
 you shouldn't do "using namespace X" within a header file because it forces namespace pollution and subverts the namespaces
 templates and generic programming
-C++11 : unique_ptr, shared_ptr, weak_ptr
 try to compile with CLang
-attributes In-class member initializers in header : int{10}
+C++11 attributes In-class member initializers in header : int{10}
 use profiling tools to optimize (memory access, cache miss, page fault, branch prediction)
 don't render at infinite speed, implement framerate
 
 
 -----  EVENTUALLY  -----
 
-rewrite Surface class to work on object (no static methods)
 JOURNAL, REPONSES, CONCEPTION, README in Latex
-Automatically generate documentation based on Doxygen / Javadoc comments
 Add doc folder to repository
 Add anonymous clone to main GIT repository (hosted on git.epfl.ch)
 use template for heterogeneous collection
+heterogeneous collection shoold be a class
 
 -----  DONE  -----
 
 create a GIT repository
 use forward declaration (#include "A.h" --> class A;) in header files when possible to avoid namespace pollution and reduce build time
+C++11 : unique_ptr, shared_ptr, weak_ptr
+refactor the Surface class as object-oriented (unlike SDL) to be easier to use and exception safe (destructor)
 use atexit(SDL_Quit);
 use new C++11 typed null pointer 'nullptr' instead of NULL (enforced by GCC 4.7 -Wzero-as-null-pointer-constant)
 remove all warnings with -Wextra and -Weffc++ and a bunch of others
+manually written Makefile : debug or release configuration ? ==> the two, all (default) implies debug and release
 
 
 -----  WILL NOT BE DONE  -----

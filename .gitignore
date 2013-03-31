@@ -14,4 +14,4 @@
 MakefileNB
 
 # Ignore produced executable
-ATCsim
+ATCsim*
