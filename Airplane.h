@@ -8,6 +8,7 @@
 #ifndef AIRPLANE_H
 #define	AIRPLANE_H
 
+//#include <cstdint>
 #include "IEntity.h"
 
 // Forward declarations (no header including) (namespace pollution, build time).

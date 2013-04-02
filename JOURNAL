@@ -41,6 +41,11 @@
 30.03.2013
   -- use new C++11 typed null pointer 'nullptr' instead of NULL (enforced by GCC 4.7 -Wzero-as-null-pointer-constant)
   -- code compile without any warnings (with a lot of them enabled) (except those for unused values from CEvent.cpp)
-  -- add debug, release and all targets to the Makefile
+  -- add debug, release and all (default) targets to the Makefile
+
+02.04.2013
+  -- install and use Clang / LLVM to compile the project (shows different errors and warnings, provide us with experiences on Clang / LLVM)
+  -- some errors because initializer lists, like new ForbiddenZone({0,250,400,0}, {0,0,200,200}), are only supported since Clang 3.1 (will be shipped with Ubuntu 13.04) (already supported by GCC since 4.4)
+
 
 

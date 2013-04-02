@@ -10,10 +10,11 @@ Generate automatically the class hierarchy
 Add const keyword on methods parameters and core. (const value param only in definition, not declaration)
 Pass object by reference instead of value
 
+link to libc++ (LLVM Clang) instead of libstdc++ (GNU GCC)
+Use Valgrind to detect memory leak and/or GCC AddressSanitizer / ThreadSanitizer
 Use a tool to automatically check code quality / format (static analysis)
 create unit tests
 verify destructor destroy what was created by constructor (especially free the pointers)
-choose warning and optimization flags
 Verify answers in RESPONSES file
 Add licence information (GPL or BSD)
 Unifiy source code style (format, variable / class / method names etc.)
@@ -25,7 +26,6 @@ control namespaces
 as much as possible, do not define nor declare default copy constructor or assignement operator and use the compiler-generated one (OK if not using pointers etc.)
 you shouldn't do "using namespace X" within a header file because it forces namespace pollution and subverts the namespaces
 templates and generic programming
-try to compile with CLang
 C++11 attributes In-class member initializers in header : int{10}
 use profiling tools to optimize (memory access, cache miss, page fault, branch prediction)
 don't render at infinite speed, implement framerate
@@ -49,6 +49,8 @@ use atexit(SDL_Quit);
 use new C++11 typed null pointer 'nullptr' instead of NULL (enforced by GCC 4.7 -Wzero-as-null-pointer-constant)
 remove all warnings with -Wextra and -Weffc++ and a bunch of others
 manually written Makefile : debug or release configuration ? ==> the two, all (default) implies debug and release
+choose warning and optimization flags
+compile with Clang (LLVM)
 
 
 -----  WILL NOT BE DONE  -----

@@ -22,8 +22,8 @@ screen_(800, 551, 32),          // Image resolution of 800*551.
 background_("background.bmp"),  // Load the background image.
 running_(true),
 entities() {
- 
-    // Add airplanes, forbidden zones and clouds to the heterogeneous collection.
+   
+  // Add airplanes, forbidden zones and clouds to the heterogeneous collection.
   entities.push_back( unique_ptr<IEntity> (
                       new Airplane(1111, 8000, 10, 700, 40, 400) ) );
   entities.push_back( unique_ptr<IEntity> (

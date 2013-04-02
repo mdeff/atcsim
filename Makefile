@@ -20,9 +20,10 @@ WARNINGS = ${INITIALWARN} -Wabi -Wconversion -Weffc++ -Winline -Winvalid-pch -Wn
 
 STD = -std=c++11
 
-LIBRARIES = `sdl-config --cflags --libs` `wx-config --cxxflags --libs` -lSDL_image -lSDL_gfx -lSDL_ttf -lSDL
+#LIBRARIES = `sdl-config --cflags --libs` `wx-config --cxxflags --libs` -lSDL_image -lSDL_gfx -lSDL_ttf
+LIBRARIES = `sdl-config --cflags --libs` -lSDL_gfx -lSDL_ttf
 
-CPPFLAGS = ${STD} ${WARNINGS} ${LIBRARIES}
+CPPFLAGS = ${LIBRARIES} ${STD} ${WARNINGS}
 APPNAME = ATCsim
 
 
@@ -33,7 +34,13 @@ APPNAME = ATCsim
 .release:
 	g++ *.cpp ${CPPFLAGS} -O2 -o ${APPNAME}
 
-all: .debug .release
+.clang:
+	clang++ *.cpp ${LIBRARIES} ${STD} -Weverything -O2 -o ${APPNAME}_clang
+
+all: .debug .release .clang
+debug: .debug
+release: .release
+clang: .clang
 
 clean:
 	rm -f ${APPNAME}* *~
