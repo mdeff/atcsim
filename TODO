@@ -29,6 +29,7 @@ templates and generic programming
 C++11 attributes In-class member initializers in header : int{10}
 use profiling tools to optimize (memory access, cache miss, page fault, branch prediction)
 don't render at infinite speed, implement framerate
+mark methods that won’t be implemented with '= delete' (C++11), example for private copy constructor and operator=
 
 
 -----  EVENTUALLY  -----

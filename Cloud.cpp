@@ -7,7 +7,7 @@
 
 #include "Cloud.h"
 
-Cloud::Cloud(const vector<int16_t>& xCorners, const vector<int16_t>& yCorners)
+Cloud::Cloud(const std::vector<int16_t>& xCorners, const std::vector<int16_t>& yCorners)
 :
 Polygon(xCorners, yCorners, 0, 0, 255, 128) // Parent constructor.
 {

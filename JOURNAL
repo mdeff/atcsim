@@ -47,5 +47,8 @@
   -- install and use Clang / LLVM to compile the project (shows different errors and warnings, provide us with experiences on Clang / LLVM)
   -- some errors because initializer lists, like new ForbiddenZone({0,250,400,0}, {0,0,200,200}), are only supported since Clang 3.1 (will be shipped with Ubuntu 13.04) (already supported by GCC since 4.4)
 
+03.04.2013
+  -- correct Clang compiler warnings. Advantage over GCC : has a -Wheader-hygiene that warn about usage of namespace directive in global context in header. (no need to verify it manually)
+  -- leave the Clang warning : 'IEntity' has no out-of-line virtual method definitions; its vtable will be emitted in every translation unit. It only impacts compilation time (that we don't really care about) and would require an implementation file to fix it.
 
 

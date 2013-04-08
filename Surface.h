@@ -8,6 +8,7 @@
 #ifndef SURFACE_H
 #define	SURFACE_H
 
+#include <cstdint>   // Definitions of uint8_t and int16_t.
 #include <string>
 #include <vector>
 
@@ -60,10 +61,11 @@ private:
   
   // Do not allow object copy by making copy constructor and operator= private
   // members. It will fail to compile if somebody want to copy a Surface object.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
   // We should deal with SDL_Surface copy and don't need a copy operator
   // (at least for the moment).
-  Surface(const Surface& orig);
-  Surface operator=(const Surface& orig);
+  Surface(const Surface& orig) = delete;
+  Surface operator=(const Surface& orig) = delete;
  
 };
 

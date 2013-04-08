@@ -8,8 +8,9 @@
 #ifndef POLYGONS_H
 #define	POLYGONS_H
 
+#include <cstdint>   // Definitions of uint8_t and int16_t.
 #include <vector>
-#include <stdint.h>   // Definitions of uint8_t and int16_t.
+
 #include "IEntity.h"
 
 // Forward declarations (no header including) (namespace pollution, build time).

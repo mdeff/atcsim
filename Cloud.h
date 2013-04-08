@@ -10,13 +10,11 @@
 
 #include "Polygon.h"
 
-using namespace std;
-
 class Cloud : public Polygon {
   
 public:
   
-  Cloud(const vector<int16_t>& xPoints, const vector<int16_t>& yPoints);
+  Cloud(const std::vector<int16_t>& xPoints, const std::vector<int16_t>& yPoints);
   
   // Do not define : use the compiler generated copy constructor.
   Cloud(const Cloud& orig);

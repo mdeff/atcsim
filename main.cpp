@@ -18,6 +18,8 @@ using namespace std;
 // Function declarations.
 void exit();
 
+//#include "IEntity.h"
+//IEntity::~IEntity() {}
 
 // int main(int argc, char** argv) {
 int main() {
