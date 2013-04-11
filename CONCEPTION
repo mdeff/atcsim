@@ -1,0 +1,5 @@
+
+Architecture changes :
+
+  -- Implement Surface class as an object-oriented abstraction for SDL_Surface.
+  -- Use timers instead of MainApp::loop() with nasty speedFactor.
