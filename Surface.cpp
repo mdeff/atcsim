@@ -70,17 +70,17 @@ Surface::Surface(int weight, int height, int colorDepth)
 Surface::Surface(const char* file)
 : surface_(nullptr) {
 
-  string errorString;
-
   SDL_Surface* tempSurf = SDL_LoadBMP(file);
   
   if (tempSurf == nullptr) {
-    printf("Unable to load bitmap: %s\n", errorString.c_str());
+    printf("Unable to load bitmap: %s\n", SDL_GetError());
     throw -1;
   }
   
   surface_ = SDL_DisplayFormat(tempSurf);
 
+  SDL_FreeSurface(tempSurf);
+  
 	if (surface_ == nullptr)
   {
     printf("Unable to format surface: %s\n", SDL_GetError());

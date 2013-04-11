@@ -27,10 +27,9 @@ public:
   virtual ~Airplane();
   
   // Redefinition of virtual methods inherited from IEntity class.
-  void loop();
+  void compute();
   void render(Surface& displaySurf);
-  void cleanup();
-  
+    
 protected:
   
 private:
@@ -40,11 +39,10 @@ private:
   int cape_;
   int velocity_;
   int16_t x_, y_;                   // Position.
-//  SDL_Surface* textSurf_;
-//  TTF_Font* textFont_;
-//  SDL_Color textColor_;
 
-  
+  // Move the airplane.
+  void move(float moveX, float moveY);
+
 };
 
 #endif	/* AIRPLANE_H */

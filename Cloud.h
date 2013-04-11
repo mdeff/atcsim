@@ -20,10 +20,13 @@ public:
   Cloud(const Cloud& orig);
   
   virtual ~Cloud();
-  
+    
 protected:
   
 private:
+  
+  // Move the cloud.
+  void move(float moveX, float moveY);
 
 };
 

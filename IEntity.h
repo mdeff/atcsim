@@ -24,10 +24,9 @@ public:
   // For exemple : IEntity * obj = new Airplane(...); delete obj;
   virtual ~IEntity() {}
 
-  // abstract methods that will have to be defined
-  virtual void loop() = 0;
+  // Abstract methods that will have to be defined.
+  virtual void compute() = 0;
   virtual void render(Surface& displaySurf) = 0;
-  virtual void cleanup() = 0;
 
 protected:
   

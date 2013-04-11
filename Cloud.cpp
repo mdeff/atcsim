@@ -18,3 +18,8 @@ Polygon(xCorners, yCorners, 0, 0, 255, 128) // Parent constructor.
 Cloud::~Cloud() {
   // Default: call base class'es destructor and destructors of all members.
 }
+
+
+void Cloud::move(float moveX, float moveY) {
+  
+}

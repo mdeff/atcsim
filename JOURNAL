@@ -51,4 +51,10 @@
   -- correct Clang compiler warnings. Advantage over GCC : has a -Wheader-hygiene that warn about usage of namespace directive in global context in header. (no need to verify it manually)
   -- leave the Clang warning : 'IEntity' has no out-of-line virtual method definitions; its vtable will be emitted in every translation unit. It only impacts compilation time (that we don't really care about) and would require an implementation file to fix it.
 
+10.04.2013
+  -- rename MainApp class to Game, CFPS to FPS and CEvent to Events
+  -- reorganize functions around Game class and main.cpp (because it's more sequencial code than object)
+  -- implement FPS printout in window title
+  -- performance optimization : allocate smallest possible Surface size for polygons (insteed of all window) : 30 --> 50 FPS
+
 

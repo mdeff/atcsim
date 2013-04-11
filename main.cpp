@@ -11,53 +11,79 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
-#include "MainApp.h"
+#include "Game.h"
 
 using namespace std;
 
 // Function declarations.
-void exit();
+
+
+// This function handles all the loading of data, whether it be textures, maps, NPCs, or whatever.
+void initialize();
+
+
+// This function simply cleans up any resources loaded, and insures a peaceful quitting of the game. 
+// The exit() callback will be called at application exit to cleanup SDL stuff.
+void cleanup();
+
+
 
 //#include "IEntity.h"
 //IEntity::~IEntity() {}
 
+
+
 // int main(int argc, char** argv) {
 int main() {
   
-  // Be sure to quit the SDL and TTF libraries before exiting.
-  atexit(exit);
-  
-  // Load and initialize SDL and TTF libraries.
-  if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    printf("Unable to initialize SDL: %s\n", SDL_GetError());
-    return false;
-  }
-
-  if (TTF_Init() != 0) {
-    printf("Unable to initialize TTF: %s\n", TTF_GetError());
-    return false;
-  }
-
-  // Set the window title.
-  SDL_WM_SetCaption("Air Traffic Control simulator, CS-118 project, EPFL", nullptr);
+initialize();
   
   try {
-    
     cout << "Simulation start." << endl;
-  MainApp simulation;
-  return simulation.execute();
   
+    Game ATCsim;
+    SDL_Event event;
+
+    while (ATCsim.getState()) {
+
+      while (SDL_PollEvent(&event) == 1)
+        ATCsim.onEvent(event);
+
+      ATCsim.compute();
+      ATCsim.render();
+    }
+    
   } catch (...) {
-    cout << "Simulation error." << endl;
+    cerr << "Simulation error." << endl;
   }
   
 }
 
 
 
-void exit() {
+void initialize() {
+  
+  // Be sure to quit the SDL and TTF libraries before exiting.
+  // This is exception safe.
+  atexit(cleanup);
+  
+  // Load and initialize SDL and TTF libraries.
+  if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    printf("Unable to initialize SDL: %s\n", SDL_GetError());
+    throw;
+  }
+
+  if (TTF_Init() != 0) {
+    printf("Unable to initialize TTF: %s\n", TTF_GetError());
+    throw;
+  }
+}
+
+
+
+void cleanup() {
   TTF_Quit();
   SDL_Quit();
-  cout << "Simulation stop." << endl;
+  cout << "Simulation end." << endl;
 }
 

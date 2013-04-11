@@ -34,7 +34,7 @@ Airplane::~Airplane() {
 
 
 
-void Airplane::loop() {
+void Airplane::compute() {
 }
 
 
@@ -70,7 +70,7 @@ void Airplane::render(Surface& displaySurf) {
 
 
 
-void Airplane::cleanup() {
+void Airplane::move(float moveX, float moveY) {
   
 }
 

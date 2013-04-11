@@ -39,6 +39,8 @@ Add doc folder to repository
 Add anonymous clone to main GIT repository (hosted on git.epfl.ch)
 use template for heterogeneous collection
 heterogeneous collection shoold be a class
+inherit airplane and cloud move from a common interface
+optimize to get the highest possible FPS
 
 -----  DONE  -----
 

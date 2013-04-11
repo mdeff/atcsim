@@ -19,7 +19,6 @@ class Surface {
   
 public:
   
-//  Surface(SDL_Surface* surface);
   Surface(int weight, int height);
   Surface(int weight, int height, int colorDepth);
   Surface(const char* file);
@@ -56,6 +55,8 @@ public:
 protected:
   
 private:
+  
+//  Surface(SDL_Surface* surface);
   
   SDL_Surface* surface_;
   

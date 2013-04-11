@@ -29,18 +29,19 @@ public:
   
   virtual ~Polygon();
   
-  // Redefinition of virtual methods inherited from IEntity class.
-  void loop();
+  // Redeclaration of virtual methods inherited from IEntity interface class.
+  void compute();
   void render(Surface& displaySurf);
-  void cleanup();
   
 protected:
   
 private:
   
   std::vector<int16_t> xCorners_, yCorners_;    // Polygon corner.
+  int16_t xMin_, xMax_, yMin_, yMax_;
+  
   uint8_t red_, green_, blue_, alpha_;          // Polygon color.
-
+ 
 };
 
 #endif	/* POLYGONS_H */
