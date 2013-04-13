@@ -11,7 +11,8 @@ unsigned int FPS::lastTime_(0);
 float FPS::speedFactor_(0);
 
 unsigned int FPS::frames_(0);
-unsigned int FPS::numFrames_(0);
+// Do not init to zero, otherwise the entities will move at infinite speed at the beginning.
+unsigned int FPS::nFrames_(50);
 
 //=============================================================================
 
@@ -32,19 +33,19 @@ void FPS::compute() {
   frames_++;
   if (oldTime_ + 1000 < SDL_GetTicks()) {
     oldTime_ = SDL_GetTicks();
-    numFrames_ = frames_;
+    nFrames_ = frames_;
     frames_ = 0;
   }
 
   // Compute speed factor.
-  speedFactor_ = ( float(SDL_GetTicks() - lastTime_) / 1000.0f ) * 32.0f;
+  speedFactor_ = ( float(SDL_GetTicks() - lastTime_) / 1000.0f ); // * 32.0f;
   lastTime_ = SDL_GetTicks();
   
 }
 
 //=============================================================================
 unsigned int FPS::getFPS() {
-    return numFrames_;
+    return nFrames_;
 }
 
 //------------------------------------------------------------------------------

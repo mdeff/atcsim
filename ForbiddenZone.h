@@ -14,13 +14,21 @@ class ForbiddenZone : public Polygon {
   
 public:
   
+  // There is no default constructor.
+  ForbiddenZone() = delete;
   ForbiddenZone(const std::vector<int16_t>& xPoints,
                 const std::vector<int16_t>& yPoints);
   
-  // Do not define : use the compiler generated copy constructor.
-  ForbiddenZone(const ForbiddenZone& orig);
+  // Use the default (member to member) copy ctor and copy assignment operator.
+  ForbiddenZone(const ForbiddenZone& orig) = default;
+  ForbiddenZone& operator=(const ForbiddenZone& orig) = default;
+  // Use the default (member to member) move ctor and move assignment operator.
+  ForbiddenZone(ForbiddenZone&& orig) = default;
+  ForbiddenZone& operator=(ForbiddenZone&& orig) = default;
   
-  virtual ~ForbiddenZone();
+  // Default : call base class'es destructor and destructors of all members.
+  // Do not throw any exception (which is what we want for a dtor).
+  virtual ~ForbiddenZone() throw() = default;
   
 protected:
   

@@ -1,12 +1,12 @@
 /* 
- * File:   MainApp.h
+ * File:   Game.h
  * Author: michael
  *
  * Created on 23. mars 2013, 17:54
  */
 
-#ifndef MAINAPP_H
-#define	MAINAPP_H
+#ifndef GAME_H
+#define	GAME_H
 
 #include <vector>
 #include <memory>           // For C++11 unique_ptr.
@@ -15,30 +15,34 @@
 #include "Surface.h"
 
 // Forward declarations (no header including) (namespace pollution, build time).
-class IEntity;
+class Entity;
 
 
 class Game : public Events {
   
 public:
   
+  // Use a custom default constructor.
   Game();
   
-  // Do not define : use the compiler generated copy constructor.
-  Game(const Game& orig);
+  // Do not throw any exception (which is what we want for a dtor).
+  virtual ~Game() throw();
   
-  virtual ~Game();
-  
+  // Return the game stat, which is true if running.
   bool getState();
   
-  // This function handles all the data updates, such as a NPCs moving across the screen, decreasing your health bar, or whatever
+  // This method handles all the data updates, such as a NPCs moving across
+  // the screen, decreasing your health bar, or whatever.
   void compute();
 
-  // This function handles all the rendering of anything that shows up on the screen. It does NOT handle data manipulation, as this is what the Loop function is supposed to handle.
+  // This method handles all the rendering of anything that shows up on the
+  // screen. It does NOT handle data manipulation, as this is what the compute()
+  // method is supposed to handle.
   void render();
 
-  // This function handles all input events from the mouse, keyboard, joysticks, or other devices.
-  void onEvent(SDL_Event& event);
+  // This method handles all input events from the mouse, keyboard, joysticks,
+  // or other devices.
+  void handleEvent(SDL_Event& event);
   void onExit();
 
 protected:
@@ -50,8 +54,17 @@ private:
   bool running_;
   
   // Store the entities (moving simulation objects).
-  std::vector< std::unique_ptr<IEntity> > entities_;
+  std::vector< std::unique_ptr<Entity> > entities_;
 
+  // Do not allow object copy or move by making copy / move constructor and
+  // copy / move assignment operator private members.
+  // It will fail to compile if somebody want to copy or move a Surface object.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
+  Game(const Game& orig) = delete;
+  Game& operator=(const Game& orig) = delete;
+  Game(Game&& orig) = delete;
+  Game& operator=(Game&& orig) = delete;
+  
 };
 
-#endif	/* MAINAPP_H */
+#endif	/* GAME_H */

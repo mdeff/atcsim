@@ -10,6 +10,8 @@ Generate automatically the class hierarchy
 Add const keyword on methods parameters and core. (const value param only in definition, not declaration)
 Pass object by reference instead of value
 
+find a better way to calculate FPS in realtime not every second
+
 link to libc++ (LLVM Clang) instead of libstdc++ (GNU GCC)
 Use Valgrind to detect memory leak and/or GCC AddressSanitizer / ThreadSanitizer
 Use a tool to automatically check code quality / format (static analysis)
@@ -29,7 +31,11 @@ templates and generic programming
 C++11 attributes In-class member initializers in header : int{10}
 use profiling tools to optimize (memory access, cache miss, page fault, branch prediction)
 don't render at infinite speed, implement framerate
+use C++ cout << "text" << endl; style instead of C printf("text") style
+
 mark methods that won’t be implemented with '= delete' (C++11), example for private copy constructor and operator=
+C++ '= default' for default copy constructor, operator=, destructor
+
 
 
 -----  EVENTUALLY  -----
@@ -41,6 +47,10 @@ use template for heterogeneous collection
 heterogeneous collection shoold be a class
 inherit airplane and cloud move from a common interface
 optimize to get the highest possible FPS
+javascript port with emscripten (take LLVM bytecode)
+use C++11 final keyword (technically identifier)
+
+
 
 -----  DONE  -----
 
@@ -54,6 +64,9 @@ remove all warnings with -Wextra and -Weffc++ and a bunch of others
 manually written Makefile : debug or release configuration ? ==> the two, all (default) implies debug and release
 choose warning and optimization flags
 compile with Clang (LLVM)
+use new C++11 auto keywork
+explicitly define the 6 special member functions : default ctor, copy ctor, move ctor, copy assignment op, move assignment op, dtor
+
 
 
 -----  WILL NOT BE DONE  -----

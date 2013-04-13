@@ -31,7 +31,7 @@
 
 29.03.2013
   -- answer question P3.1 (RESPONSES file)
-  -- exercise P6 : integrate elements (airplanes, forbidden zones and clouds)
+  -- exercise P6 : integrate entities (airplanes, forbidden zones and clouds)
   -- use unique_ptr (C++11) for the heterogeneous collection (it guarantees that the pointed object will be destructed at the pointer's end of scope) : std::vector< std::unique_ptr<IEntity> > entities;
   -- use the new range-based for-loop syntax of C++11 to iterate over an entire container : for (unique_ptr<IEntity>& entity : entities) {}
   -- use forward declaration (#include "A.h" ==> class A;) in header files when possible to avoid namespace pollution and reduce build time
@@ -56,5 +56,17 @@
   -- reorganize functions around Game class and main.cpp (because it's more sequencial code than object)
   -- implement FPS printout in window title
   -- performance optimization : allocate smallest possible Surface size for polygons (insteed of all window) : 30 --> 50 FPS
+  -- create CONCEPTION file
+
+12.04.2013
+  -- answer question P4.1 (RESPONSES file)
+  -- use getFPS() instead of getSpeedFactor to manage object speed because SDL_GetTicks() has a time resolution of 10ms
+  -- rename the loop() method to compute(), which is more explicit
+  -- implement a computeMovement() method at the Entity class level, then each entitiy inherit of its capability and can call it inside there compute() method
+  -- explicitly define the 6 special member functions, eventually using =default or =delete for each class
+  -- add throw() to destructor declarations, which indicates that no exceptions are thrown (which is what we want for a destructor)
+  -- create Constants.h which contain all the game constants (such as window size)
+  -- exercise P7 : airplanes and clouds movement
+
 
 

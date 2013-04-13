@@ -14,27 +14,22 @@ using namespace std;
 
 
 
-Airplane::Airplane(const int identification, const int altitude, const int cape,
-                   const int velocity, const int16_t x, const int16_t y)
+Airplane::Airplane(const int identification, const int altitude, const float cape,
+                   const int velocity, const int xInitial, const int yInitial)
 :
-IEntity(), // Parent constructor.
+Entity(cape, velocity, xInitial, yInitial), // Parent constructor.
 identification_(identification), // Flight number.
-altitude_(altitude),
-cape_(cape),
-velocity_(velocity),
-x_(x), y_(y) // Position.
+altitude_(altitude)
 {
 }
 
 
 
-Airplane::~Airplane() {
-  // Default: call base class'es destructor and destructors of all members.
-}
-
-
-
 void Airplane::compute() {
+    
+  // This entity can move, we have to compute it.
+  computeMovement();
+  
 }
 
 
@@ -42,13 +37,16 @@ void Airplane::compute() {
 void Airplane::render(Surface& displaySurf) {
     
   const string labelLine1 = "ID " + to_string(identification_);
-  const string labelLine2 = to_string(altitude_) + "   " + to_string(cape_);
+  const string labelLine2 = to_string(altitude_) + "   " + to_string(int(cape_));
+  const string labelLine3 = to_string(velocity_);
   // SDL_ttf is a text rendering engine, not a text layout engine.
   // So it doesn't print "\n".
   
   Surface textSurf1(labelLine1, 255, 0, 0,
                    "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf", 14);
   Surface textSurf2(labelLine2, 0, 0, 0,
+                   "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 14);
+  Surface textSurf3(labelLine3, 0, 0, 0,
                    "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 14);
           
   // Create a new suface with the size of the airplane image.
@@ -62,15 +60,10 @@ void Airplane::render(Surface& displaySurf) {
   airplaneSurf.drawLine(0, 20, 20, 0, grey, grey, grey, 255);
           
   // Draw the airplane and his related text informations at it's actual position.
-  displaySurf.blit(airplaneSurf, int16_t(x_-10), int16_t(y_-10));
-  displaySurf.blit(textSurf1, int16_t(x_-20), int16_t(y_+15));
-  displaySurf.blit(textSurf2, int16_t(x_-20), int16_t(y_+30));
-  
-}
-
-
-
-void Airplane::move(float moveX, float moveY) {
+  displaySurf.blit(airplaneSurf, int16_t(xRef_-10), int16_t(yRef_-10));
+  displaySurf.blit(textSurf1, int16_t(xRef_-20), int16_t(yRef_+15));
+  displaySurf.blit(textSurf2, int16_t(xRef_-20), int16_t(yRef_+30));
+  displaySurf.blit(textSurf3, int16_t(xRef_-20), int16_t(yRef_+45));
   
 }
 

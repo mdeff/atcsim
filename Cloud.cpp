@@ -5,21 +5,26 @@
  * Created on 26. mars 2013, 16:44
  */
 
+#include <algorithm>  // For max_element().
+
 #include "Cloud.h"
 
-Cloud::Cloud(const std::vector<int16_t>& xCorners, const std::vector<int16_t>& yCorners)
+
+
+Cloud::Cloud(const std::vector<int16_t>& xCorners,
+             const std::vector<int16_t>& yCorners,
+             float cape, int velocity)
 :
-Polygon(xCorners, yCorners, 0, 0, 255, 128) // Parent constructor.
+Polygon(xCorners, yCorners, 0, 0, 255, 128, cape, velocity) // Parent constructor.
 {
 }
 
 
 
-Cloud::~Cloud() {
-  // Default: call base class'es destructor and destructors of all members.
-}
-
-
-void Cloud::move(float moveX, float moveY) {
+void Cloud::compute() {
+  
+  // This entity can move, we have to compute it.
+  computeMovement();
   
 }
+

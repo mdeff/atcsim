@@ -18,4 +18,9 @@ Des références vers les objets (et non les objets eux-mêmes) doivent être st
 dans le conteneur, afin que le RTTI (Run-Time Type Information) détermine le type
 de l'objet à l'exécution et non à la compilation comme c'est habituellement le cas.
 
+[Question P4.1]
+
+Il suffit de projeter le vecteur de norme velocity et d'argument cape sur les axes x et y.
+C'est-à-dire xVelocity = velocity * cos(cape) et yVelocity = velocity * sin(cape).
+Attention au fait que std::cos() et std::sin() prennent des radians comme arguments.
 

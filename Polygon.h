@@ -11,23 +11,32 @@
 #include <cstdint>   // Definitions of uint8_t and int16_t.
 #include <vector>
 
-#include "IEntity.h"
+#include "Entity.h"
 
 // Forward declarations (no header including) (namespace pollution, build time).
 class Surface;
 
-class Polygon : public virtual IEntity {
+class Polygon : public Entity {
   
 public:
   
+  // There is no default constructor.
+  Polygon() = delete;
   Polygon(const std::vector<int16_t>& xPoints,
           const std::vector<int16_t>& yPoints,
-          uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+          uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha,
+          float cape, int velocity);
   
-  // Do not define : use the compiler generated copy constructor.
-  Polygon(const Polygon& orig);
+  // Use the default (member to member) copy ctor and copy assignment operator.
+  Polygon(const Polygon& orig) = default;
+  Polygon& operator=(const Polygon& orig) = default;
+  // Use the default (member to member) move ctor and move assignment operator.
+  Polygon(Polygon&& orig) = default;
+  Polygon& operator=(Polygon&& orig) = default;
   
-  virtual ~Polygon();
+  // Default : call base class'es destructor and destructors of all members.
+  // Do not throw any exception (which is what we want for a dtor).
+  virtual ~Polygon() throw() = default;
   
   // Redeclaration of virtual methods inherited from IEntity interface class.
   void compute();
@@ -38,7 +47,9 @@ protected:
 private:
   
   std::vector<int16_t> xCorners_, yCorners_;    // Polygon corner.
-  int16_t xMin_, xMax_, yMin_, yMax_;
+  
+  // Maximum depth on the 2 axis, to determine surface minimum size.
+  int16_t xMax_, yMax_;
   
   uint8_t red_, green_, blue_, alpha_;          // Polygon color.
  

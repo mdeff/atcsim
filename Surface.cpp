@@ -114,7 +114,7 @@ Surface::Surface(const string text, const uint8_t red, const uint8_t green,
 
 
 
-Surface::~Surface() {
+Surface::~Surface() throw() {
   SDL_FreeSurface(surface_);
   // Default: call base class'es destructor and destructors of all members.
 }
@@ -223,12 +223,13 @@ void Surface::drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
 
 
 
-void Surface::drawAaPolygon(const std::vector<int16_t>& x, const std::vector<int16_t>& y,
+void Surface::drawPolygon(const std::vector<int16_t>& x, const std::vector<int16_t>& y,
                             uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 
-  const unsigned int n(min(x.size(), y.size()));
+  const unsigned int n( min(x.size(), y.size()) );
+  
   // Data(): returns pointer to the underlying array (C++11) (OK even if empty).
-  if (aapolygonRGBA(surface_, x.data(), y.data(), int(n), r, g, b, a) != 0)
+  if (polygonRGBA(surface_, x.data(), y.data(), int(n), r, g, b, a) != 0)
     throw -1;
 }
 

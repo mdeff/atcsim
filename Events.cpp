@@ -4,19 +4,7 @@
 
 //==============================================================================
 
-Events::Events() {
-  // Do nothing.
-}
-
-//------------------------------------------------------------------------------
-
-Events::~Events() {
-  // Default: call base class'es destructor and destructors of all members.
-}
-
-//==============================================================================
-
-void Events::onEvent(SDL_Event& event) {
+void Events::handleEvent(SDL_Event& event) {
   switch (event.type) {
     case SDL_ACTIVEEVENT:
     {

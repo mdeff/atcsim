@@ -15,15 +15,18 @@
 
 using namespace std;
 
+
 // Function declarations.
 
 
-// This function handles all the loading of data, whether it be textures, maps, NPCs, or whatever.
+// This function handles all the loading of data, whether it be textures, maps,
+// NPCs, or whatever.
 void initialize();
 
 
-// This function simply cleans up any resources loaded, and insures a peaceful quitting of the game. 
-// The exit() callback will be called at application exit to cleanup SDL stuff.
+// This function simply cleans up any resources loaded, and insures a peaceful
+// quitting of the game. 
+// The cleanup() callback will be called at application exit to cleanup SDL stuff.
 void cleanup();
 
 
@@ -47,7 +50,7 @@ initialize();
     while (ATCsim.getState()) {
 
       while (SDL_PollEvent(&event) == 1)
-        ATCsim.onEvent(event);
+        ATCsim.handleEvent(event);
 
       ATCsim.compute();
       ATCsim.render();
@@ -69,12 +72,12 @@ void initialize() {
   
   // Load and initialize SDL and TTF libraries.
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    printf("Unable to initialize SDL: %s\n", SDL_GetError());
+    cerr << "Unable to initialize SDL: " << SDL_GetError() << endl;
     throw;
   }
 
   if (TTF_Init() != 0) {
-    printf("Unable to initialize TTF: %s\n", TTF_GetError());
+    cerr << "Unable to initialize TTF: " << TTF_GetError() << endl;
     throw;
   }
 }

@@ -28,24 +28,18 @@ STD = -std=c++11
 #LIBRARIES = `sdl-config --cflags --libs` `wx-config --cxxflags --libs` -lSDL_image -lSDL_gfx -lSDL_ttf
 LIBRARIES = `sdl-config --cflags --libs` -lSDL_gfx -lSDL_ttf
 
-
-CPPFLAGS = ${LIBRARIES} ${STD} ${WARNINGS} ${NONOISYWARNINGS}
 APPNAME = ATCsim
 
 
 
-.debug:
-	g++ *.cpp ${CPPFLAGS} -O0 -o ${APPNAME}_dbg
-
-.release:
-	g++ *.cpp ${CPPFLAGS} -O2 -o ${APPNAME}
+.gcc:
+	g++ *.cpp ${LIBRARIES} ${STD} ${WARNINGS} ${NONOISYWARNINGS} -O2 -o ${APPNAME}_gcc
 
 .clang:
 	clang++ *.cpp ${LIBRARIES} ${STD} -Weverything ${NONOISYWARNINGS} -O2 -o ${APPNAME}_clang
 
-all: .debug .release .clang
-debug: .debug
-release: .release
+all: .gcc .clang
+gcc: .gcc
 clang: .clang
 
 clean:

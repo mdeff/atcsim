@@ -1,8 +1,9 @@
 //==============================================================================
 // FPS Class
 //==============================================================================
-#ifndef _CFPS_H_
-#define _CFPS_H_
+
+#ifndef FPS_H
+#define FPS_H
 
 #include <SDL/SDL.h>
 
@@ -19,9 +20,14 @@ class FPS {
 
 	private:
     
-  // Do not allow object creation by making default constructor private.
+  // Do not allow object creation by deleting all special function members.
   // Mark methods that won’t be implemented with '= delete' (C++11).
 	FPS() = delete;
+  FPS(const FPS& orig) = delete;
+  FPS& operator=(const FPS& orig) = delete;
+  FPS(FPS&& orig) = delete;
+  FPS& operator=(FPS&& orig) = delete;
+  ~FPS() = delete;
   
 	static unsigned int oldTime_;
 	static unsigned int lastTime_;
@@ -29,9 +35,10 @@ class FPS {
 	static float speedFactor_;
 
   static unsigned int frames_;
-	static unsigned int numFrames_;
+	static unsigned int nFrames_;
     
 };
 
 //==============================================================================
-#endif
+
+#endif	/* FPS_H */

@@ -1,17 +1,18 @@
 /* 
- * File:   MainApp.cpp
+ * File:   Game.cpp
  * Author: michael
  * 
  * Created on 23. mars 2013, 17:54
  */
 
-#include "Game.h"
-#include "IEntity.h"
-#include "Surface.h"
 #include "Airplane.h"
-#include "ForbiddenZone.h"
 #include "Cloud.h"
+#include "Constants.h"
+#include "Entity.h"
+#include "ForbiddenZone.h"
 #include "FPS.h"
+#include "Game.h"
+#include "Surface.h"
 
 using namespace std;
 
@@ -19,36 +20,36 @@ using namespace std;
 
 Game::Game()
 : Events(),                     // Parent constructor.
-window_(800, 551, 32),          // Image resolution of 800*551.
+window_(WINDOWXSIZE, WINDOWYSIZE, 32),
 background_("background.bmp"),  // Load the background image.
 running_(true),
 entities_() {
    
   // Add airplanes, forbidden zones and clouds to the heterogeneous collection.
-  entities_.push_back( unique_ptr<IEntity> (
-                      new Airplane(1111, 8000, 10, 700, 40, 400) ) );
-  entities_.push_back( unique_ptr<IEntity> (
-                      new Airplane(222222222, 9811, 20, 700, 200, 400) ) );
-  entities_.push_back( unique_ptr<IEntity> (
-                      new Airplane(33, 7510, -12, 700, 350, 250) ) );
-  entities_.push_back( unique_ptr<IEntity> (
-                      new Airplane(44444, 7240, 44, 700, 750, 300) ) );
+  entities_.push_back( unique_ptr<Entity> (
+                      new Airplane(1111, 8000, 10.0f, 800, 40, 400) ) );
+  entities_.push_back( unique_ptr<Entity> (
+                      new Airplane(222222222, 9811, 90.3f, 600, 200, 400) ) );
+  entities_.push_back( unique_ptr<Entity> (
+                      new Airplane(33, 7510, -12.2f, 700, 350, 250) ) );
+  entities_.push_back( unique_ptr<Entity> (
+                      new Airplane(44444, 7240, 180.0f, 400, 750, 300) ) );
   
-  entities_.push_back( unique_ptr<IEntity> (
+  entities_.push_back( unique_ptr<Entity> (
                       new ForbiddenZone({0,250,400,0}, {0,0,200,200}) ) );
-  entities_.push_back( unique_ptr<IEntity> (
+  entities_.push_back( unique_ptr<Entity> (
                       new ForbiddenZone({0,200,400,450,450,0}, {500,350,350,450,551,551}) ) );
-  entities_.push_back( unique_ptr<IEntity> (
+  entities_.push_back( unique_ptr<Entity> (
                       new ForbiddenZone({500,800,800,600}, {0,0,250,200}) ) );
   
-  entities_.push_back( unique_ptr<IEntity> (
-                      new Cloud({540,620,770,770,700,580}, {400,350,400,500,540,500}) ) );
+  entities_.push_back( unique_ptr<Entity> (
+                      new Cloud({540,620,770,790,700,580}, {400,350,400,500,540,500}, 124.2f, 200) ) );
                       
 }
 
 
 
-Game::~Game() {
+Game::~Game() throw() {
   // Default: call base class'es destructor and destructors of all members.
 }
 
@@ -64,6 +65,11 @@ void Game::compute() {
   
   FPS::compute();
   
+  // Do the necessary computations for the airplanes, forbidden zones and clouds.
+  for (auto& entity : entities_) {
+    entity->compute();
+  }
+  
 }
 
 
@@ -77,8 +83,8 @@ void Game::render() {
   
   window_.blit(background_, 0, 0);
 
-  // Draw the airplanes, forbidden zones and clouds.
-  for (unique_ptr<IEntity>& entity : entities_) {
+  // Render the airplanes, forbidden zones and clouds.
+  for (auto& entity : entities_) {
     entity->render(window_);
   }
   
@@ -94,8 +100,7 @@ void Game::onExit() {
 
 
 
-void Game::onEvent(SDL_Event& event) {
-  Events::onEvent(event);
+void Game::handleEvent(SDL_Event& event) {
+  Events::handleEvent(event);
 }
-
 

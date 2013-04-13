@@ -8,23 +8,30 @@
 #ifndef AIRPLANE_H
 #define	AIRPLANE_H
 
-//#include <cstdint>
-#include "IEntity.h"
+#include "Entity.h"
 
 // Forward declarations (no header including) (namespace pollution, build time).
 class Surface;
 
-class Airplane : public virtual IEntity {
+class Airplane : public Entity {
   
 public:
   
-  Airplane(const int identification, const int altitude, const int cape,
-           const int velocity, const int16_t x, const int16_t y);
+  // There is no default constructor.
+  Airplane() = delete;
+  Airplane(int identification, int altitude, float cape,
+           int velocity, int xInitial, int yInitial);
   
-  // Do not define : use the compiler generated copy constructor.
-  Airplane(const Airplane& orig);
+  // Use the default (member to member) copy ctor and copy assignment operator.
+  Airplane(const Airplane& orig) = default;
+  Airplane& operator=(const Airplane& orig) = default;
+  // Use the default (member to member) move ctor and move assignment operator.
+  Airplane(Airplane&& orig) = default;
+  Airplane& operator=(Airplane&& orig) = default;
   
-  virtual ~Airplane();
+  // Default : call base class'es destructor and destructors of all members.
+  // Do not throw any exception (which is what we want for a dtor).
+  virtual ~Airplane() throw() = default;
   
   // Redefinition of virtual methods inherited from IEntity class.
   void compute();
@@ -36,13 +43,7 @@ private:
   
   int identification_;          // Flight number.
   int altitude_;
-  int cape_;
-  int velocity_;
-  int16_t x_, y_;                   // Position.
-
-  // Move the airplane.
-  void move(float moveX, float moveY);
-
+  
 };
 
 #endif	/* AIRPLANE_H */

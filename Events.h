@@ -1,6 +1,7 @@
 //==============================================================================
-#ifndef _CEVENT_H_
-#define _CEVENT_H_
+
+#ifndef EVENTS_H
+#define EVENTS_H
 
 #include <SDL/SDL.h>
 
@@ -10,14 +11,14 @@ class Events {
   
 public:
   
-  Events();
+  // Use the default (member to member) default constructor.
+  Events() = default;
 
-  // Do not define : use the compiler generated copy constructor.
-  Events(const Events& orig);
+  // Default : call base class'es destructor and destructors of all members.
+  // Do not throw any exception (which is what we want for a dtor).
+  virtual ~Events() throw() = default;
 
-  virtual ~Events();
-
-  virtual void onEvent(SDL_Event& event);
+  virtual void handleEvent(SDL_Event& event);
 
   virtual void onInputFocus();
 
@@ -75,8 +76,17 @@ protected:
   
 private:
   
+  // Do not allow object copy or move by making copy / move constructor and
+  // copy / move assignment operator private members.
+  // It will fail to compile if somebody want to copy or move a Surface object.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
+  Events(const Events& orig) = delete;
+  Events& operator=(const Events& orig) = delete;
+  Events(Events&& orig) = delete;
+  Events& operator=(Events&& orig) = delete;
+  
 };
 
 //==============================================================================
 
-#endif
+#endif	/* EVENTS_H */
