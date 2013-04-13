@@ -63,6 +63,7 @@ bool Game::getState() {
 
 void Game::compute() {
   
+  // Compute the framerate.
   FPS::compute();
   
   // Do the necessary computations for the airplanes, forbidden zones and clouds.

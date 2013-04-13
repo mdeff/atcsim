@@ -68,5 +68,7 @@
   -- create Constants.h which contain all the game constants (such as window size)
   -- exercise P7 : airplanes and clouds movement
 
+13.04.2013
+  -- use a namespace to implement FPS instead of a static class because FPS is more a set of functions than an object
 
 
