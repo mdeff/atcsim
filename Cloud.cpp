@@ -28,3 +28,9 @@ void Cloud::compute() {
   
 }
 
+
+
+void Cloud::checkForCollisionDispatch(const Entity& entity) const {
+  entity.checkForCollision(this);
+}
+

@@ -29,7 +29,7 @@ as much as possible, do not define nor declare default copy constructor or assig
 you shouldn't do "using namespace X" within a header file because it forces namespace pollution and subverts the namespaces
 templates and generic programming
 C++11 attributes In-class member initializers in header : int{10}
-use profiling tools to optimize (memory access, cache miss, page fault, branch prediction)
+use profiling tools to optimize (memory access, cache miss, page fault, branch prediction) / gprof (profiling) and gcov (coverage testing)
 don't render at infinite speed, implement framerate
 use C++ cout << "text" << endl; style instead of C printf("text") style
 

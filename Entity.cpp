@@ -13,14 +13,19 @@
 
 
 
-Entity::Entity(float cape, int velocity, int xInitial, int yInitial)
+Entity::Entity(float cape, int velocity, Point initialPosition)
 :
 cape_(cape),
 velocity_(velocity),
-xRef_(float(xInitial)), // Entity initial position.
-yRef_(float(yInitial))
+refPos_(initialPosition) // Entity initial position.
 {
 }
+
+
+
+void Entity::checkForCollision(const Airplane* airplane) const {}
+void Entity::checkForCollision(const ForbiddenZone* forbiddenZone) const {}
+void Entity::checkForCollision(const Cloud* cloud) const {}
 
 
 
@@ -32,9 +37,9 @@ void Entity::computeMovement() {
   
   // Compute the new position based on current velocity, cape and game framerate.
   // Divide by 50 to convert airplane speed from km/h (around 800) to pixel/s.
-  if (xRef_ < WINDOWXSIZE && xRef_ > 0 && yRef_ < WINDOWYSIZE && yRef_ > 0) {
-    xRef_ += float(velocity_) * float(cos(cape_*pi/180)) / 50.0f / float(FPS::getFPS());
-    yRef_ -= float(velocity_) * float(sin(cape_*pi/180)) / 50.0f / float(FPS::getFPS());
+  if (refPos_.x < WINDOWXSIZE && refPos_.x > 0 && refPos_.y < WINDOWYSIZE && refPos_.y > 0) {
+    refPos_.x += float(velocity_) * float(std::cos(cape_*pi/180)) / 50.0f / float(FPS::getFPS());
+    refPos_.y -= float(velocity_) * float(std::sin(cape_*pi/180)) / 50.0f / float(FPS::getFPS());
   }
   
 }

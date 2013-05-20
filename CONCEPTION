@@ -2,4 +2,7 @@
 Architecture changes :
 
   -- Implement Surface class as an object-oriented abstraction for SDL_Surface.
-  -- Use timers instead of MainApp::loop() with nasty speedFactor.
+  -- Implement FPS as a namespace
+  -- In the case of our simulation, we don't need to store collisions in a queue.
+     For efficiency we handle collisions directly after detection.
+

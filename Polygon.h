@@ -8,13 +8,17 @@
 #ifndef POLYGONS_H
 #define	POLYGONS_H
 
+
+#include <cstddef>  // Definition of size_t.
 #include <cstdint>   // Definitions of uint8_t and int16_t.
 #include <vector>
 
 #include "Entity.h"
 
-// Forward declarations (no header including) (namespace pollution, build time).
+
+// Forward declarations (no header includes) (namespace pollution, build time).
 class Surface;
+
 
 class Polygon : public Entity {
   
@@ -40,19 +44,25 @@ public:
   
   // Redeclaration of virtual methods inherited from IEntity interface class.
   void compute();
-  void render(Surface& displaySurf);
+  void render(Surface& displaySurf) const;
+  
+  bool isInside(Point P) const;
   
 protected:
   
 private:
   
-  std::vector<int16_t> xCorners_, yCorners_;    // Polygon corner.
+  // Polygon corners.
+  std::vector<int16_t> xCorners_, yCorners_;
   
   // Maximum depth on the 2 axis, to determine surface minimum size.
   int16_t xMax_, yMax_;
   
-  uint8_t red_, green_, blue_, alpha_;          // Polygon color.
+  // Polygon color.
+  uint8_t red_, green_, blue_, alpha_;
  
+  int isLeft(const Point& point, size_t p0, size_t p1) const;
+  
 };
 
 #endif	/* POLYGONS_H */

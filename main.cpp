@@ -5,7 +5,6 @@
  * Created on 23. mars 2013, 17:54
  */
 
-#include <cstdlib>
 #include <iostream>
 
 #include <SDL/SDL.h>
@@ -13,15 +12,16 @@
 
 #include "Game.h"
 
-using namespace std;
 
 
 // Function declarations.
 
 
+
 // This function handles all the loading of data, whether it be textures, maps,
 // NPCs, or whatever.
 void initialize();
+
 
 
 // This function simply cleans up any resources loaded, and insures a peaceful
@@ -31,18 +31,13 @@ void cleanup();
 
 
 
-//#include "IEntity.h"
-//IEntity::~IEntity() {}
-
-
-
 // int main(int argc, char** argv) {
 int main() {
   
 initialize();
   
   try {
-    cout << "Simulation start." << endl;
+    std::cout << "Simulation start." << std::endl;
   
     Game ATCsim;
     SDL_Event event;
@@ -57,7 +52,7 @@ initialize();
     }
     
   } catch (...) {
-    cerr << "Simulation error." << endl;
+    std::cerr << "Simulation error." << std::endl;
   }
   
 }
@@ -72,12 +67,12 @@ void initialize() {
   
   // Load and initialize SDL and TTF libraries.
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    cerr << "Unable to initialize SDL: " << SDL_GetError() << endl;
+    std::cerr << "Unable to initialize SDL: " << SDL_GetError() << std::endl;
     throw;
   }
 
   if (TTF_Init() != 0) {
-    cerr << "Unable to initialize TTF: " << TTF_GetError() << endl;
+    std::cerr << "Unable to initialize TTF: " << TTF_GetError() << std::endl;
     throw;
   }
 }
@@ -87,6 +82,6 @@ void initialize() {
 void cleanup() {
   TTF_Quit();
   SDL_Quit();
-  cout << "Simulation end." << endl;
+  std::cout << "Simulation end." << std::endl;
 }
 

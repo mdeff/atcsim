@@ -8,7 +8,9 @@
 #ifndef CLOUD_H
 #define	CLOUD_H
 
+
 #include "Polygon.h"
+
 
 class Cloud : public Polygon {
   
@@ -32,6 +34,9 @@ public:
     
   // Redeclaration of virtual methods inherited from IEntity interface class.
   void compute();
+  
+  // Redirection method used to implement double dispatching (visitor pattern).
+  void checkForCollisionDispatch(const Entity& entity) const;
   
 protected:
   

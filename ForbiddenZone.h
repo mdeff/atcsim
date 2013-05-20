@@ -8,7 +8,9 @@
 #ifndef FORBIDDENZONE_H
 #define	FORBIDDENZONE_H
 
+
 #include "Polygon.h"
+
 
 class ForbiddenZone : public Polygon {
   
@@ -29,6 +31,9 @@ public:
   // Default : call base class'es destructor and destructors of all members.
   // Do not throw any exception (which is what we want for a dtor).
   virtual ~ForbiddenZone() throw() = default;
+  
+  // Redirection method used to implement double dispatching (visitor pattern).
+  void checkForCollisionDispatch(const Entity& entity) const;
   
 protected:
   

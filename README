@@ -1,7 +1,9 @@
 -----  ATCsim DESCRIPTION  -----
 
-ATCsim (Air Traffic Control simulation) is the 2013 project of an introduction course on object-oriented programming in C++ at EPFL (CS-118).
-It simulates an (obviously simplified) Air Traffic Control workstation like the ones operators play in reality (for example at Skyguide).
+ATCsim (Air Traffic Control simulation) is the 2013 project of an introduction
+course on object-oriented programming in C++ at EPFL (CS-118).
+It simulates an (obviously simplified) Air Traffic Control workstation like the
+ones operators play in reality (for example at Skyguide).
 
 -----  AUTHORS  -----
 
@@ -11,7 +13,7 @@ Enguerrand Granoux, enguerrand.granoux@epfl.ch
 -----  GET, BUILD and RUN  -----
 
   cd /path/to/project/
-  git clone https://defferra@git.epfl.ch/repo/atcsim.git (GASPAR authentification)
+  git clone https://defferra@git.epfl.ch/repo/atcsim.git (GASPAR authentication)
   cd atcsim
   make
   ./ATCsim
@@ -20,7 +22,7 @@ Enguerrand Granoux, enguerrand.granoux@epfl.ch
 
 fetch from the main repository and immediately try to merge :
   cd /path/to/project/atcsim/
-  git pull (authentification GASPAR)
+  git pull (GASPAR authentication)
 
 Edit source files, build, test, debug etc.
 
@@ -28,4 +30,5 @@ Commit every changes :
   git commit -a -m "commit message"
 
 update the main (remote) git repository
-  git push (GASPAR authentification)
+  git push (GASPAR authentication)
+

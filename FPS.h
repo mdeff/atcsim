@@ -5,9 +5,6 @@
 #ifndef FPS_H
 #define FPS_H
 
-#include <SDL/SDL.h>
-
-
 
 namespace FPS {
     
@@ -16,7 +13,6 @@ namespace FPS {
 	float getSpeedFactor();
     
 }
-
 
 
 #endif	/* FPS_H */

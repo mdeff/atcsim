@@ -8,13 +8,15 @@
 #ifndef GAME_H
 #define	GAME_H
 
-#include <vector>
+
 #include <memory>           // For C++11 unique_ptr.
+#include <vector>
 
 #include "Events.h"
 #include "Surface.h"
 
-// Forward declarations (no header including) (namespace pollution, build time).
+
+// Forward declarations (no header includes) (namespace pollution, build time).
 class Entity;
 
 
@@ -29,7 +31,7 @@ public:
   virtual ~Game() throw();
   
   // Return the game stat, which is true if running.
-  bool getState();
+  bool getState() const;
   
   // This method handles all the data updates, such as a NPCs moving across
   // the screen, decreasing your health bar, or whatever.
@@ -53,9 +55,9 @@ private:
   Surface background_;
   bool running_;
   
-  // Store the entities (moving simulation objects).
+  // Store the entities (moving objects).
   std::vector< std::unique_ptr<Entity> > entities_;
-
+  
   // Do not allow object copy or move by making copy / move constructor and
   // copy / move assignment operator private members.
   // It will fail to compile if somebody want to copy or move a Surface object.

@@ -13,8 +13,6 @@
 
 #include "Surface.h"
 
-using namespace std;
-
 
 
 //Surface::Surface(SDL_Surface* surface)
@@ -90,8 +88,8 @@ Surface::Surface(const char* file)
 
 
 
-Surface::Surface(const string text, const uint8_t red, const uint8_t green,
-                 const uint8_t blue, const string font, const int size)
+Surface::Surface(const std::string text, const uint8_t red, const uint8_t green,
+                 const uint8_t blue, const std::string font, const int size)
 : surface_(nullptr) {
 
   SDL_Color textColor = {red, green, blue, 0};
@@ -121,15 +119,15 @@ Surface::~Surface() throw() {
 
 
 
-int Surface::getWidth() {
-  return surface_->w;
-}
-
-
-
-int Surface::getHeight() {
-  return surface_->h;
-}
+//int Surface::getWidth() const {
+//  return surface_->w;
+//}
+//
+//
+//
+//int Surface::getHeight() const {
+//  return surface_->h;
+//}
 
 
 
@@ -183,16 +181,16 @@ void Surface::blit(const Surface& source, const int16_t x, const int16_t y,
 
 
 
-void Surface::makeTransparent(const uint8_t red, const uint8_t green, const uint8_t blue) {
-
-  Uint32 key = SDL_MapRGB(surface_->format, red, green, blue);
-
-	if (SDL_SetColorKey(surface_, SDL_SRCCOLORKEY | SDL_RLEACCEL, key) != 0)
-  {
-    printf("Unable to set color key: %s\n", SDL_GetError());
-    throw -1;
-  }
-}
+//void Surface::makeTransparent(const uint8_t red, const uint8_t green, const uint8_t blue) {
+//
+//  Uint32 key = SDL_MapRGB(surface_->format, red, green, blue);
+//
+//	if (SDL_SetColorKey(surface_, SDL_SRCCOLORKEY | SDL_RLEACCEL, key) != 0)
+//  {
+//    printf("Unable to set color key: %s\n", SDL_GetError());
+//    throw -1;
+//  }
+//}
 
 
 
@@ -226,7 +224,7 @@ void Surface::drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
 void Surface::drawPolygon(const std::vector<int16_t>& x, const std::vector<int16_t>& y,
                             uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 
-  const unsigned int n( min(x.size(), y.size()) );
+  const unsigned int n( std::min(x.size(), y.size()) );
   
   // Data(): returns pointer to the underlying array (C++11) (OK even if empty).
   if (polygonRGBA(surface_, x.data(), y.data(), int(n), r, g, b, a) != 0)
@@ -235,10 +233,10 @@ void Surface::drawPolygon(const std::vector<int16_t>& x, const std::vector<int16
 
 
 
-void Surface::drawFilledPolygon(const std::vector<int16_t>& x, std::vector<int16_t>& y,
+void Surface::drawFilledPolygon(const std::vector<int16_t>& x, const std::vector<int16_t>& y,
                                 uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 
-  const unsigned int n(min(x.size(), y.size()));
+  const unsigned int n(std::min(x.size(), y.size()));
   // Data(): returns pointer to the underlying array (C++11) (OK even if empty).
   if (filledPolygonRGBA(surface_, x.data(), y.data(), int(n), r, g, b, a) != 0)
     throw -1;

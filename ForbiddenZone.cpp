@@ -15,3 +15,9 @@ Polygon(xCorners, yCorners, 0, 0, 0, 128, 0, 0) // Parent constructor.
 {
 }
 
+
+
+void ForbiddenZone::checkForCollisionDispatch(const Entity& entity) const {
+  entity.checkForCollision(this);
+}
+

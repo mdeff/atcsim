@@ -8,12 +8,15 @@
 #ifndef SURFACE_H
 #define	SURFACE_H
 
+
 #include <cstdint>   // Definitions of uint8_t and int16_t.
 #include <string>
 #include <vector>
 
-// Forward declarations (no header including) (namespace pollution, build time).
+
+// Forward declarations (no header includes) (namespace pollution, build time).
 struct SDL_Surface;
+
 
 class Surface {
   
@@ -32,14 +35,14 @@ public:
   // Do not throw any exception (which is what we want for a dtor).
   virtual ~Surface() throw();
    
-  int getWidth();
-  int getHeight();
+//  int getWidth() const;
+//  int getHeight() const;
   
   void blit(const Surface& srcSurf, int16_t x, int16_t y);
   void blit(const Surface& srcSurf, int16_t x, int16_t y, int16_t x2, int16_t y2,
             uint16_t w, uint16_t h);
   
-  void makeTransparent(uint8_t r, uint8_t g, uint8_t b);
+//  void makeTransparent(uint8_t r, uint8_t g, uint8_t b);
   
 //  SDL_Surface* getPointer() const;
   
@@ -54,7 +57,7 @@ public:
   void drawPolygon(const std::vector<int16_t>& x, const std::vector<int16_t>& y,
                      uint8_t r, uint8_t g, uint8_t b, uint8_t a);
   
-  void drawFilledPolygon(const std::vector<int16_t>& x, std::vector<int16_t>& y,
+  void drawFilledPolygon(const std::vector<int16_t>& x, const std::vector<int16_t>& y,
                          uint8_t r, uint8_t g, uint8_t b, uint8_t a);
   
 protected:
