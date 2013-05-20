@@ -24,3 +24,11 @@ Il suffit de projeter le vecteur de norme velocity et d'argument cape sur les ax
 C'est-à-dire xVelocity = velocity * cos(cape) et yVelocity = velocity * sin(cape).
 Attention au fait que std::cos() et std::sin() prennent des radians comme arguments.
 
+[Question P5.1]
+
+Le paramètre des fonctions Collides et onCollision est probablement une
+référence sur la seconde entité avec laquelle nous testons la collision. Notre
+implémentation n'utilise pas ces deux méthodes mais une méthode
+checkForCollision qui prends effectivement une référence sur une entité comme
+paramètre.
+

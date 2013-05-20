@@ -78,6 +78,7 @@
   -- implement the 3 overiddings (Airplane, Cloud and ForbiddenZone) of the checkForCollision() method, defined by the Airplane class
   -- implement collision checking using double dispatch, dispatcher method checkForCollisionDispatch() (virtually declared in Entity class) calls specialized checkForCollision() methods
   -- commit exercises P8, P9, P10 : collisions handling
+  -- answer question P5.1 (RESPONSES file)
 
 
 
