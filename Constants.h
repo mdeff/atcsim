@@ -18,7 +18,7 @@ const unsigned int WINDOWYSIZE(551);
 const unsigned int DMINCOL(20);
 
 // Define the number of ticks used to predict future collisions.
-const unsigned int NTICKSCOL(300);
+const unsigned int NTICKSCOL(200);
 
 #endif	/* CONSTANTS_H */
 

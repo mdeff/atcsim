@@ -43,10 +43,13 @@ public:
   virtual void render(Surface& displaySurf) const final;
     
   // Redirection method used to implement double dispatching (visitor pattern).
-  virtual void checkForCollisionDispatch(const Entity& entity, enum PosType posType) const final;
+  virtual void checkForCollisionDispatch(Entity& entity, enum PosType posType) const final;
   
   // Return the airplane position.
   const struct Point* getPosition(enum PosType posType) const;
+  
+  // Reset the simulation attributes.
+  virtual void resetSimulation() final;
   
 protected:
   
@@ -55,10 +58,16 @@ private:
   int identification_; // Flight number.
   int altitude_;
   
+  // It indicates if future collisions with some entities are predicted.
+  struct EntityTypes predictedCollision_;
+  
   // Collision handling functions : take different actions based on entity type.
-  virtual void checkForCollision(const Airplane* airplane, enum PosType posType) const final;
-  virtual void checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) const final;
-  virtual void checkForCollision(const Cloud* cloud, enum PosType posType) const final;
+  virtual void checkForCollision(const Airplane* airplane, enum PosType posType) final;
+  virtual void checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) final;
+  virtual void checkForCollision(const Cloud* cloud, enum PosType posType) final;
+  
+  // Print informations about the airplane on the side panel.
+  void printSidePanelInfo() const;
   
 };
 

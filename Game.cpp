@@ -83,21 +83,22 @@ void Game::compute() {
   
   // Reset entities simulated positions.
   for (auto& entity : entities_) {
-    entity->resetSimPosition();
+    entity->resetSimulation();
   }
   
-  // Simulate entities movements.
-  for (auto& entity : entities_) {
-    for (unsigned int i(NTICKSCOL); i > 0; --i) {
+  for (unsigned int i(NTICKSCOL); i > 0; --i) {
+    
+    // Simulate entities movements.
+    for (auto& entity : entities_) {
       entity->compute(simPosition);
     }
-  }
   
-  // Simulate collision checking.
-  for (auto& entity1 : entities_) {
-    for (auto& entity2 : entities_) {
-      if (entity1 != entity2) {
-        entity1->checkForCollisionDispatch(*entity2, simPosition);
+    // Simulate collision checking.
+    for (auto& entity1 : entities_) {
+      for (auto& entity2 : entities_) {
+        if (entity1 != entity2) {
+          entity1->checkForCollisionDispatch(*entity2, simPosition);
+        }
       }
     }
   }

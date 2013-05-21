@@ -52,10 +52,10 @@ public:
   virtual void render(Surface& displaySurf) const = 0;
   
   // Redirection method used to implement double dispatching (visitor pattern).
-  virtual void checkForCollisionDispatch(const Entity& entity, enum PosType posType) const = 0;
+  virtual void checkForCollisionDispatch(Entity& entity, enum PosType posType) const = 0;
   
-  // Reset the simulated position to the real one.
-  void resetSimPosition();
+  // Reset the simulation attributes.
+  virtual void resetSimulation();
   
 protected:
     
@@ -70,9 +70,9 @@ protected:
 private:
   
   // Collision handling functions : take different actions based on entity type.
-  virtual void checkForCollision(const Airplane* airplane, enum PosType posType) const;
-  virtual void checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) const;
-  virtual void checkForCollision(const Cloud* cloud, enum PosType posType) const;
+  virtual void checkForCollision(const Airplane* airplane, enum PosType posType);
+  virtual void checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType);
+  virtual void checkForCollision(const Cloud* cloud, enum PosType posType);
   
 };
 

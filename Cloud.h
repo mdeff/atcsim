@@ -36,7 +36,7 @@ public:
   virtual void compute(enum PosType posType) final;
   
   // Redirection method used to implement double dispatching (visitor pattern).
-  virtual void checkForCollisionDispatch(const Entity& entity, enum PosType posType) const final;
+  virtual void checkForCollisionDispatch(Entity& entity, enum PosType posType) const final;
   
 protected:
   

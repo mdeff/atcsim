@@ -24,13 +24,13 @@ simPosition_(initialPosition)
 
 
 
-void Entity::checkForCollision(const Airplane* airplane, enum PosType posType) const {}
-void Entity::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) const {}
-void Entity::checkForCollision(const Cloud* cloud, enum PosType posType) const {}
+void Entity::checkForCollision(const Airplane* airplane, enum PosType posType) {}
+void Entity::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {}
+void Entity::checkForCollision(const Cloud* cloud, enum PosType posType) {}
 
 
 
-void Entity::resetSimPosition() {
+void Entity::resetSimulation() {
   simPosition_ = realPosition_;
 }
 

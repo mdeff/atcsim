@@ -30,7 +30,7 @@ void Cloud::compute(enum PosType posType) {
 
 
 
-void Cloud::checkForCollisionDispatch(const Entity& entity, enum PosType posType) const {
+void Cloud::checkForCollisionDispatch(Entity& entity, enum PosType posType) const {
   entity.checkForCollision(this, posType);
 }
 

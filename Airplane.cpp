@@ -38,13 +38,13 @@ void Airplane::compute(enum PosType posType) {
 
 
 
-void Airplane::checkForCollisionDispatch(const Entity& entity, enum PosType posType) const {
+void Airplane::checkForCollisionDispatch(Entity& entity, enum PosType posType) const {
   entity.checkForCollision(this, posType);
 }
 
 
 
-void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType) const {
+void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType) {
     
   const Point* airplane1Pos = this->getPosition(posType);
   const Point* airplane2Pos = airplane->getPosition(posType);
@@ -57,7 +57,8 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
         std::cout << "Collision with an airplane." << std::endl;
         break;
       case simPosition:
-        std::cout << "A collision with an airplane will occure." << std::endl;
+        predictedCollision_.airplane = true;
+//        std::cout << "A collision with an airplane will occure." << std::endl;
     }
   }
     
@@ -65,7 +66,7 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
 
 
 
-void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) const {
+void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {
 
   // Terminate the simulation if the airplane is inside a forbidden zone.
     
@@ -75,14 +76,15 @@ void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosTyp
         std::cout << "Collision with a forbidden zone." << std::endl;
         break;
       case simPosition:
-        std::cout << "A collision with a forbidden zone will occure." << std::endl;
+        predictedCollision_.forbiddenZone = true;
+//        std::cout << "A collision with a forbidden zone will occure." << std::endl;
     }
   }
 }
 
 
 
-void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) const {
+void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) {
 
   // Remove points if the airplane is inside a cloud.
   
@@ -92,7 +94,8 @@ void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) const
         std::cout << "Collision with a cloud." << std::endl;
         break;
       case simPosition:
-        std::cout << "A collision with a cloud will occure." << std::endl;
+        predictedCollision_.cloud = true;
+//        std::cout << "A collision with a cloud will occure." << std::endl;
     }
   }  
 }
@@ -107,6 +110,15 @@ const struct Point* Airplane::getPosition(enum PosType posType) const {
     case simPosition:
       return &simPosition_;
   }
+}
+
+
+
+void Airplane::resetSimulation() {
+  Entity::resetSimulation();
+  this->predictedCollision_.airplane      = false;
+  this->predictedCollision_.cloud         = false;
+  this->predictedCollision_.forbiddenZone = false;
 }
 
 
@@ -142,5 +154,18 @@ void Airplane::render(Surface& displaySurf) const {
   displaySurf.blit(textSurf2, int16_t(realPosition_.x-20), int16_t(realPosition_.y+30));
   displaySurf.blit(textSurf3, int16_t(realPosition_.x-20), int16_t(realPosition_.y+45));
   
+  // Print airplane informations on the side panel.
+  this->printSidePanelInfo();
+}
+
+
+
+void Airplane::printSidePanelInfo() const {
+  if (predictedCollision_.airplane == true)
+    std::cout << "A collision with an airplane will occure." << std::endl;
+  if (predictedCollision_.cloud == true)
+    std::cout << "A collision with a cloud will occure." << std::endl;
+  if (predictedCollision_.forbiddenZone == true)
+    std::cout << "A collision with a forbidden zone will occure." << std::endl;
 }
 

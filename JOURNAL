@@ -84,5 +84,8 @@
   -- implement collision prediction using a simulated position
   -- modify computeMovement, checkForCollisionDispatch, checkForCollision, isInside, getPosition to accept a position type (real or simulated) argument
   -- new Types.h header defining custom types that aren't classes (struct Point and enum PosStyle)
+  -- add a new predictedCollision attribute in Airplane class to indicate predicted collisions, it will be used to print warnings to the user
+  -- create a printSidePanelInfo that will print some informations (like warnings) about airplane on the side panel
+  
 
 

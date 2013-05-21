@@ -16,6 +16,14 @@ struct Point {
 };
 
 
+struct EntityTypes {
+  bool airplane;
+  bool cloud;
+  bool forbiddenZone;
+//  EntityTypes() : airplane(false), cloud(false), forbiddenZone(false) {}
+};
+
+
 enum PosType {realPosition, simPosition};
 
 

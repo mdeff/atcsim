@@ -22,7 +22,7 @@ void ForbiddenZone::compute(enum PosType posType) {
 
 
 
-void ForbiddenZone::checkForCollisionDispatch(const Entity& entity, enum PosType posType) const {
+void ForbiddenZone::checkForCollisionDispatch(Entity& entity, enum PosType posType) const {
   entity.checkForCollision(this, posType);
 }
 
