@@ -88,6 +88,7 @@
   -- add a new predictedCollision attribute in Airplane class to indicate predicted collisions, it will be used to print warnings to the user
   -- create a printSidePanelInfo that will print some informations (like warnings) about airplane on the side panel
   -- Airplane::render : draw a line which indicates the predicted airplane trajectory
+  -- commit exercise P11 : warning messages
   
 
 
