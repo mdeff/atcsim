@@ -43,10 +43,9 @@ public:
   virtual ~Polygon() throw() = default;
   
   // Redeclaration of virtual methods inherited from IEntity interface class.
-  void compute();
-  void render(Surface& displaySurf) const;
+  virtual void render(Surface& displaySurf) const final;
   
-  bool isInside(Point P) const;
+  bool isInside(Point P, enum PosType posType) const;
   
 protected:
   

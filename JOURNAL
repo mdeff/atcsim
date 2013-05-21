@@ -80,5 +80,9 @@
   -- commit exercises P8, P9, P10 : collisions handling
   -- answer question P5.1 (RESPONSES file)
 
+21.05.2013
+  -- implement collision prediction using a simulated position
+  -- modify computeMovement, checkForCollisionDispatch, checkForCollision, isInside, getPosition to accept a position type (real or simulated) argument
+  -- new Types.h header defining custom types that aren't classes (struct Point and enum PosStyle)
 
 

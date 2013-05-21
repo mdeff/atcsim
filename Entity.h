@@ -9,18 +9,15 @@
 #define	ENTITY_H
 
 
+#include "Types.h"
+
+
 // Forward declarations (no header includes) (namespace pollution, build time).
 class Airplane;
 class Cloud;
 class ForbiddenZone;
 class Surface;
 
-
-// Point structure represents entity position on the XY plane.
-struct Point {
-  float x, y;
-  Point(float xInit, float yInit) : x(xInit), y(yInit) {}
-};
 
 
 class Entity {
@@ -50,28 +47,32 @@ public:
   // Do not throw any exception (which is what we want for a dtor).
   virtual ~Entity() throw() = default;
 
-  // Abstract methods that will have to be defined.
-  virtual void compute() = 0;
+  // Abstract methods that will have to be defined by subclasses.
+  virtual void compute(enum PosType posType) = 0;
   virtual void render(Surface& displaySurf) const = 0;
   
   // Redirection method used to implement double dispatching (visitor pattern).
-  virtual void checkForCollisionDispatch(const Entity& entity) const = 0;
-    
+  virtual void checkForCollisionDispatch(const Entity& entity, enum PosType posType) const = 0;
+  
+  // Reset the simulated position to the real one.
+  void resetSimPosition();
+  
 protected:
     
   // Compute the movement of an entity.
-  void computeMovement();
+  void computeMovement(enum PosType posType);
   
   float cape_;
   int velocity_;
-  Point refPos_;   // Entity position on XY plane.
+  Point realPosition_;   // Real entity position on XY plane.
+  Point simPosition_;    // Simulated entity position on XY plane.
   
 private:
   
   // Collision handling functions : take different actions based on entity type.
-  virtual void checkForCollision(const Airplane* airplane) const;
-  virtual void checkForCollision(const ForbiddenZone* forbiddenZone) const;
-  virtual void checkForCollision(const Cloud* cloud) const;
+  virtual void checkForCollision(const Airplane* airplane, enum PosType posType) const;
+  virtual void checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) const;
+  virtual void checkForCollision(const Cloud* cloud, enum PosType posType) const;
   
 };
 

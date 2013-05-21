@@ -32,8 +32,11 @@ public:
   // Do not throw any exception (which is what we want for a dtor).
   virtual ~ForbiddenZone() throw() = default;
   
+  // Redeclaration of virtual methods inherited from Entity class.
+  virtual void compute(enum PosType posType) final;
+  
   // Redirection method used to implement double dispatching (visitor pattern).
-  void checkForCollisionDispatch(const Entity& entity) const;
+  virtual void checkForCollisionDispatch(const Entity& entity, enum PosType posType) const final;
   
 protected:
   

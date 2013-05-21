@@ -39,14 +39,14 @@ public:
   virtual ~Airplane() throw() = default;
   
   // Redefinition of virtual methods inherited from Entity class.
-  void compute();
-  void render(Surface& displaySurf) const;
+  virtual void compute(enum PosType posType) final;
+  virtual void render(Surface& displaySurf) const final;
     
   // Redirection method used to implement double dispatching (visitor pattern).
-  void checkForCollisionDispatch(const Entity& entity) const;
+  virtual void checkForCollisionDispatch(const Entity& entity, enum PosType posType) const final;
   
   // Return the airplane position.
-  struct Point getPosition() const;
+  const struct Point* getPosition(enum PosType posType) const;
   
 protected:
   
@@ -56,9 +56,9 @@ private:
   int altitude_;
   
   // Collision handling functions : take different actions based on entity type.
-  void checkForCollision(const Airplane* airplane) const;
-  void checkForCollision(const ForbiddenZone* forbiddenZone) const;
-  void checkForCollision(const Cloud* cloud) const;
+  virtual void checkForCollision(const Airplane* airplane, enum PosType posType) const final;
+  virtual void checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) const final;
+  virtual void checkForCollision(const Cloud* cloud, enum PosType posType) const final;
   
 };
 

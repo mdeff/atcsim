@@ -6,6 +6,7 @@
  */
 
 #include <string>
+#include <iostream>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_gfxPrimitives.h>
@@ -45,7 +46,7 @@ Surface::Surface(const int w, const int h)
 
   if (surface_ == nullptr)
   {
-    printf("Fail to create RGB surface: %s\n", SDL_GetError());
+    std::cerr << "Fail to create RGB surface: %s\n" << SDL_GetError() << std::endl;
     throw -1;  // TODO
   }
 
@@ -58,7 +59,7 @@ Surface::Surface(int weight, int height, int colorDepth)
     surface_ = SDL_SetVideoMode(weight, height, colorDepth,
                                 SDL_HWSURFACE | SDL_DOUBLEBUF);
     if (surface_ == nullptr) {
-      printf("Unable to set video mode: %s\n", SDL_GetError());
+      std::cerr << "Unable to set video mode: %s\n" << SDL_GetError() << std::endl;
       throw -1;
     }
 }
@@ -71,7 +72,7 @@ Surface::Surface(const char* file)
   SDL_Surface* tempSurf = SDL_LoadBMP(file);
   
   if (tempSurf == nullptr) {
-    printf("Unable to load bitmap: %s\n", SDL_GetError());
+    std::cerr << "Unable to load bitmap: %s\n" << SDL_GetError() << std::endl;
     throw -1;
   }
   
@@ -81,7 +82,7 @@ Surface::Surface(const char* file)
   
 	if (surface_ == nullptr)
   {
-    printf("Unable to format surface: %s\n", SDL_GetError());
+    std::cerr << "Unable to format surface: %s\n" << SDL_GetError() << std::endl;
     throw -1;
 	}
 }
@@ -150,7 +151,7 @@ void Surface::blit(const Surface& source, const int16_t x, const int16_t y) {
 
 	if (SDL_BlitSurface(source.surface_, nullptr, surface_, &destR) != 0)
   {
-    printf("Unable to blit surface: %s\n", SDL_GetError());
+    std::cerr << "Unable to blit surface: %s\n" << SDL_GetError() << std::endl;
     throw -1;
   }
 }
@@ -174,7 +175,7 @@ void Surface::blit(const Surface& source, const int16_t x, const int16_t y,
 
 	if (SDL_BlitSurface(source.surface_, &srcR, surface_, &destR) != 0)
   {
-    printf("Unable to blit surface: %s\n", SDL_GetError());
+    std::cerr << "Unable to blit surface: %s\n" << SDL_GetError() << std::endl;
     throw -1;
   }
 }
@@ -187,7 +188,7 @@ void Surface::blit(const Surface& source, const int16_t x, const int16_t y,
 //
 //	if (SDL_SetColorKey(surface_, SDL_SRCCOLORKEY | SDL_RLEACCEL, key) != 0)
 //  {
-//    printf("Unable to set color key: %s\n", SDL_GetError());
+//    std::cerr << "Unable to set color key: %s\n" << SDL_GetError() << std::endl;
 //    throw -1;
 //  }
 //}
@@ -196,7 +197,7 @@ void Surface::blit(const Surface& source, const int16_t x, const int16_t y,
 
 void Surface::flip() {
   if (SDL_Flip(surface_) != 0) {
-    printf("Unable to flip display buffers: %s\n", SDL_GetError());
+    std::cerr << "Unable to flip display buffers: %s\n" << SDL_GetError() << std::endl;
     throw -1;
   }
 }

@@ -10,12 +10,15 @@
 
 
 // Define the window size. Background image resolution is 800*551.
-const int WINDOWXSIZE(800);
-const int WINDOWYSIZE(551);
+const unsigned int WINDOWXSIZE(800);
+const unsigned int WINDOWYSIZE(551);
 
 // Define the minimum distance (in pixels) between two airplanes
 // before detecting a collision.
-const int DMINCOL(20);
+const unsigned int DMINCOL(20);
+
+// Define the number of ticks used to predict future collisions.
+const unsigned int NTICKSCOL(300);
 
 #endif	/* CONSTANTS_H */
 

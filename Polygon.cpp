@@ -30,10 +30,10 @@ blue_(blue),
 alpha_(alpha) {
   
   for (int16_t& xCorner : xCorners_) {
-    xCorner = int16_t(xCorner - refPos_.x);
+    xCorner = int16_t(xCorner - realPosition_.x);
   }
   for (int16_t& yCorner : yCorners_) {
-    yCorner = int16_t(yCorner - refPos_.y);
+    yCorner = int16_t(yCorner - realPosition_.y);
   }
   
 }
@@ -44,7 +44,7 @@ void Polygon::render(Surface& displaySurf) const {
   
   // Create a new suface with the size of the real screen window.  
 //  Surface polygonSurf(displaySurf.getWidth(), displaySurf.getHeight());
-  Surface polygonSurf(xMax_-int16_t(refPos_.x)+1, yMax_-int16_t(refPos_.y)+1);
+  Surface polygonSurf(xMax_-int16_t(realPosition_.x)+1, yMax_-int16_t(realPosition_.y)+1);
   
   // Draw a semi-transparent filled polygon for the inside.
   polygonSurf.drawFilledPolygon(xCorners_, yCorners_, red_, green_, blue_, alpha_);
@@ -53,13 +53,11 @@ void Polygon::render(Surface& displaySurf) const {
   polygonSurf.drawPolygon(xCorners_, yCorners_, red_, green_, blue_, 255);
 
 //  displaySurf.blit(polygonSurf, 0, 0);
-  displaySurf.blit(polygonSurf, int16_t(refPos_.x), int16_t(refPos_.y));
+  displaySurf.blit(polygonSurf, int16_t(realPosition_.x), int16_t(realPosition_.y));
 }
 
 
 
-void Polygon::compute() {
-}
 
 
 
@@ -101,17 +99,27 @@ int Polygon::isLeft(const Point& point, size_t p0, size_t p1) const {
 //               V[] = vertex points of a polygon V[n+1] with V[n]!=V[0]
 //      Return:  wn = the winding number (=0 only when P is outside)
 
-bool Polygon::isInside(Point point) const {
+bool Polygon::isInside(Point point, enum PosType posType) const {
   
   int wn = 0;                    // the  winding number counter
   unsigned int n = xCorners_.size() - 1;
   
-  // Rebase the entity (airplane) position to the polygon coordinates.
-  point.x -= refPos_.x;
-  point.y -= refPos_.y;
+  // Select the position from which to rebase.
+  const Point* position;
+  switch (posType) {
+    case realPosition:
+      position = &realPosition_;
+      break;
+    case simPosition:
+      position = &simPosition_;
+  }
+  
+  // Rebase the entity (airplane) position to the polygon base coordinates.
+  point.x -= position->x;
+  point.y -= position->y;
   
   // loop through all edges of the polygon, edge from V[0] to V[i+1]
-  for (size_t i = 0; i <= n; i++) {
+  for (size_t i = 0; i <= n; ++i) {
     if (yCorners_[i] <= point.y) {            // start y <= P.y
       if (yCorners_[i<n?i+1:0] > point.y)     // an upward crossing
         if (isLeft(point, i, i<n?i+1:0) > 0)  // P left of edge

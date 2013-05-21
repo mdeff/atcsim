@@ -26,7 +26,7 @@ namespace FPS {
   void compute() {
 
     // Compute framerate (aka FPS).
-    frames++;
+    ++frames;
     if (oldTime + 1000 < SDL_GetTicks()) {
       oldTime = SDL_GetTicks();
       nFrames = frames;

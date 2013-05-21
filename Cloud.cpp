@@ -21,16 +21,16 @@ Polygon(xCorners, yCorners, 0, 0, 255, 128, cape, velocity) // Parent constructo
 
 
 
-void Cloud::compute() {
+void Cloud::compute(enum PosType posType) {
   
   // This entity can move, we have to compute it.
-  computeMovement();
+  this->computeMovement(posType);
   
 }
 
 
 
-void Cloud::checkForCollisionDispatch(const Entity& entity) const {
-  entity.checkForCollision(this);
+void Cloud::checkForCollisionDispatch(const Entity& entity, enum PosType posType) const {
+  entity.checkForCollision(this, posType);
 }
 

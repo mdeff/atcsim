@@ -29,52 +29,84 @@ altitude_(altitude)
 
 
 
-void Airplane::compute() {
+void Airplane::compute(enum PosType posType) {
     
   // This entity can move, we have to compute it.
-  computeMovement();
+  this->computeMovement(posType);
   
 }
 
 
 
-void Airplane::checkForCollisionDispatch(const Entity& entity) const {
-  entity.checkForCollision(this);
+void Airplane::checkForCollisionDispatch(const Entity& entity, enum PosType posType) const {
+  entity.checkForCollision(this, posType);
 }
 
 
 
-void Airplane::checkForCollision(const Airplane* airplane) const {
-  
-  Point airplanePos = airplane->getPosition();
+void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType) const {
+    
+  const Point* airplane1Pos = this->getPosition(posType);
+  const Point* airplane2Pos = airplane->getPosition(posType);
   
   // Collision if the distance between 2 airplanes is smaller than DMINCOL.
-  if (std::sqrt(std::pow(airplanePos.x - refPos_.x, 2) +
-                std::pow(airplanePos.y - refPos_.y, 2)) < DMINCOL)
-    std::cout << "Collision with an airplane." << std::endl;
+  if (std::sqrt(std::pow(airplane1Pos->x - airplane2Pos->x, 2) +
+                std::pow(airplane1Pos->y - airplane2Pos->y, 2)) < DMINCOL) {
+    switch (posType) {
+      case realPosition:
+        std::cout << "Collision with an airplane." << std::endl;
+        break;
+      case simPosition:
+        std::cout << "A collision with an airplane will occure." << std::endl;
+    }
+  }
+    
 }
 
 
 
-void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone) const {
+void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) const {
+
   // Terminate the simulation if the airplane is inside a forbidden zone.
-  if (forbiddenZone->isInside(refPos_))
-    std::cout << "Collision with a forbidden zone." << std::endl;
+    
+  if (forbiddenZone->isInside(*this->getPosition(posType), posType)) {
+    switch (posType) {
+      case realPosition:
+        std::cout << "Collision with a forbidden zone." << std::endl;
+        break;
+      case simPosition:
+        std::cout << "A collision with a forbidden zone will occure." << std::endl;
+    }
+  }
 }
 
 
 
-void Airplane::checkForCollision(const Cloud* cloud) const {
+void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) const {
+
   // Remove points if the airplane is inside a cloud.
-  if (cloud->isInside(refPos_))
-    std::cout << "Collision with a cloud." << std::endl;
   
+  if (cloud->isInside(*this->getPosition(posType), posType)) {
+    switch (posType) {
+      case realPosition:
+        std::cout << "Collision with a cloud." << std::endl;
+        break;
+      case simPosition:
+        std::cout << "A collision with a cloud will occure." << std::endl;
+    }
+  }  
 }
 
 
 
-struct Point Airplane::getPosition() const {
-  return refPos_;
+const struct Point* Airplane::getPosition(enum PosType posType) const {
+  switch (posType) {
+    case realPosition:
+      return &realPosition_;
+      break;
+    case simPosition:
+      return &simPosition_;
+  }
 }
 
 
@@ -105,10 +137,10 @@ void Airplane::render(Surface& displaySurf) const {
   airplaneSurf.drawLine(0, 20, 20, 0, grey, grey, grey, 255);
   
   // Draw the airplane and his related text informations at it's actual position.
-  displaySurf.blit(airplaneSurf, int16_t(refPos_.x-10), int16_t(refPos_.y-10));
-  displaySurf.blit(textSurf1, int16_t(refPos_.x-20), int16_t(refPos_.y+15));
-  displaySurf.blit(textSurf2, int16_t(refPos_.x-20), int16_t(refPos_.y+30));
-  displaySurf.blit(textSurf3, int16_t(refPos_.x-20), int16_t(refPos_.y+45));
+  displaySurf.blit(airplaneSurf, int16_t(realPosition_.x-10), int16_t(realPosition_.y-10));
+  displaySurf.blit(textSurf1, int16_t(realPosition_.x-20), int16_t(realPosition_.y+15));
+  displaySurf.blit(textSurf2, int16_t(realPosition_.x-20), int16_t(realPosition_.y+30));
+  displaySurf.blit(textSurf3, int16_t(realPosition_.x-20), int16_t(realPosition_.y+45));
   
 }
 
