@@ -35,8 +35,8 @@ public:
   // Do not throw any exception (which is what we want for a dtor).
   virtual ~Surface() throw();
    
-//  int getWidth() const;
-//  int getHeight() const;
+  int getWidth() const;
+  int getHeight() const;
   
   void blit(const Surface& srcSurf, int16_t x, int16_t y);
   void blit(const Surface& srcSurf, int16_t x, int16_t y, int16_t x2, int16_t y2,
@@ -51,11 +51,14 @@ public:
   void drawRectangle(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
                      uint8_t r, uint8_t g, uint8_t b, uint8_t a);
   
+  void drawFilledRectangle(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
+                           uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+  
   void drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2, 
                 uint8_t r, uint8_t g, uint8_t b, uint8_t a);
   
   void drawPolygon(const std::vector<int16_t>& x, const std::vector<int16_t>& y,
-                     uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+                   uint8_t r, uint8_t g, uint8_t b, uint8_t a);
   
   void drawFilledPolygon(const std::vector<int16_t>& x, const std::vector<int16_t>& y,
                          uint8_t r, uint8_t g, uint8_t b, uint8_t a);

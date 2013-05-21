@@ -66,10 +66,10 @@ Surface::Surface(int weight, int height, int colorDepth)
 
 
 
-Surface::Surface(const char* file)
+Surface::Surface(const char* filename)
 : surface_(nullptr) {
 
-  SDL_Surface* tempSurf = SDL_LoadBMP(file);
+  SDL_Surface* tempSurf = SDL_LoadBMP(filename);
   
   if (tempSurf == nullptr) {
     std::cerr << "Unable to load bitmap: %s\n" << SDL_GetError() << std::endl;
@@ -120,15 +120,15 @@ Surface::~Surface() throw() {
 
 
 
-//int Surface::getWidth() const {
-//  return surface_->w;
-//}
-//
-//
-//
-//int Surface::getHeight() const {
-//  return surface_->h;
-//}
+int Surface::getWidth() const {
+  return surface_->w;
+}
+
+
+
+int Surface::getHeight() const {
+  return surface_->h;
+}
 
 
 
@@ -208,6 +208,15 @@ void Surface::drawRectangle(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
                             uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 
   if (rectangleRGBA(surface_, x1, y1, x2, y2, r, g, b, a) != 0)
+    throw -1;
+}
+
+
+
+void Surface::drawFilledRectangle(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
+                                  uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+
+  if (boxRGBA(surface_, x1, y1, x2, y2, r, g, b, a) != 0)
     throw -1;
 }
 

@@ -46,14 +46,19 @@ public:
   // or other devices.
   void handleEvent(SDL_Event& event);
   void onExit();
-
+  
 protected:
   
 private:
   
-  Surface window_;
-  Surface background_;
+  Surface window_;      // Main window SDL surface.
+  Surface background_;  // Background bitmap SDL surface.
+  Surface sidePanel_;   // Side panel SDL surface
   bool running_;
+  
+  // Game field size (used to check movement bounds).
+  const int gameFieldWidth_;
+  const int gameFieldHeight_;
   
   // Store the entities (moving objects).
   std::vector< std::unique_ptr<Entity> > entities_;

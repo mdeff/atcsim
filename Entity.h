@@ -19,7 +19,6 @@ class ForbiddenZone;
 class Surface;
 
 
-
 class Entity {
   
   // Theses classes need access to checkForCollision() private methods.
@@ -48,11 +47,12 @@ public:
   virtual ~Entity() throw() = default;
 
   // Abstract methods that will have to be defined by subclasses.
-  virtual void compute(enum PosType posType) = 0;
+  virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) = 0;
   virtual void render(Surface& displaySurf) const = 0;
   
   // Redirection method used to implement double dispatching (visitor pattern).
-  virtual void checkForCollisionDispatch(Entity& entity, enum PosType posType) const = 0;
+  virtual void checkForCollisionDispatch(Entity& entity,
+                                         enum PosType posType) const = 0;
   
   // Reset the simulation attributes.
   virtual void resetSimulation();
@@ -60,7 +60,7 @@ public:
 protected:
     
   // Compute the movement of an entity.
-  void computeMovement(enum PosType posType);
+  void computeMovement(enum PosType posType, int gameFieldWidth, int gameFieldHeight);
   
   float cape_;
   int velocity_;
@@ -70,9 +70,12 @@ protected:
 private:
   
   // Collision handling functions : take different actions based on entity type.
-  virtual void checkForCollision(const Airplane* airplane, enum PosType posType);
-  virtual void checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType);
-  virtual void checkForCollision(const Cloud* cloud, enum PosType posType);
+  virtual void checkForCollision(const Airplane* airplane,
+                                 enum PosType posType);
+  virtual void checkForCollision(const ForbiddenZone* forbiddenZone,
+                                 enum PosType posType);
+  virtual void checkForCollision(const Cloud* cloud,
+                                 enum PosType posType);
   
 };
 

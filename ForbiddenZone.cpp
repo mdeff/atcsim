@@ -17,7 +17,7 @@ Polygon(xCorners, yCorners, 0, 0, 0, 128, 0, 0) // Parent constructor.
 
 
 
-void ForbiddenZone::compute(enum PosType posType) {
+void ForbiddenZone::compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
 }
 
 

@@ -7,9 +7,7 @@ Add Doxygen / Javadoc comments to source code
 Automatically generate documentation based on Doxygen / Javadoc comments
 Generate automatically the class hierarchy
 
-Add const keyword on methods parameters and core. (const value param only in definition, not declaration)
-Pass object by reference instead of value
-
+user can modify airplane altitude
 find a better way to calculate FPS in realtime not every second
 
 link to libc++ (LLVM Clang) instead of libstdc++ (GNU GCC)
@@ -24,17 +22,11 @@ Apply http://geosoft.no/development/cppstyle.html/
 Use virtual inheritance to avoid problems whith multiple inheritance. (There is more often multiple inheritance when we use interfaces.)
 Start using git branching and merging functions to work on interleaved changes.
 different typecasting : http://www.cplusplus.com/doc/tutorial/typecasting/
-control namespaces
-as much as possible, do not define nor declare default copy constructor or assignement operator and use the compiler-generated one (OK if not using pointers etc.)
-you shouldn't do "using namespace X" within a header file because it forces namespace pollution and subverts the namespaces
 templates and generic programming
 C++11 attributes In-class member initializers in header : int{10}
 use profiling tools to optimize (memory access, cache miss, page fault, branch prediction) / gprof (profiling) and gcov (coverage testing)
 don't render at infinite speed, implement framerate
-use C++ cout << "text" << endl; style instead of C printf("text") style
-
-mark methods that won’t be implemented with '= delete' (C++11), example for private copy constructor and operator=
-C++ '= default' for default copy constructor, operator=, destructor
+verify 80 characters limit
 
 
 
@@ -65,7 +57,15 @@ manually written Makefile : debug or release configuration ? ==> the two, all (d
 choose warning and optimization flags
 compile with Clang (LLVM)
 use new C++11 auto keywork
+Add const keyword on methods parameters and core. (const value param only in definition, not declaration)
+Pass object by reference instead of value
+as much as possible, do not define nor declare default copy constructor or assignement operator and use the compiler-generated one (OK if not using pointers etc.)
 explicitly define the 6 special member functions : default ctor, copy ctor, move ctor, copy assignment op, move assignment op, dtor
+use C++ cout << "text" << endl; style instead of C printf("text") style
+mark methods that won’t be implemented with '= delete' (C++11), example for private copy constructor and operator=
+C++ '= default' for default copy constructor, operator=, destructor
+you shouldn't do "using namespace X" within a header file because it forces namespace pollution and subverts the namespaces
+control namespaces
 
 
 

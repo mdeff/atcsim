@@ -24,8 +24,8 @@ public:
   
   // There is no default constructor.
   Airplane() = delete;
-  Airplane(int identification, int altitude, float cape,
-           int velocity, Point initialPosition);
+  Airplane(unsigned int number, unsigned int identification, unsigned int
+           altitude, float cape, int velocity, Point initialPosition);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
   Airplane(const Airplane& orig) = default;
@@ -39,7 +39,7 @@ public:
   virtual ~Airplane() throw() = default;
   
   // Redefinition of virtual methods inherited from Entity class.
-  virtual void compute(enum PosType posType) final;
+  virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) final;
   virtual void render(Surface& displaySurf) const final;
     
   // Redirection method used to implement double dispatching (visitor pattern).
@@ -48,6 +48,9 @@ public:
   // Return the airplane position.
   const struct Point* getPosition(enum PosType posType) const;
   
+  // Return the airplane position.
+  unsigned int getAltitude() const;
+  
   // Reset the simulation attributes.
   virtual void resetSimulation() final;
   
@@ -55,19 +58,23 @@ protected:
   
 private:
   
-  int identification_; // Flight number.
-  int altitude_;
+  unsigned int number_; // Airplane number, used to place side panel informations.
+  unsigned int identification_; // Flight number.
+  unsigned int altitude_;
   
   // It indicates if future collisions with some entities are predicted.
   struct EntityTypes predictedCollision_;
   
   // Collision handling functions : take different actions based on entity type.
-  virtual void checkForCollision(const Airplane* airplane, enum PosType posType) final;
-  virtual void checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) final;
-  virtual void checkForCollision(const Cloud* cloud, enum PosType posType) final;
+  virtual void checkForCollision(const Airplane* airplane,
+                                 enum PosType posType) final;
+  virtual void checkForCollision(const ForbiddenZone* forbiddenZone,
+                                 enum PosType posType) final;
+  virtual void checkForCollision(const Cloud* cloud,
+                                 enum PosType posType) final;
   
   // Print informations about the airplane on the side panel.
-  void printSidePanelInfo() const;
+  void printSidePanelInfo(Surface& displaySurf) const;
   
 };
 

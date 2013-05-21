@@ -36,7 +36,7 @@ void Entity::resetSimulation() {
 
 
 
-void Entity::computeMovement(enum PosType posType) {
+void Entity::computeMovement(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
   
   Point* position;
   
@@ -55,8 +55,8 @@ void Entity::computeMovement(enum PosType posType) {
   
   // Compute new position based on current velocity, cape and game framerate.
   // Divide by 50 to convert airplane speed from km/h (around 800) to pixel/s.
-  if (position->x < WINDOWXSIZE && position->x > 0 &&
-      position->y < WINDOWYSIZE && position->y > 0) {
+  if (position->x < gameFieldWidth && position->x > 0 &&
+      position->y < gameFieldHeight && position->y > 0) {
     position->x += float(velocity_) * float(std::cos(cape_*pi/180))
                    / 50.0f / float(FPS::getFPS());
     position->y -= float(velocity_) * float(std::sin(cape_*pi/180))

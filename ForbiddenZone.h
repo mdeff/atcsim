@@ -33,7 +33,7 @@ public:
   virtual ~ForbiddenZone() throw() = default;
   
   // Redeclaration of virtual methods inherited from Entity class.
-  virtual void compute(enum PosType posType) final;
+  virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) final;
   
   // Redirection method used to implement double dispatching (visitor pattern).
   virtual void checkForCollisionDispatch(Entity& entity, enum PosType posType) const final;

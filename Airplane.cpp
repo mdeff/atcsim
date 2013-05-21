@@ -18,21 +18,23 @@
 
 
 
-Airplane::Airplane(const int identification, const int altitude, const float cape,
-                   const int velocity, const Point initialPosition)
+Airplane::Airplane(unsigned int number, unsigned int identification, unsigned int
+                   altitude, float cape, int velocity, Point initialPosition)
 :
 Entity(cape, velocity, initialPosition), // Parent constructor.
+number_(number),
 identification_(identification), // Flight number.
-altitude_(altitude)
+altitude_(altitude),
+predictedCollision_()
 {
 }
 
 
 
-void Airplane::compute(enum PosType posType) {
+void Airplane::compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
     
   // This entity can move, we have to compute it.
-  this->computeMovement(posType);
+  this->computeMovement(posType, gameFieldWidth, gameFieldHeight);
   
 }
 
@@ -51,14 +53,15 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
   
   // Collision if the distance between 2 airplanes is smaller than DMINCOL.
   if (std::sqrt(std::pow(airplane1Pos->x - airplane2Pos->x, 2) +
-                std::pow(airplane1Pos->y - airplane2Pos->y, 2)) < DMINCOL) {
+          std::pow(airplane1Pos->y - airplane2Pos->y, 2)) < DMINCOL &&
+          static_cast<unsigned int>(std::abs(int(altitude_) -
+          int(airplane->getAltitude()))) < DMINVERTCOL) {
     switch (posType) {
       case realPosition:
         std::cout << "Collision with an airplane." << std::endl;
         break;
       case simPosition:
         predictedCollision_.airplane = true;
-//        std::cout << "A collision with an airplane will occure." << std::endl;
     }
   }
     
@@ -77,7 +80,6 @@ void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosTyp
         break;
       case simPosition:
         predictedCollision_.forbiddenZone = true;
-//        std::cout << "A collision with a forbidden zone will occure." << std::endl;
     }
   }
 }
@@ -95,7 +97,6 @@ void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) {
         break;
       case simPosition:
         predictedCollision_.cloud = true;
-//        std::cout << "A collision with a cloud will occure." << std::endl;
     }
   }  
 }
@@ -103,13 +104,21 @@ void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) {
 
 
 const struct Point* Airplane::getPosition(enum PosType posType) const {
+  const struct Point* position;
   switch (posType) {
     case realPosition:
-      return &realPosition_;
+      position = &realPosition_;
       break;
     case simPosition:
-      return &simPosition_;
+      position = &simPosition_;
   }
+  return position;
+}
+
+
+
+unsigned int Airplane::getAltitude() const {
+  return altitude_;
 }
 
 
@@ -131,12 +140,14 @@ void Airplane::render(Surface& displaySurf) const {
   // SDL_ttf is a text rendering engine, not a text layout engine.
   // So it doesn't print "\n".
   
-  Surface textSurf1(labelLine1, 255, 0, 0,
-                   "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf", 14);
-  Surface textSurf2(labelLine2, 0, 0, 0,
-                   "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 14);
-  Surface textSurf3(labelLine3, 0, 0, 0,
-                   "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 14);
+  // Default text color is black, become red if warning.
+  uint8_t redColorLine1 = 0;
+  if (predictedCollision_.cloud || predictedCollision_.forbiddenZone || predictedCollision_.airplane)
+    redColorLine1 = 255;
+  
+  Surface textSurf1(labelLine1, redColorLine1, 0, 0, BOLDFONT, 14);
+  Surface textSurf2(labelLine2, 0, 0, 0, STDFONT, 14);
+  Surface textSurf3(labelLine3, 0, 0, 0, STDFONT, 14);
   
   // Create a new suface with the size of the airplane image.
   Surface airplaneSurf(21, 21);
@@ -155,17 +166,41 @@ void Airplane::render(Surface& displaySurf) const {
   displaySurf.blit(textSurf3, int16_t(realPosition_.x-20), int16_t(realPosition_.y+45));
   
   // Print airplane informations on the side panel.
-  this->printSidePanelInfo();
+  this->printSidePanelInfo(displaySurf);
 }
 
 
 
-void Airplane::printSidePanelInfo() const {
-  if (predictedCollision_.airplane == true)
-    std::cout << "A collision with an airplane will occure." << std::endl;
-  if (predictedCollision_.cloud == true)
-    std::cout << "A collision with a cloud will occure." << std::endl;
-  if (predictedCollision_.forbiddenZone == true)
-    std::cout << "A collision with a forbidden zone will occure." << std::endl;
+void Airplane::printSidePanelInfo(Surface& displaySurf) const {
+  
+  const std::string labelLine1 = "Airplane ID " + std::to_string(identification_);
+  std::string labelLine2 = "OK";
+  
+  // Default text color is black, become red if warning.
+  uint8_t redColorLine2 = 0;
+  uint8_t greenColorLine2 = 128;
+  
+  if (predictedCollision_.cloud) {
+    labelLine2 = "Warning: turbulence zone !";
+    redColorLine2 = 255;
+    greenColorLine2 = 128;
+  }
+  if (predictedCollision_.forbiddenZone) {
+    labelLine2 = "Danger: forbidden zone !";
+    redColorLine2 = 255;
+    greenColorLine2 = 0;
+  }
+  if (predictedCollision_.airplane) {
+    labelLine2 = "Danger: airplane collision !";
+    redColorLine2 = 255;
+    greenColorLine2 = 0;
+  }
+  
+  Surface textSurf1(labelLine1, 0, 0, 0, BOLDFONT, 14);
+  Surface textSurf2(labelLine2, redColorLine2, greenColorLine2, 0, STDFONT, 14);
+  
+  displaySurf.blit(textSurf1, 810, int16_t((number_-1) * 70 + 20));
+  displaySurf.blit(textSurf2, 820, int16_t((number_-1) * 70 + 40));
+  
 }
 
