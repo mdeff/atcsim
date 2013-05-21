@@ -54,13 +54,24 @@ public:
   // Reset the simulation attributes.
   virtual void resetSimulation() final;
   
+  // Check if a mouse click is on the airplane, and select it accordingly.
+  virtual bool checkMouseClick(int mX, int mY) const final;
+  virtual bool isSelected() const final;
+  virtual void select(bool status) final;
+  
 protected:
   
 private:
   
-  unsigned int number_; // Airplane number, used to place side panel informations.
-  unsigned int identification_; // Flight number.
+  // Airplane number, used to place side panel informations.
+  unsigned int number_;
+  
+  // Airplane specific attributes : flight number and altitude.
+  unsigned int identification_;
   unsigned int altitude_;
+  
+  // Indicate if the airplane is selected by the user.
+  bool selected_;
   
   // It indicates if future collisions with some entities are predicted.
   struct EntityTypes predictedCollision_;

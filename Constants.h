@@ -33,5 +33,10 @@ const unsigned int DMINVERTCOL(200);
 // Define the number of ticks used to predict future collisions.
 const unsigned int NTICKSCOL(200);
 
+// Define the minimum distance (in pixels) the user can click aside the airplane
+// center to select it.
+const unsigned int DMINCLICK(30);
+
+
 #endif	/* CONSTANTS_H */
 

@@ -25,6 +25,7 @@ Entity(cape, velocity, initialPosition), // Parent constructor.
 number_(number),
 identification_(identification), // Flight number.
 altitude_(altitude),
+selected_(false),
 predictedCollision_()
 {
 }
@@ -132,6 +133,26 @@ void Airplane::resetSimulation() {
 
 
 
+bool Airplane::checkMouseClick(int mX, int mY) const {
+  if (std::sqrt(std::pow(realPosition_.x - float(mX), 2) +
+          std::pow(realPosition_.y - float(mY), 2)) < DMINCLICK)
+    return true;
+}
+
+
+
+bool Airplane::isSelected() const {
+  return selected_;
+}
+
+
+
+void Airplane::select(bool status) {
+  selected_ = status;
+}
+
+
+
 void Airplane::render(Surface& displaySurf) const {
     
   const std::string labelLine1 = "ID " + std::to_string(identification_);
@@ -141,34 +162,41 @@ void Airplane::render(Surface& displaySurf) const {
   // So it doesn't print "\n".
   
   // Default text color is black, become red if warning.
-  uint8_t rColorLine1(0), gColorLine1(0);
+  uint8_t red(0), green(0), blue(0);
   if (predictedCollision_.forbiddenZone || predictedCollision_.airplane) {
-    rColorLine1 = 255;
+    red = 255;
   } else if (predictedCollision_.cloud) {
-    rColorLine1 = 255;
-    gColorLine1 = 128;
+    red = 255;
+    green = 128;
   }
   
-  Surface textSurf1(labelLine1, rColorLine1, gColorLine1, 0, BOLDFONT, 14);
+  Surface textSurf1(labelLine1, red, green, blue, BOLDFONT, 14);
   Surface textSurf2(labelLine2, 0, 0, 0, STDFONT, 14);
   Surface textSurf3(labelLine3, 0, 0, 0, STDFONT, 14);
   
   // Create a new suface with the size of the airplane image.
   Surface airplaneSurf(21, 21);
   
-  // Airplane is actually a grey 21x21 pixels rectangle with diagonals.
-  const int grey(100);
-  airplaneSurf.drawRectangle(0, 0, 20, 20, grey, grey, grey, 255);
-  airplaneSurf.drawRectangle(1, 1, 19, 19, grey, grey, grey, 255);
-  airplaneSurf.drawLine(0, 0, 20, 20, grey, grey, grey, 255);
-  airplaneSurf.drawLine(0, 20, 20, 0, grey, grey, grey, 255);
+  // Change airplane color if selected by user.
+  red = green = blue = 100;
+  if (selected_) {
+    red = 150;
+    green = 0;
+    blue = 150;
+  }
+  
+  // Airplane is actually a 21x21 pixels rectangle with diagonals.
+  airplaneSurf.drawRectangle(0, 0, 20, 20, red, green, blue, 255);
+  airplaneSurf.drawRectangle(1, 1, 19, 19, red, green, blue, 255);
+  airplaneSurf.drawLine(0, 0, 20, 20, red, green, blue, 255);
+  airplaneSurf.drawLine(0, 20, 20, 0, red, green, blue, 255);
   
   // Draw a line which indicates the predicted airplane trajectory.
   const float xPred(simPosition_.x - realPosition_.x);
   const float yPred(simPosition_.y - realPosition_.y);
   Surface predTrajectorySurf(int16_t(std::abs(xPred))+1, int16_t(std::abs(yPred))+1);
   predTrajectorySurf.drawLine(int16_t(xPred>0?0:-xPred), int16_t(yPred>0?0:-yPred),
-          int16_t(xPred>0?xPred:0), int16_t(yPred>0?yPred:0), grey, grey, grey, 255);
+          int16_t(xPred>0?xPred:0), int16_t(yPred>0?yPred:0), red, green, blue, 255);
   displaySurf.blit(predTrajectorySurf,
           int16_t(xPred>0?realPosition_.x:realPosition_.x+xPred),
           int16_t(yPred>0?realPosition_.y:realPosition_.y+yPred));

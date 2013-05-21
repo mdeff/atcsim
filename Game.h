@@ -45,7 +45,8 @@ public:
   // This method handles all input events from the mouse, keyboard, joysticks,
   // or other devices.
   void handleEvent(SDL_Event& event);
-  void onExit();
+  virtual void onExit() final;
+  virtual void onLButtonDown(int mX, int mY) final;
   
 protected:
   

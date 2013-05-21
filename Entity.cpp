@@ -36,6 +36,22 @@ void Entity::resetSimulation() {
 
 
 
+bool Entity::checkMouseClick(int mX, int mY) const {
+  return false;
+}
+
+
+
+bool Entity::isSelected() const {
+  return false;
+}
+
+
+
+void Entity::select(bool status) {}
+
+
+
 void Entity::computeMovement(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
   
   Point* position;

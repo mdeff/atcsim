@@ -154,6 +154,23 @@ void Game::onExit() {
 
 
 
+void Game::onLButtonDown(int mX, int mY) {
+  // Check if the click was on an airplane
+  for (auto& entity1 : entities_) {
+    if (entity1->checkMouseClick(mX, mY)) {
+      entity1->select(!entity1->isSelected());
+      for (auto& entity2 : entities_) {
+        if (entity1 != entity2) {
+          entity2->select(false);
+        }
+      }
+      break;
+    }
+  }
+}
+
+
+
 void Game::handleEvent(SDL_Event& event) {
   Events::handleEvent(event);
 }

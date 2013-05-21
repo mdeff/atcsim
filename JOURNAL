@@ -89,6 +89,8 @@
   -- create a printSidePanelInfo that will print some informations (like warnings) about airplane on the side panel
   -- Airplane::render : draw a line which indicates the predicted airplane trajectory
   -- commit exercise P11 : warning messages
+  -- implement airplane selection using onLButtonDown, only one airplane can be selected at a time
+  -- change airplane color when selected
   
 
 

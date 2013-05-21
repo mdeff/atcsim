@@ -57,6 +57,11 @@ public:
   // Reset the simulation attributes.
   virtual void resetSimulation();
   
+  // Check if a mouse click is on the entity (do nothing by default).
+  virtual bool checkMouseClick(int mX, int mY) const;
+  virtual bool isSelected() const;
+  virtual void select(bool status);
+  
 protected:
     
   // Compute the movement of an entity.
