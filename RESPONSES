@@ -32,3 +32,12 @@ implémentation n'utilise pas ces deux méthodes mais une méthode
 checkForCollision qui prends effectivement une référence sur une entité comme
 paramètre.
 
+[Question P6.1]
+
+Collision prediction is implemented using the already developed computeMovement
+and checkForCollision methods. We only introduce an argument indicating if we
+act on the real position or on a simulated position. The simulated position is
+reinitialized to the real position on each tick by the resetSimulation method,
+before we start to simulate.
+
+
