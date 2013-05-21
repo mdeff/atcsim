@@ -25,7 +25,7 @@ different typecasting : http://www.cplusplus.com/doc/tutorial/typecasting/
 templates and generic programming
 C++11 attributes In-class member initializers in header : int{10}
 use profiling tools to optimize (memory access, cache miss, page fault, branch prediction) / gprof (profiling) and gcov (coverage testing)
-don't render at infinite speed, implement framerate
+don't render at infinite speed, implement maximum framerate (will limit the variance of trajectory prediction)
 verify 80 characters limit
 
 

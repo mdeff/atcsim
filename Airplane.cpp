@@ -141,11 +141,15 @@ void Airplane::render(Surface& displaySurf) const {
   // So it doesn't print "\n".
   
   // Default text color is black, become red if warning.
-  uint8_t redColorLine1 = 0;
-  if (predictedCollision_.cloud || predictedCollision_.forbiddenZone || predictedCollision_.airplane)
-    redColorLine1 = 255;
+  uint8_t rColorLine1(0), gColorLine1(0);
+  if (predictedCollision_.forbiddenZone || predictedCollision_.airplane) {
+    rColorLine1 = 255;
+  } else if (predictedCollision_.cloud) {
+    rColorLine1 = 255;
+    gColorLine1 = 128;
+  }
   
-  Surface textSurf1(labelLine1, redColorLine1, 0, 0, BOLDFONT, 14);
+  Surface textSurf1(labelLine1, rColorLine1, gColorLine1, 0, BOLDFONT, 14);
   Surface textSurf2(labelLine2, 0, 0, 0, STDFONT, 14);
   Surface textSurf3(labelLine3, 0, 0, 0, STDFONT, 14);
   
@@ -159,11 +163,21 @@ void Airplane::render(Surface& displaySurf) const {
   airplaneSurf.drawLine(0, 0, 20, 20, grey, grey, grey, 255);
   airplaneSurf.drawLine(0, 20, 20, 0, grey, grey, grey, 255);
   
+  // Draw a line which indicates the predicted airplane trajectory.
+  const float xPred(simPosition_.x - realPosition_.x);
+  const float yPred(simPosition_.y - realPosition_.y);
+  Surface predTrajectorySurf(int16_t(std::abs(xPred))+1, int16_t(std::abs(yPred))+1);
+  predTrajectorySurf.drawLine(int16_t(xPred>0?0:-xPred), int16_t(yPred>0?0:-yPred),
+          int16_t(xPred>0?xPred:0), int16_t(yPred>0?yPred:0), grey, grey, grey, 255);
+  displaySurf.blit(predTrajectorySurf,
+          int16_t(xPred>0?realPosition_.x:realPosition_.x+xPred),
+          int16_t(yPred>0?realPosition_.y:realPosition_.y+yPred));
+  
   // Draw the airplane and his related text informations at it's actual position.
   displaySurf.blit(airplaneSurf, int16_t(realPosition_.x-10), int16_t(realPosition_.y-10));
-  displaySurf.blit(textSurf1, int16_t(realPosition_.x-20), int16_t(realPosition_.y+15));
-  displaySurf.blit(textSurf2, int16_t(realPosition_.x-20), int16_t(realPosition_.y+30));
-  displaySurf.blit(textSurf3, int16_t(realPosition_.x-20), int16_t(realPosition_.y+45));
+  displaySurf.blit(textSurf1,    int16_t(realPosition_.x-20), int16_t(realPosition_.y+15));
+  displaySurf.blit(textSurf2,    int16_t(realPosition_.x-20), int16_t(realPosition_.y+30));
+  displaySurf.blit(textSurf3,    int16_t(realPosition_.x-20), int16_t(realPosition_.y+45));
   
   // Print airplane informations on the side panel.
   this->printSidePanelInfo(displaySurf);
@@ -177,30 +191,27 @@ void Airplane::printSidePanelInfo(Surface& displaySurf) const {
   std::string labelLine2 = "OK";
   
   // Default text color is black, become red if warning.
-  uint8_t redColorLine2 = 0;
-  uint8_t greenColorLine2 = 128;
+  uint8_t rColorLine2(0), gColorLine2(128);
   
-  if (predictedCollision_.cloud) {
-    labelLine2 = "Warning: turbulence zone !";
-    redColorLine2 = 255;
-    greenColorLine2 = 128;
-  }
-  if (predictedCollision_.forbiddenZone) {
-    labelLine2 = "Danger: forbidden zone !";
-    redColorLine2 = 255;
-    greenColorLine2 = 0;
-  }
   if (predictedCollision_.airplane) {
     labelLine2 = "Danger: airplane collision !";
-    redColorLine2 = 255;
-    greenColorLine2 = 0;
+    rColorLine2 = 255;
+    gColorLine2 = 0;
+  } else if (predictedCollision_.forbiddenZone) {
+    labelLine2 = "Danger: forbidden zone !";
+    rColorLine2 = 255;
+    gColorLine2 = 0;
+  } else if (predictedCollision_.cloud) {
+    labelLine2 = "Warning: turbulence zone !";
+    rColorLine2 = 255;
+    gColorLine2 = 128;
   }
   
+  
   Surface textSurf1(labelLine1, 0, 0, 0, BOLDFONT, 14);
-  Surface textSurf2(labelLine2, redColorLine2, greenColorLine2, 0, STDFONT, 14);
+  Surface textSurf2(labelLine2, rColorLine2, gColorLine2, 0, STDFONT, 14);
   
   displaySurf.blit(textSurf1, 810, int16_t((number_-1) * 70 + 20));
   displaySurf.blit(textSurf2, 820, int16_t((number_-1) * 70 + 40));
-  
 }
 
