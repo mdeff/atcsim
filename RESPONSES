@@ -40,4 +40,17 @@ act on the real position or on a simulated position. The simulated position is
 reinitialized to the real position on each tick by the resetSimulation method,
 before we start to simulate.
 
+[Question P7.1] 
+
+La calculation de la prochaine position XY (Entity::computeMovement) n'a pas été
+changé pour la gestion des virages. Nous avons cependant implémenté une
+nouvelle méthode (Entity::updateCape) qui met à jour le cap courant
+(currentCape_) en le faisant convergé à chaque tick vers le cap cible 
+(targetCape_), définit par l'utilisateur. La vitesse de rotation, en degrés par
+seconde, est définie par une constante (DELTAANGLE). Les méthodes
+Entity::computeMovement et Entity::updateCape sont appelées par les méthodes
+compute. Par exemple Airplane::compute appelle les deux, tandis que
+ForbiddenZone::compute n'en appelle aucune. Cloud::compute appelle quant à elle
+uniquement Entity::computeMovement car il n'y a pas de modification de cape sur
+les nuages.
 

@@ -103,5 +103,6 @@
   -- draw a line between airplane and mouse during cape modification (easier for user to identify the new cape) (Airplane::traceLineFromAirplane)
   -- change Surface class to use SDL TTF_RenderUTF8_Solid for unicode text rendering (used by degree sign)
   -- commit exercise P13 : airplane turn management
+  -- answer question P7.1 (RESPONSES file)
 
 
