@@ -5,17 +5,19 @@
  * Created on 11. avril 2013, 17:50
  */
 
-#include <cmath>    // For std::cos() and std::sin().
+#include <cmath>
+#include <algorithm>    // For std::cos() and std::sin().
 
 #include "Constants.h"
 #include "Entity.h"
-#include "FPS.h"
+#include "Framerate.h"
 
 
 
 Entity::Entity(float cape, int velocity, Point initialPosition)
 :
-cape_(cape),
+currentCape_(cape),
+targetCape_(cape),
 velocity_(velocity),
 realPosition_(initialPosition), // Entity initial position.
 simPosition_(initialPosition),
@@ -49,17 +51,24 @@ void Entity::setSelected(bool selected) {
 
 
 
-void Entity::changeCape(int x, int y) {
-  printf("Change cape.\n");
+void Entity::setTargetCape(Point point) {
+  // cape = sin ( dx / dy )
+  float dx = point.x - realPosition_.x;
+  float dy = realPosition_.y - point.y;
+  targetCape_ = 180/PI * std::atan(dy / dx);
+  // Arctan return angle of +-90°, we want 0° to 360°.
+  if (dx < 0)
+    targetCape_ = targetCape_ + 180;
+  else if (dy < 0)
+    targetCape_ = targetCape_ + 360;
 }
 
 
 
 void Entity::computeMovement(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
   
-  Point* position;
-  
   // Select the position to modify.
+  Point* position;
   switch (posType) {
     case realPosition:
       position = &realPosition_;
@@ -68,19 +77,40 @@ void Entity::computeMovement(enum PosType posType, int gameFieldWidth, int gameF
       position = &simPosition_;
   }
   
-  // Pi is needed to convert from degrees to gradiant. We could also have used
-  // M_PI (defined in math.h) but it's not standard C++, althought POSIX.
-  const float pi = std::atan(1.0f) * 4.0f;
-  
   // Compute new position based on current velocity, cape and game framerate.
-  // Divide by 50 to convert airplane speed from km/h (around 800) to pixel/s.
   if (position->x < gameFieldWidth && position->x > 0 &&
       position->y < gameFieldHeight && position->y > 0) {
-    position->x += float(velocity_) * float(std::cos(cape_*pi/180))
-                   / 50.0f / float(FPS::getFPS());
-    position->y -= float(velocity_) * float(std::sin(cape_*pi/180))
-                   / 50.0f / float(FPS::getFPS());
+    position->x += float(velocity_) * std::cos(currentCape_*PI/180.0f)
+                   / SPEEDCONVERT / float(Framerate::getFPS());
+    position->y -= float(velocity_) * std::sin(currentCape_*PI/180.0f)
+                   / SPEEDCONVERT / float(Framerate::getFPS());
   }
+  
+}
+
+
+
+void Entity::updateCape() {
+  
+  // Determine if a zero-crossing is shorter.
+  if (std::abs(currentCape_+360.0f-targetCape_) < std::abs(currentCape_-targetCape_))
+    currentCape_ += 360.0f;
+  else if (std::abs(currentCape_-360.0f-targetCape_) < std::abs(currentCape_-targetCape_))
+    currentCape_ -= 360.0f;
+  
+  // Increment or decrement the current cape, with a bound to target cape.
+  // Consider framerate for computation.
+  float delta(DELTAANGLE / float(Framerate::getFPS()));
+  if (currentCape_ < targetCape_)
+    currentCape_ = std::min(currentCape_+delta, targetCape_);
+  else if (currentCape_ > targetCape_)
+    currentCape_ = std::max(currentCape_-delta, targetCape_);
+  
+  // Correct current cape to stay in [0;360[ range.
+  if (currentCape_ >= 360.0f)
+    currentCape_ -= 360.0f;
+  else if (currentCape_ < 0.0f)
+    currentCape_ += 360.0f;
   
 }
 

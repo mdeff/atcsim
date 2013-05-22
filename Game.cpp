@@ -13,7 +13,7 @@
 #include "Constants.h"
 #include "Entity.h"
 #include "ForbiddenZone.h"
-#include "FPS.h"
+#include "Framerate.h"
 #include "Game.h"
 #include "Surface.h"
 
@@ -31,13 +31,13 @@ entities_() {
 
   // Add airplanes, forbidden zones and clouds to the heterogeneous collection.
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(1, 1111, 8000, 10.0f, 800, Point(40, 400))));
+          new Airplane(1, "AA293", 8000, 10.0f, 800, Point(40, 400))));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(2, 222222222, 9811, 90.3f, 600, Point(200, 400))));
+          new Airplane(2, "LX8829", 9811, 90.3f, 600, Point(200, 400))));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(3, 33, 7510, -12.2f, 700, Point(350, 250))));
+          new Airplane(3, "DLH22", 7510, 347.8f, 700, Point(350, 250))));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(4, 44444, 7440, 180.0f, 400, Point(750, 300))));
+          new Airplane(4, "BER120", 7440, 180.0f, 400, Point(750, 300))));
 
   entities_.push_back(std::unique_ptr<Entity > (
           new ForbiddenZone({0, 250, 400,   0},
@@ -78,7 +78,7 @@ bool Game::getState() const {
 void Game::compute() {
 
   // Compute the framerate.
-  FPS::compute();
+  Framerate::compute();
 
   // Do necessary computations for the airplanes, forbidden zones and clouds.
   // Mostly movement calculation.
@@ -127,7 +127,7 @@ void Game::render() {
 
   // Set the window title.
   const std::string windowTitle = "Air Traffic Control simulator, CS-118 project, EPFL"
-                                  "\t" + std::to_string(FPS::getFPS()) + " FPS";
+                                  "\t" + std::to_string(Framerate::getFPS()) + " FPS";
   SDL_WM_SetCaption(windowTitle.c_str(), nullptr);
   
   // Blit the background image on the window.
@@ -157,35 +157,30 @@ void Game::onExit() {
 void Game::onLButtonDown(int mX, int mY) {
   
   Entity* selectedEntity(nullptr);
-  bool newSelection(false);
+  Entity* clickedEntity(nullptr);
   
-  for (auto& entity1 : entities_) {
+  for (auto& entity : entities_) {
     
-    // Initialize a pointer to the selected entity,
-    // to set new cape to the right entity.
-    if (entity1->getSelected()) {
+    // Get the selected entity.
+    if (entity->getSelected()) {
       // Convert from std::unique_ptr<Entity> to Entity*.
-      selectedEntity = &(*entity1);
+      selectedEntity = &(*entity);
     }
     
     // Check if the click was on an entity.
-    if (entity1->isInside(Point(float(mX), float(mY)), realPosition, true)) {
-      // If yes, then we won't set any new cape, the user action is
-      // entity selection / deselection.
-      newSelection = true;
-      // And we inverse the selected state of this entity.
-      entity1->setSelected(!entity1->getSelected());
+    if (entity->isInside(Point(mX, mY), realPosition, true)) {
+      clickedEntity = &(*entity);
     }
   }
   
+  // An entity was selected and we click somwhere : deselect it and change cape.
   if (selectedEntity != nullptr) {
-    if (newSelection) {
-      // If we selected a new entity, deselect the selected one.
-      selectedEntity->setSelected(false);
-    } else {
-      // If there was a previously selected entity, change his cape.
-      selectedEntity->changeCape(mX, mY);
-    }
+    selectedEntity->setSelected(false);
+    selectedEntity->setTargetCape(Point(mX, mY));
+    
+  // Else if another entity was clicked : select it.
+  } else if (clickedEntity != nullptr) {
+      clickedEntity->setSelected(true);
   }
   
 }

@@ -24,7 +24,7 @@ Polygon(xCorners, yCorners, 0, 0, 255, 128, cape, velocity) // Parent constructo
 void Cloud::compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
   
   // This entity can move, we have to compute it.
-  this->computeMovement(posType, gameFieldWidth, gameFieldHeight);
+  computeMovement(posType, gameFieldWidth, gameFieldHeight);
   
 }
 

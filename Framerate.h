@@ -6,7 +6,7 @@
 #define FPS_H
 
 
-namespace FPS {
+namespace Framerate {
     
 	void compute();
 	unsigned int getFPS();

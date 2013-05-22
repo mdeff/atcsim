@@ -18,6 +18,11 @@ Enguerrand Granoux, enguerrand.granoux@epfl.ch
   make
   ./ATCsim
 
+-----  USAGE  -----
+
+Basic constants (like entity speed control, distance before collision etc.) can
+be changed in Constants.h header file.
+
 -----  very basic GIT WORKFLOW  -----
 
 fetch from the main repository and immediately try to merge :

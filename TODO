@@ -66,6 +66,7 @@ mark methods that won’t be implemented with '= delete' (C++11), example for pr
 C++ '= default' for default copy constructor, operator=, destructor
 you shouldn't do "using namespace X" within a header file because it forces namespace pollution and subverts the namespaces
 control namespaces
+put default arguments in function declaration instead of function definition
 
 
 

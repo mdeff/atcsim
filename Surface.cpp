@@ -103,7 +103,7 @@ Surface::Surface(const std::string text, const uint8_t red, const uint8_t green,
   if (textFont == nullptr)
     throw -1;
 
-  surface_ = TTF_RenderText_Solid(textFont, text.c_str(), textColor);
+  surface_ = TTF_RenderUTF8_Solid(textFont, text.c_str(), textColor);
 
   if (surface_ == nullptr)
     throw -1;

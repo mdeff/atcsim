@@ -13,6 +13,7 @@
 struct Point {
   float x, y;
   Point(float xInit, float yInit) : x(xInit), y(yInit) {}
+  Point(int xInit, int yInit) : x(float(xInit)), y(float(yInit)) {}
 };
 
 

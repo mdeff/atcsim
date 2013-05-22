@@ -58,31 +58,37 @@ public:
   virtual void resetSimulation();
   
   // Check if a point is inside an entity.
-  virtual bool isInside(Point point, enum PosType posType /* = realPosition */,
-                        bool mouse /* = false */) const = 0;
+  virtual bool isInside(Point point, enum PosType posType = realPosition,
+                        bool mouse = false) const = 0;
   
-  // Set or get if the entity is selected.
+  // Get or set if the entity is selected by the user.
   bool getSelected() const;
   void setSelected(bool selected);
   
-  // Change the cape of an entity.
-  void changeCape(int x, int y);
+  // Set the target cape of an entity.
+  void setTargetCape(Point point);
   
 protected:
     
   // Compute the movement of an entity.
   void computeMovement(enum PosType posType, int gameFieldWidth, int gameFieldHeight);
   
-  float cape_;
-  int velocity_;
+  // Update current cape up to target cape.
+  void updateCape();
+  
+  float currentCape_;    // Current cape.
+  float targetCape_;     // Target cape set by the user.
+  
+  int velocity_;         // Entity velocity.
+  
   Point realPosition_;   // Real entity position on XY plane.
   Point simPosition_;    // Simulated entity position on XY plane.
   
-  // Indicate if the airplane is selected by the user.
+  // Indicates if the airplane is selected by the user.
   bool selected_;
   
 private:
-  
+    
   // Collision handling functions : take different actions based on entity type.
   virtual void checkForCollision(const Airplane* airplane,
                                  enum PosType posType);

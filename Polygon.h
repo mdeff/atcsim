@@ -46,8 +46,8 @@ public:
   virtual void render(Surface& displaySurf) const final;
   
   // Check if a point is inside an entity.
-  virtual bool isInside(Point point, enum PosType posType /* = realPosition */,
-                        bool mouse /* = false */) const final;
+  virtual bool isInside(Point point, enum PosType posType = realPosition,
+                        bool mouse = false) const final;
   
 protected:
   

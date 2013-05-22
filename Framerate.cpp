@@ -1,12 +1,12 @@
 //=============================================================================
 #include <SDL/SDL.h>
 
-#include "FPS.h"
+#include "Framerate.h"
 
 
 //=============================================================================
 
-namespace FPS {
+namespace Framerate {
   
   // These variables are only visible from inside this namespace.
   // They cannot be accessed from outside with FPS::oldTime for example.

@@ -24,7 +24,7 @@ public:
   
   // There is no default constructor.
   Airplane() = delete;
-  Airplane(unsigned int number, unsigned int identification, unsigned int
+  Airplane(unsigned int number, std::string identification, unsigned int
            altitude, float cape, int velocity, Point initialPosition);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
@@ -55,8 +55,8 @@ public:
   virtual void resetSimulation() final;
   
   // Check if a point is inside an entity.
-  virtual bool isInside(Point point, enum PosType posType /* = realPosition */,
-                        bool mouse /* = false */) const final;
+  virtual bool isInside(Point point, enum PosType posType = realPosition,
+                        bool mouse = false) const final;
   
 protected:
   
@@ -66,7 +66,7 @@ private:
   unsigned int number_;
   
   // Airplane specific attributes : flight number and altitude.
-  unsigned int identification_;
+  std::string identification_;
   unsigned int altitude_;
   
   // It indicates if future collisions with some entities are predicted.
@@ -82,6 +82,9 @@ private:
   
   // Print informations about the airplane on the side panel.
   void printSidePanelInfo(Surface& displaySurf) const;
+  
+  // Trace a line from the airplane center to an end point.
+  void traceLineFromAirplane(Surface& displaySurf, Point endPoint, uint8_t red, uint8_t green, uint8_t blue) const;
   
 };
 
