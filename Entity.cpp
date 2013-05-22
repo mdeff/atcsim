@@ -29,6 +29,7 @@ selected_(false)
 
 void Entity::checkForCollision(const Airplane* airplane, enum PosType posType) {}
 void Entity::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {}
+void Entity::checkForCollision(const Airway* airway, enum PosType posType) {}
 void Entity::checkForCollision(const Cloud* cloud, enum PosType posType) {}
 
 

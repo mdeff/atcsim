@@ -9,7 +9,7 @@
 #define	POLYGONS_H
 
 
-#include <cstddef>  // Definition of size_t.
+#include <cstddef>   // Definition of size_t.
 #include <cstdint>   // Definitions of uint8_t and int16_t.
 #include <vector>
 

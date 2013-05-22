@@ -9,6 +9,7 @@
 
 
 #include "Airplane.h"
+#include "Airway.h"
 #include "Cloud.h"
 #include "Constants.h"
 #include "Entity.h"
@@ -29,7 +30,31 @@ gameFieldWidth_(background_.getWidth()),
 gameFieldHeight_(background_.getHeight()),
 entities_() {
 
-  // Add airplanes, forbidden zones and clouds to the heterogeneous collection.
+  // Add airplanes, airways, forbidden zones and clouds to the heterogeneous collection.
+  entities_.push_back(std::unique_ptr<Entity > (
+          new Airway({0, 250, 300,   0},
+                     {0,   0, 200, 300})));
+  entities_.push_back(std::unique_ptr<Entity > (
+          new Airway({  0, 160, 260, 310, 290,   0},
+                     {500, 350, 350, 450, 551, 551})));
+  entities_.push_back(std::unique_ptr<Entity > (
+          new Airway({450, 800, 800, 650, 630, 480},
+                     {  0,   0, 350, 330, 190, 150})));
+  entities_.push_back(std::unique_ptr<Entity > (
+          new Airway({470, 670, 440},
+                     {551, 551, 330})));
+                     
+    entities_.push_back(std::unique_ptr<Entity > (
+          new ForbiddenZone({260, 360, 360, 260},
+                            {150, 150, 250, 250})));
+    entities_.push_back(std::unique_ptr<Entity > (
+          new ForbiddenZone({480, 780, 690, 650},
+                            {150, 120,  20, 330})));
+  
+  entities_.push_back(std::unique_ptr<Entity > (
+          new Cloud({540, 620, 770, 790, 700, 580},
+                    {400, 350, 400, 500, 540, 500}, 124.2f, 200)));
+
   entities_.push_back(std::unique_ptr<Entity > (
           new Airplane(1, "AA293", 8000, 10.0f, 800, Point(40, 400))));
   entities_.push_back(std::unique_ptr<Entity > (
@@ -38,21 +63,7 @@ entities_() {
           new Airplane(3, "DLH22", 7510, 347.8f, 700, Point(350, 250))));
   entities_.push_back(std::unique_ptr<Entity > (
           new Airplane(4, "BER120", 7440, 180.0f, 400, Point(750, 300))));
-
-  entities_.push_back(std::unique_ptr<Entity > (
-          new ForbiddenZone({0, 250, 400,   0},
-                            {0,   0, 200, 200})));
-  entities_.push_back(std::unique_ptr<Entity > (
-          new ForbiddenZone({0,   200, 400, 450, 450,   0},
-                            {500, 350, 350, 450, 551, 551})));
-  entities_.push_back(std::unique_ptr<Entity > (
-          new ForbiddenZone({500, 800, 800, 600},
-                            {  0,   0, 250, 200})));
-
-  entities_.push_back(std::unique_ptr<Entity > (
-          new Cloud({540, 620, 770, 790, 700, 580},
-                    {400, 350, 400, 500, 540, 500}, 124.2f, 200)));
-
+  
   // Draw the side panel background (white with black outline).
   sidePanel_.drawFilledRectangle(0, 0, 199, 550, 255, 255, 255, 255);
   sidePanel_.drawRectangle(0, 0, 199, 550, 0, 0, 0, 255);

@@ -14,6 +14,7 @@
 
 // Forward declarations (no header includes) (namespace pollution, build time).
 class Airplane;
+class Airway;
 class Cloud;
 class ForbiddenZone;
 class Surface;
@@ -23,6 +24,7 @@ class Entity {
   
   // Theses classes need access to checkForCollision() private methods.
   friend class Airplane;
+  friend class Airway;
   friend class Cloud;
   friend class ForbiddenZone;
   
@@ -93,6 +95,8 @@ private:
   virtual void checkForCollision(const Airplane* airplane,
                                  enum PosType posType);
   virtual void checkForCollision(const ForbiddenZone* forbiddenZone,
+                                 enum PosType posType);
+  virtual void checkForCollision(const Airway* airway,
                                  enum PosType posType);
   virtual void checkForCollision(const Cloud* cloud,
                                  enum PosType posType);

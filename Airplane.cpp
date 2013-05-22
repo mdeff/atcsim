@@ -13,6 +13,7 @@
 #include "SDL/SDL_mouse.h"
 
 #include "Airplane.h"
+#include "Airway.h"
 #include "Cloud.h"
 #include "Constants.h"
 #include "ForbiddenZone.h"
@@ -36,7 +37,8 @@ predictedCollision_()
 void Airplane::compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
   
   // The cape of this entity can change (user input) : compute it.
-  updateCape();
+  if (posType == realPosition)
+    updateCape();
   // This entity can move : compute it.
   computeMovement(posType, gameFieldWidth, gameFieldHeight);
   
@@ -68,7 +70,6 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
         predictedCollision_.airplane = true;
     }
   }
-    
 }
 
 
@@ -84,6 +85,23 @@ void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosTyp
         break;
       case simPosition:
         predictedCollision_.forbiddenZone = true;
+    }
+  }
+}
+
+
+
+void Airplane::checkForCollision(const Airway* airway, enum PosType posType) {
+
+  // Remove points if the airplane is outside an airway.
+    
+  if (airway->isInside(*getPosition(posType), posType, false)) {
+    switch (posType) {
+      case realPosition:
+//        std::cout << "Collision with an airway." << std::endl;
+        break;
+      case simPosition:
+        predictedCollision_.airway = true;
     }
   }
 }
@@ -129,9 +147,7 @@ unsigned int Airplane::getAltitude() const {
 
 void Airplane::resetSimulation() {
   Entity::resetSimulation();
-  predictedCollision_.airplane      = false;
-  predictedCollision_.cloud         = false;
-  predictedCollision_.forbiddenZone = false;
+  predictedCollision_.reset();
 }
 
 
@@ -239,6 +255,10 @@ void Airplane::printSidePanelInfo(Surface& displaySurf) const {
     labelL2 = "Danger: forbidden zone !";
     redL2 = 255;
     greenL2 = 0;
+  } else if (predictedCollision_.airway) {
+    labelL2 = "Warning: out of airway !";
+    redL2 = 255;
+    greenL2 = 128;
   } else if (predictedCollision_.cloud) {
     labelL2 = "Warning: turbulence zone !";
     redL2 = 255;

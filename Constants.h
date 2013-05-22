@@ -13,10 +13,13 @@
 #include <string>
 
 
+// namespace Constants {
+
+
 // Standard and bold fonts.
 #define BOLDFONT "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 //const std::string BOLDFONT = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf";
-//const std::string STDFONT("/usr/share/fonts/truetype/freefont/FreeSans.ttf");
+//const std::strDELTAANGLEing STDFONT("/usr/share/fonts/truetype/freefont/FreeSans.ttf");
 const std::string STDFONT("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf");
 
 // Define the window size. Background image resolution is 800*551.
@@ -30,8 +33,8 @@ const float PI = std::atan(1.0f) * 4.0f;
 // Convert entity speed from km/h (around 800) to pixel/s (divided by SPEEDCONVERT).
 const float SPEEDCONVERT(100.0f);
 
-// Airplane cape can change by this angle (in degree) per second.
-const float DELTAANGLE(0.03f);
+// Airplane cape change speed, in degree per second.
+const float DELTAANGLE(5.0f);
 
 // Define the number of ticks used to predict future collisions.
 const unsigned int NTICKSCOL(400);

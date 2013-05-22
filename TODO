@@ -1,5 +1,12 @@
 -----  TODO  -----
 
+predicted trajectory line isn't always positioned on airplane figure center
+dots for drag beside airplane trajectory
+take into account airplane cape changement for collision prediction ?
+save best scores
+remove points on each cape modification
+remove points if moving out of airways
+
 exception class : fatal (exit), warning
 Implement exceptions handling and throwing (with exception specifications at function declarations), catch (exception& e) (throw std::invalid_argument("id");)
 

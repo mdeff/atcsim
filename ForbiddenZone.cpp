@@ -11,7 +11,7 @@
 ForbiddenZone::ForbiddenZone(const std::vector<int16_t>& xCorners,
                              const std::vector<int16_t>& yCorners)
 :
-Polygon(xCorners, yCorners, 0, 0, 0, 128, 0, 0) // Parent constructor.
+Polygon(xCorners, yCorners, 0, 0, 0, 200, 0, 0) // Parent constructor.
 {
 }
 

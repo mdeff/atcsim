@@ -104,5 +104,6 @@
   -- change Surface class to use SDL TTF_RenderUTF8_Solid for unicode text rendering (used by degree sign)
   -- commit exercise P13 : airplane turn management
   -- answer question P7.1 (RESPONSES file)
+  -- add a new Airway class and design airways, modify forbidden zones, add cardinal points (N,S,E,W) to background image
 
 

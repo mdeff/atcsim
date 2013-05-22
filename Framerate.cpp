@@ -20,7 +20,7 @@ namespace Framerate {
   unsigned int frames(0);
 	unsigned int nFrames(50);
   // Not initialized to zero or we'll get infinite speed.
-    
+  
   
   
   void compute() {

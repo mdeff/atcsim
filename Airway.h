@@ -1,36 +1,36 @@
 /* 
- * File:   ForbiddenZone.h
+ * File:   Airways.h
  * Author: michael
  *
- * Created on 26. mars 2013, 15:21
+ * Created on 23. mai 2013, 00:32
  */
 
-#ifndef FORBIDDENZONE_H
-#define	FORBIDDENZONE_H
+#ifndef AIRWAYS_H
+#define	AIRWAYS_H
 
 
 #include "Polygon.h"
 
 
-class ForbiddenZone : public Polygon {
+class Airway : public Polygon {
   
 public:
   
   // There is no default constructor.
-  ForbiddenZone() = delete;
-  ForbiddenZone(const std::vector<int16_t>& xPoints,
-                const std::vector<int16_t>& yPoints);
+  Airway() = delete;
+  Airway(const std::vector<int16_t>& xPoints,
+         const std::vector<int16_t>& yPoints);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
-  ForbiddenZone(const ForbiddenZone& orig) = default;
-  ForbiddenZone& operator=(const ForbiddenZone& orig) = default;
+  Airway(const Airway& orig) = default;
+  Airway& operator=(const Airway& orig) = default;
   // Use the default (member to member) move ctor and move assignment operator.
-  ForbiddenZone(ForbiddenZone&& orig) = default;
-  ForbiddenZone& operator=(ForbiddenZone&& orig) = default;
+  Airway(Airway&& orig) = default;
+  Airway& operator=(Airway&& orig) = default;
   
   // Default : call base class'es destructor and destructors of all members.
   // Do not throw any exception (which is what we want for a dtor).
-  virtual ~ForbiddenZone() throw() = default;
+  virtual ~Airway() throw() = default;
   
   // Redeclaration of virtual methods inherited from Entity class.
   virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) final;
@@ -45,5 +45,5 @@ private:
 };
 
 
-#endif	/* FORBIDDENZONE_H */
+#endif	/* AIRWAYS_H */
 

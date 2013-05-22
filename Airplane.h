@@ -72,12 +72,16 @@ private:
   // It indicates if future collisions with some entities are predicted.
   struct EntityTypes predictedCollision_;
   
+//  std::queue<Point> pastPositions_;
+  
   // Collision handling functions : take different actions based on entity type.
   virtual void checkForCollision(const Airplane* airplane,
                                  enum PosType posType) final;
-  virtual void checkForCollision(const ForbiddenZone* forbiddenZone,
-                                 enum PosType posType) final;
   virtual void checkForCollision(const Cloud* cloud,
+                                 enum PosType posType) final;
+  virtual void checkForCollision(const Airway* airway,
+                                 enum PosType posType) final;
+  virtual void checkForCollision(const ForbiddenZone* forbiddenZone,
                                  enum PosType posType) final;
   
   // Print informations about the airplane on the side panel.

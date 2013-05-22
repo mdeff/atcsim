@@ -19,8 +19,15 @@ struct Point {
 
 struct EntityTypes {
   bool airplane;
-  bool cloud;
   bool forbiddenZone;
+  bool airway;
+  bool cloud;
+  void reset() {
+    airplane = false;
+    forbiddenZone = false;
+    airway = false;
+    cloud = false;
+  }
 //  EntityTypes() : airplane(false), cloud(false), forbiddenZone(false) {}
 };
 
