@@ -18,7 +18,8 @@ Entity::Entity(float cape, int velocity, Point initialPosition)
 cape_(cape),
 velocity_(velocity),
 realPosition_(initialPosition), // Entity initial position.
-simPosition_(initialPosition)
+simPosition_(initialPosition),
+selected_(false)
 {
 }
 
@@ -36,19 +37,21 @@ void Entity::resetSimulation() {
 
 
 
-bool Entity::checkMouseClick(int mX, int mY) const {
-  return false;
+bool Entity::getSelected() const {
+  return selected_;
 }
 
 
 
-bool Entity::isSelected() const {
-  return false;
+void Entity::setSelected(bool selected) {
+  selected_ = selected;
 }
 
 
 
-void Entity::select(bool status) {}
+void Entity::changeCape(int x, int y) {
+  printf("Change cape.\n");
+}
 
 
 

@@ -91,6 +91,12 @@
   -- commit exercise P11 : warning messages
   -- implement airplane selection using onLButtonDown, only one airplane can be selected at a time
   -- change airplane color when selected
-  
+  -- implement isInside method for airplanes which return true if a coordinate is inside it
+
+22.05.2013
+  -- improve airplane selection mechanism in onLButtonDown, run through the entity vector only once
+  -- add a changeCape method in the Entity class (because the Entity class already implement computeMovement, which is the same for all entities)
+  -- call it when an airplane is selected and the user click on the game field
+  -- commit exercise P12 : cape modification
 
 

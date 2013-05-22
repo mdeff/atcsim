@@ -45,7 +45,9 @@ public:
   // Redeclaration of virtual methods inherited from IEntity interface class.
   virtual void render(Surface& displaySurf) const final;
   
-  bool isInside(Point P, enum PosType posType) const;
+  // Check if a point is inside an entity.
+  virtual bool isInside(Point point, enum PosType posType /* = realPosition */,
+                        bool mouse /* = false */) const final;
   
 protected:
   

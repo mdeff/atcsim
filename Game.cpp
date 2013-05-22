@@ -86,7 +86,7 @@ void Game::compute() {
     entity->compute(realPosition, gameFieldWidth_, gameFieldHeight_);
   }
 
-  std::cout << "Check collisions." << std::endl;
+//  std::cout << "Check collisions." << std::endl;
   // Check for collisions between entities.
   for (auto& entity1 : entities_) {
     for (auto& entity2 : entities_) {
@@ -110,7 +110,7 @@ void Game::compute() {
       entity->compute(simPosition, gameFieldWidth_, gameFieldHeight_);
     }
   
-    // Simulate collision cWINDOWXSIZEhecking.
+    // Simulate collision checking.
     for (auto& entity1 : entities_) {
       for (auto& entity2 : entities_) {
         if (entity1 != entity2) {
@@ -155,18 +155,39 @@ void Game::onExit() {
 
 
 void Game::onLButtonDown(int mX, int mY) {
-  // Check if the click was on an airplane
+  
+  Entity* selectedEntity(nullptr);
+  bool newSelection(false);
+  
   for (auto& entity1 : entities_) {
-    if (entity1->checkMouseClick(mX, mY)) {
-      entity1->select(!entity1->isSelected());
-      for (auto& entity2 : entities_) {
-        if (entity1 != entity2) {
-          entity2->select(false);
-        }
-      }
-      break;
+    
+    // Initialize a pointer to the selected entity,
+    // to set new cape to the right entity.
+    if (entity1->getSelected()) {
+      // Convert from std::unique_ptr<Entity> to Entity*.
+      selectedEntity = &(*entity1);
+    }
+    
+    // Check if the click was on an entity.
+    if (entity1->isInside(Point(float(mX), float(mY)), realPosition, true)) {
+      // If yes, then we won't set any new cape, the user action is
+      // entity selection / deselection.
+      newSelection = true;
+      // And we inverse the selected state of this entity.
+      entity1->setSelected(!entity1->getSelected());
     }
   }
+  
+  if (selectedEntity != nullptr) {
+    if (newSelection) {
+      // If we selected a new entity, deselect the selected one.
+      selectedEntity->setSelected(false);
+    } else {
+      // If there was a previously selected entity, change his cape.
+      selectedEntity->changeCape(mX, mY);
+    }
+  }
+  
 }
 
 

@@ -99,7 +99,12 @@ int Polygon::isLeft(const Point& point, size_t p0, size_t p1) const {
 //               V[] = vertex points of a polygon V[n+1] with V[n]!=V[0]
 //      Return:  wn = the winding number (=0 only when P is outside)
 
-bool Polygon::isInside(Point point, enum PosType posType) const {
+bool Polygon::isInside(Point point, enum PosType posType = realPosition,
+                       bool mouse = false) const {
+  
+  // We cannot click on a polygon, so the mouse is never inside it.
+  if (mouse)
+    return false;
   
   int wn = 0;                    // the  winding number counter
   unsigned int n = xCorners_.size() - 1;

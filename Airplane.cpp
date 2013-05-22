@@ -25,7 +25,6 @@ Entity(cape, velocity, initialPosition), // Parent constructor.
 number_(number),
 identification_(identification), // Flight number.
 altitude_(altitude),
-selected_(false),
 predictedCollision_()
 {
 }
@@ -59,7 +58,7 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
           int(airplane->getAltitude()))) < DMINVERTCOL) {
     switch (posType) {
       case realPosition:
-        std::cout << "Collision with an airplane." << std::endl;
+//        std::cout << "Collision with an airplane." << std::endl;
         break;
       case simPosition:
         predictedCollision_.airplane = true;
@@ -74,10 +73,10 @@ void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosTyp
 
   // Terminate the simulation if the airplane is inside a forbidden zone.
     
-  if (forbiddenZone->isInside(*this->getPosition(posType), posType)) {
+  if (forbiddenZone->isInside(*this->getPosition(posType), posType, false)) {
     switch (posType) {
       case realPosition:
-        std::cout << "Collision with a forbidden zone." << std::endl;
+//        std::cout << "Collision with a forbidden zone." << std::endl;
         break;
       case simPosition:
         predictedCollision_.forbiddenZone = true;
@@ -91,10 +90,10 @@ void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) {
 
   // Remove points if the airplane is inside a cloud.
   
-  if (cloud->isInside(*this->getPosition(posType), posType)) {
+  if (cloud->isInside(*this->getPosition(posType), posType, false)) {
     switch (posType) {
       case realPosition:
-        std::cout << "Collision with a cloud." << std::endl;
+//        std::cout << "Collision with a cloud." << std::endl;
         break;
       case simPosition:
         predictedCollision_.cloud = true;
@@ -126,29 +125,31 @@ unsigned int Airplane::getAltitude() const {
 
 void Airplane::resetSimulation() {
   Entity::resetSimulation();
-  this->predictedCollision_.airplane      = false;
-  this->predictedCollision_.cloud         = false;
-  this->predictedCollision_.forbiddenZone = false;
+  predictedCollision_.airplane      = false;
+  predictedCollision_.cloud         = false;
+  predictedCollision_.forbiddenZone = false;
 }
 
 
 
-bool Airplane::checkMouseClick(int mX, int mY) const {
-  if (std::sqrt(std::pow(realPosition_.x - float(mX), 2) +
-          std::pow(realPosition_.y - float(mY), 2)) < DMINCLICK)
+bool Airplane::isInside(Point point, enum PosType posType = realPosition,
+                        bool mouse = false) const {
+  
+  // Select the position from which to test.
+  const Point* position;
+  switch (posType) {
+    case realPosition:
+      position = &realPosition_;
+      break;
+    case simPosition:
+      position = &simPosition_;
+  }
+  
+  if (point.x >= position->x-10 && point.x <= position->x+10 &&
+      point.y >= position->y-10 && point.y <= position->y+10)
     return true;
-}
-
-
-
-bool Airplane::isSelected() const {
-  return selected_;
-}
-
-
-
-void Airplane::select(bool status) {
-  selected_ = status;
+  else
+    return false;
 }
 
 

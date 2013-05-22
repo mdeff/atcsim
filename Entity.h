@@ -57,10 +57,16 @@ public:
   // Reset the simulation attributes.
   virtual void resetSimulation();
   
-  // Check if a mouse click is on the entity (do nothing by default).
-  virtual bool checkMouseClick(int mX, int mY) const;
-  virtual bool isSelected() const;
-  virtual void select(bool status);
+  // Check if a point is inside an entity.
+  virtual bool isInside(Point point, enum PosType posType /* = realPosition */,
+                        bool mouse /* = false */) const = 0;
+  
+  // Set or get if the entity is selected.
+  bool getSelected() const;
+  void setSelected(bool selected);
+  
+  // Change the cape of an entity.
+  void changeCape(int x, int y);
   
 protected:
     
@@ -71,6 +77,9 @@ protected:
   int velocity_;
   Point realPosition_;   // Real entity position on XY plane.
   Point simPosition_;    // Simulated entity position on XY plane.
+  
+  // Indicate if the airplane is selected by the user.
+  bool selected_;
   
 private:
   
