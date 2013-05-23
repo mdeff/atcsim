@@ -11,7 +11,7 @@ namespace Framerate {
 	void compute();
 	unsigned int getFPS();
 	float getSpeedFactor();
-    
+  
 }
 
 

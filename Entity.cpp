@@ -79,8 +79,8 @@ void Entity::computeMovement(enum PosType posType, int gameFieldWidth, int gameF
   }
   
   // Compute new position based on current velocity, cape and game framerate.
-  if (position->x < gameFieldWidth && position->x > 0 &&
-      position->y < gameFieldHeight && position->y > 0) {
+  if (position->x < gameFieldWidth -14 && position->x > 14 &&
+      position->y < gameFieldHeight-14 && position->y > 14) {
     position->x += float(velocity_) * std::cos(currentCape_*PI/180.0f)
                    / SPEEDCONVERT / float(Framerate::getFPS());
     position->y -= float(velocity_) * std::sin(currentCape_*PI/180.0f)

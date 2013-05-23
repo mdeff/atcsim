@@ -107,4 +107,9 @@
   -- add a new Airway class and design airways, modify forbidden zones, add cardinal points (N,S,E,W) to background image
   -- implement airplane in and out cardinal points
 
+23.05.2013
+  -- create Score namespace to manage points (not a class because it's not really an object, it would have been instancied only once)
+  -- airplane initial position based on input cardinal point (N, S, E, W)
+  -- change score when airplane fly out of airways or inside cloud
+
 

@@ -17,15 +17,16 @@
 #include "Cloud.h"
 #include "Constants.h"
 #include "ForbiddenZone.h"
+#include "Score.h"
 #include "Surface.h"
 
 
 
 Airplane::Airplane(unsigned int number, std::string identification, unsigned int
-                   altitude, float cape, int velocity, Point initialPosition,
-                   enum CardinalPoints in, enum CardinalPoints out)
+                   altitude, float cape, int velocity,
+                   struct CardinalPoint in, struct CardinalPoint out)
 :
-Entity(cape, velocity, initialPosition), // Parent constructor.
+Entity(cape, velocity, in.getPosition()), // Parent constructor.
 number_(number),
 identification_(identification), // Flight number.
 altitude_(altitude),
@@ -80,7 +81,7 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
 void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {
 
   // Terminate the simulation if the airplane is inside a forbidden zone.
-    
+  
   if (forbiddenZone->isInside(*getPosition(posType), posType, false)) {
     switch (posType) {
       case realPosition:
@@ -97,11 +98,11 @@ void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosTyp
 void Airplane::checkForCollision(const Airway* airway, enum PosType posType) {
 
   // Remove points if the airplane is outside an airway.
-    
+  
   if (airway->isInside(*getPosition(posType), posType, false)) {
     switch (posType) {
       case realPosition:
-//        std::cout << "Collision with an airway." << std::endl;
+        Score::addPoints(-1.0f);
         break;
       case simPosition:
         predictedCollision_.airway = true;
@@ -118,7 +119,7 @@ void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) {
   if (cloud->isInside(*getPosition(posType), posType, false)) {
     switch (posType) {
       case realPosition:
-//        std::cout << "Collision with a cloud." << std::endl;
+        Score::addPoints(-0.02f);
         break;
       case simPosition:
         predictedCollision_.cloud = true;
@@ -189,9 +190,9 @@ void Airplane::render(Surface& displaySurf) const {
   
   // Default text color is black, become orange if warning, red if danger.
   uint8_t red(0), green(0), blue(0);
-  if (predictedCollision_.forbiddenZone || predictedCollision_.airplane) {
+  if (predictedCollision_.airplane || predictedCollision_.forbiddenZone) {
     red = 255;
-  } else if (predictedCollision_.cloud) {
+  } else if (predictedCollision_.airway || predictedCollision_.cloud) {
     red = 255;
     green = 128;
   }
@@ -233,13 +234,13 @@ void Airplane::render(Surface& displaySurf) const {
   }
   
   // Print airplane informations on the side panel.
-  printSidePanelInfo(displaySurf);
+  renderSidePanelInfo(displaySurf);
   
 }
 
 
 
-void Airplane::printSidePanelInfo(Surface& displaySurf) const {
+void Airplane::renderSidePanelInfo(Surface& displaySurf) const {
   
   const std::string labelL1("Airplane " + identification_);
   const std::string labelL2("in: " + in_.toString() + "    out: " + out_.toString());
@@ -276,6 +277,7 @@ void Airplane::printSidePanelInfo(Surface& displaySurf) const {
   displaySurf.blit(textSurf1, 810, int16_t((number_-1) * 70 + 20));
   displaySurf.blit(textSurf2, 820, int16_t((number_-1) * 70 + 40));
   displaySurf.blit(textSurf3, 820, int16_t((number_-1) * 70 + 60));
+  
 }
 
 

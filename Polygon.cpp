@@ -19,7 +19,9 @@ Polygon::Polygon(const std::vector<int16_t>& xCorners,
                  const uint8_t blue, const uint8_t alpha,
                  const float cape, const int velocity)
 :
-Entity(cape, velocity, Point(*min_element(xCorners.begin(), xCorners.end()), *min_element(yCorners.begin(), yCorners.end()))), // Parent constructor.
+Entity(cape, velocity,Point(
+        *min_element(xCorners.begin(), xCorners.end()),
+        *min_element(yCorners.begin(), yCorners.end()))), // Parent constructor.
 xCorners_(xCorners),
 yCorners_(yCorners),
 xMax_(*max_element(xCorners_.begin(), xCorners_.end())),

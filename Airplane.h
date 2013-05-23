@@ -25,8 +25,8 @@ public:
   // There is no default constructor.
   Airplane() = delete;
   Airplane(unsigned int number, std::string identification, unsigned int
-           altitude, float cape, int velocity, Point initialPosition,
-           enum CardinalPoints in, enum CardinalPoints out);
+           altitude, float cape, int velocity,
+           struct CardinalPoint in, struct CardinalPoint out);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
   Airplane(const Airplane& orig) = default;
@@ -90,7 +90,7 @@ private:
                                  enum PosType posType) final;
   
   // Print informations about the airplane on the side panel.
-  void printSidePanelInfo(Surface& displaySurf) const;
+  void renderSidePanelInfo(Surface& displaySurf) const;
   
   // Trace a line from the airplane center to an end point.
   void traceLineFromAirplane(Surface& displaySurf, Point endPoint, uint8_t red, uint8_t green, uint8_t blue) const;

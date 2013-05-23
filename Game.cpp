@@ -16,6 +16,7 @@
 #include "ForbiddenZone.h"
 #include "Framerate.h"
 #include "Game.h"
+#include "Score.h"
 #include "Surface.h"
 #include "Types.h"
 
@@ -57,19 +58,22 @@ entities_() {
                     {400, 350, 400, 500, 540, 500}, 124.2f, 200)));
 
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(1, "AA293", 8000, 10.0f, 800, Point(40, 400), N, S)));
+          new Airplane(1, "AA293", 8000, 260.4f, 800, CardinalPoint(N), CardinalPoint(S))));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(2, "LX8829", 9811, 90.3f, 600, Point(200, 400), S, W)));
+          new Airplane(2, "LX8829", 9811, 90.3f, 600, CardinalPoint(S), CardinalPoint(W))));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(3, "DLH22", 7510, 347.8f, 700, Point(350, 250), E, S)));
+          new Airplane(3, "DLH22", 7510, 166.8f, 700, CardinalPoint(E), CardinalPoint(S))));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(4, "BER120", 7440, 180.0f, 400, Point(750, 300), N, W)));
+          new Airplane(4, "BER120", 7440, 20.3f, 400, CardinalPoint(W), CardinalPoint(E))));
   
   // Draw the side panel background (white with black outline).
   sidePanel_.drawFilledRectangle(0, 0, 199, 550, 255, 255, 255, 255);
   sidePanel_.drawRectangle(0, 0, 199, 550, 0, 0, 0, 255);
   sidePanel_.drawRectangle(1, 1, 198, 549, 0, 0, 0, 255);
   sidePanel_.drawRectangle(2, 2, 197, 548, 0, 0, 0, 255);
+  sidePanel_.drawLine(0, 480, 199, 480, 0, 0, 0, 255);
+  sidePanel_.drawLine(0, 481, 199, 481, 0, 0, 0, 255);
+  sidePanel_.drawLine(0, 482, 199, 482, 0, 0, 0, 255);
   
 }
 
@@ -147,6 +151,9 @@ void Game::render() {
   
   // Blit the side panel surface on the window.
   window_.blit(sidePanel_, 800, 0);
+  
+  // Render the points on the window.
+  Score::render(window_);
   
   // Render the airplanes, forbidden zones and clouds on the window.
   for (auto& entity : entities_) {

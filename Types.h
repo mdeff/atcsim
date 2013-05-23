@@ -42,16 +42,29 @@ enum PosType {realPosition, simPosition};
 enum CardinalPoints {N, S, E, W};
 
 struct CardinalPoint {
+  
   enum CardinalPoints cardinalPoint;
+  
   CardinalPoint(enum CardinalPoints point) : cardinalPoint(point) {}
+  
+  Point getPosition() const {
+    switch(cardinalPoint) {
+      case N: return Point(359,      0+15); break;
+      case S: return Point(382,    551-15); break;
+      case E: return Point(800-15, 470);    break;
+      case W: return Point(  0+15, 383);    break;
+    }
+  }
+  
   std::string toString() const {
     switch(cardinalPoint) {
       case N: return "North"; break;
-      case S: return "Sud"; break;
-      case E: return "East"; break;
-      case W: return "West"; break;
+      case S: return "Sud";   break;
+      case E: return "East";  break;
+      case W: return "West";  break;
     }
   }
+  
 };
 
 
