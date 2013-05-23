@@ -22,13 +22,16 @@
 
 
 Airplane::Airplane(unsigned int number, std::string identification, unsigned int
-                   altitude, float cape, int velocity, Point initialPosition)
+                   altitude, float cape, int velocity, Point initialPosition,
+                   enum CardinalPoints in, enum CardinalPoints out)
 :
 Entity(cape, velocity, initialPosition), // Parent constructor.
 number_(number),
 identification_(identification), // Flight number.
 altitude_(altitude),
-predictedCollision_()
+predictedCollision_(),
+in_(in),
+out_(out)
 {
 }
 
@@ -239,37 +242,40 @@ void Airplane::render(Surface& displaySurf) const {
 void Airplane::printSidePanelInfo(Surface& displaySurf) const {
   
   const std::string labelL1("Airplane " + identification_);
-  std::string labelL2("OK");
+  const std::string labelL2("in: " + in_.toString() + "    out: " + out_.toString());
+  std::string labelL3("Status: OK");
   
   if (currentCape_ != targetCape_)
-    labelL2 = "Airplane turning !";
+    labelL3 = "Airplane turning !";
   
   // Default text color is black, become red if warning.
-  uint8_t redL2(0), greenL2(128);
+  uint8_t redL2(0), greenL2(160);
   
   if (predictedCollision_.airplane) {
-    labelL2 = "Danger: airplane collision !";
+    labelL3 = "Danger: airplane collision !";
     redL2 = 255;
     greenL2 = 0;
   } else if (predictedCollision_.forbiddenZone) {
-    labelL2 = "Danger: forbidden zone !";
+    labelL3 = "Danger: forbidden zone !";
     redL2 = 255;
     greenL2 = 0;
   } else if (predictedCollision_.airway) {
-    labelL2 = "Warning: out of airway !";
+    labelL3 = "Warning: out of airway !";
     redL2 = 255;
     greenL2 = 128;
   } else if (predictedCollision_.cloud) {
-    labelL2 = "Warning: turbulence zone !";
+    labelL3 = "Warning: turbulence zone !";
     redL2 = 255;
     greenL2 = 128;
   }
   
   Surface textSurf1(labelL1, 0, 0, 0, BOLDFONT, 14);
-  Surface textSurf2(labelL2, redL2, greenL2, 0, STDFONT, 14);
+  Surface textSurf2(labelL2, 0, 0, 0, STDFONT, 14);
+  Surface textSurf3(labelL3, redL2, greenL2, 0, STDFONT, 14);
   
   displaySurf.blit(textSurf1, 810, int16_t((number_-1) * 70 + 20));
   displaySurf.blit(textSurf2, 820, int16_t((number_-1) * 70 + 40));
+  displaySurf.blit(textSurf3, 820, int16_t((number_-1) * 70 + 60));
 }
 
 

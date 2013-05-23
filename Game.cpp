@@ -17,6 +17,7 @@
 #include "Framerate.h"
 #include "Game.h"
 #include "Surface.h"
+#include "Types.h"
 
 
 
@@ -56,13 +57,13 @@ entities_() {
                     {400, 350, 400, 500, 540, 500}, 124.2f, 200)));
 
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(1, "AA293", 8000, 10.0f, 800, Point(40, 400))));
+          new Airplane(1, "AA293", 8000, 10.0f, 800, Point(40, 400), N, S)));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(2, "LX8829", 9811, 90.3f, 600, Point(200, 400))));
+          new Airplane(2, "LX8829", 9811, 90.3f, 600, Point(200, 400), S, W)));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(3, "DLH22", 7510, 347.8f, 700, Point(350, 250))));
+          new Airplane(3, "DLH22", 7510, 347.8f, 700, Point(350, 250), E, S)));
   entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(4, "BER120", 7440, 180.0f, 400, Point(750, 300))));
+          new Airplane(4, "BER120", 7440, 180.0f, 400, Point(750, 300), N, W)));
   
   // Draw the side panel background (white with black outline).
   sidePanel_.drawFilledRectangle(0, 0, 199, 550, 255, 255, 255, 255);

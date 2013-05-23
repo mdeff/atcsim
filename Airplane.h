@@ -25,7 +25,8 @@ public:
   // There is no default constructor.
   Airplane() = delete;
   Airplane(unsigned int number, std::string identification, unsigned int
-           altitude, float cape, int velocity, Point initialPosition);
+           altitude, float cape, int velocity, Point initialPosition,
+           enum CardinalPoints in, enum CardinalPoints out);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
   Airplane(const Airplane& orig) = default;
@@ -71,6 +72,10 @@ private:
   
   // It indicates if future collisions with some entities are predicted.
   struct EntityTypes predictedCollision_;
+  
+  // Airplane in and out cardinal points.
+  struct CardinalPoint in_;
+  struct CardinalPoint out_;
   
 //  std::queue<Point> pastPositions_;
   

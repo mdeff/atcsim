@@ -9,6 +9,9 @@
 #define	TYPES_H
 
 
+#include <string>
+
+
 // Point structure represents entity position on the XY plane.
 struct Point {
   float x, y;
@@ -33,6 +36,23 @@ struct EntityTypes {
 
 
 enum PosType {realPosition, simPosition};
+
+
+// Cardinal points from which airplanes enter and quit simulation.
+enum CardinalPoints {N, S, E, W};
+
+struct CardinalPoint {
+  enum CardinalPoints cardinalPoint;
+  CardinalPoint(enum CardinalPoints point) : cardinalPoint(point) {}
+  std::string toString() const {
+    switch(cardinalPoint) {
+      case N: return "North"; break;
+      case S: return "Sud"; break;
+      case E: return "East"; break;
+      case W: return "West"; break;
+    }
+  }
+};
 
 
 #endif	/* TYPES_H */
