@@ -15,9 +15,9 @@
 
 Polygon::Polygon(const std::vector<int16_t>& xCorners,
                  const std::vector<int16_t>& yCorners,
-                 const uint8_t red, const uint8_t green,
-                 const uint8_t blue, const uint8_t alpha,
-                 const float cape, const int velocity)
+                 uint8_t red, uint8_t green,
+                 uint8_t blue, uint8_t alpha,
+                 float cape, unsigned int velocity)
 :
 Entity(cape, velocity,Point(
         *min_element(xCorners.begin(), xCorners.end()),
@@ -44,8 +44,7 @@ alpha_(alpha) {
 
 void Polygon::render(Surface& displaySurf) const {
   
-  // Create a new suface with the size of the real screen window.  
-//  Surface polygonSurf(displaySurf.getWidth(), displaySurf.getHeight());
+  // Create a new suface with the minimum size.
   Surface polygonSurf(xMax_-int16_t(realPosition_.x)+1, yMax_-int16_t(realPosition_.y)+1);
   
   // Draw a semi-transparent filled polygon for the inside.
@@ -54,8 +53,9 @@ void Polygon::render(Surface& displaySurf) const {
   // Draw an anti-aliased solid polygon for the contour.
   polygonSurf.drawPolygon(xCorners_, yCorners_, red_, green_, blue_, 255);
 
-//  displaySurf.blit(polygonSurf, 0, 0);
+  // Blit the surface.
   displaySurf.blit(polygonSurf, int16_t(realPosition_.x), int16_t(realPosition_.y));
+  
 }
 
 
@@ -111,14 +111,7 @@ bool Polygon::isInside(Point point, enum PosType posType, bool mouse) const {
   unsigned int n = xCorners_.size() - 1;
   
   // Select the position from which to rebase.
-  const Point* position;
-  switch (posType) {
-    case realPosition:
-      position = &realPosition_;
-      break;
-    case simPosition:
-      position = &simPosition_;
-  }
+  const Point* position(getPosition(posType));
   
   // Rebase the entity (airplane) position to the polygon base coordinates.
   point.x -= position->x;

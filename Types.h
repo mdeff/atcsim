@@ -15,26 +15,28 @@
 // Point structure represents entity position on the XY plane.
 struct Point {
   float x, y;
+  Point() : x(), y() {}
   Point(float xInit, float yInit) : x(xInit), y(yInit) {}
   Point(int xInit, int yInit) : x(float(xInit)), y(float(yInit)) {}
 };
 
 
-struct EntityTypes {
-  bool airplane;
-  bool forbiddenZone;
-  bool airway;
-  bool cloud;
-  void reset() {
-    airplane = false;
-    forbiddenZone = false;
-    airway = false;
-    cloud = false;
-  }
-//  EntityTypes() : airplane(false), cloud(false), forbiddenZone(false) {}
+// Airplane status (real and simulated collisions, out status).
+struct AirplaneStatus {
+  bool outRight;
+  bool outWrong;
+  bool airplaneSimCollision;
+  bool forbiddenZoneSimCollision;
+  bool airwaySimCollision;
+  bool cloudSimCollision;
+  bool airplaneRealCollision;
+  bool forbiddenZoneRealCollision;
+  bool airwayRealCollision;
+  bool cloudRealCollision;
 };
 
 
+// Is used to inform a method to use the real or simulated entity position.
 enum PosType {realPosition, simPosition};
 
 
@@ -48,21 +50,27 @@ struct CardinalPoint {
   CardinalPoint(enum CardinalPoints point) : cardinalPoint(point) {}
   
   Point getPosition() const {
+    Point ret;
     switch(cardinalPoint) {
-      case N: return Point(359,      0+15); break;
-      case S: return Point(382,    551-15); break;
-      case E: return Point(800-15, 470);    break;
-      case W: return Point(  0+15, 383);    break;
+      default:
+      case N: ret = Point(359,      0+15); break;
+      case S: ret = Point(382,    551-15); break;
+      case E: ret = Point(800-15, 470);    break;
+      case W: ret = Point(  0+15, 383);    break;
     }
+    return ret;
   }
   
   std::string toString() const {
+    std::string ret;
     switch(cardinalPoint) {
-      case N: return "North"; break;
-      case S: return "Sud";   break;
-      case E: return "East";  break;
-      case W: return "West";  break;
+      default:
+      case N: ret = "North"; break;
+      case S: ret = "Sud";   break;
+      case E: ret = "East";  break;
+      case W: ret = "West";  break;
     }
+    return ret;
   }
   
 };

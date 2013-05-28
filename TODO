@@ -4,37 +4,33 @@ predicted trajectory line isn't always positioned on airplane figure center
 dots for drag beside airplane trajectory
 take into account airplane cape changement for collision prediction ?
 save best scores
+user can modify airplane altitude
 remove points on each cape modification
 remove points if moving out of airways
+don't render at infinite speed, implement maximum framerate (will limit the variance of trajectory prediction)
+find a better way to calculate FPS in realtime not every second
+Verify answers in RESPONSES file
 
-exception class : fatal (exit), warning
-Implement exceptions handling and throwing (with exception specifications at function declarations), catch (exception& e) (throw std::invalid_argument("id");)
+exception class : fatal (exit), warning ==> use stdexcept (like std::out_of_range) ??
+Implement exceptions handling and throwing (without exception specifications at function declarations), catch (exception& e) (throw std::invalid_argument("id");)
 
 Add Doxygen / Javadoc comments to source code
 Automatically generate documentation based on Doxygen / Javadoc comments
 Generate automatically the class hierarchy
 
-user can modify airplane altitude
-find a better way to calculate FPS in realtime not every second
+create unit tests
+Add licence information (GPL or BSD)
+Unifiy source code style (format, variable / class / method names etc.)
+Apply http://geosoft.no/development/cppstyle.html/
+verify 80 characters width limit
 
 link to libc++ (LLVM Clang) instead of libstdc++ (GNU GCC)
 Use Valgrind to detect memory leak and/or GCC AddressSanitizer / ThreadSanitizer
 Use a tool to automatically check code quality / format (static analysis)
-create unit tests
-verify destructor destroy what was created by constructor (especially free the pointers)
-Verify answers in RESPONSES file
-Add licence information (GPL or BSD)
-Unifiy source code style (format, variable / class / method names etc.)
-Apply http://geosoft.no/development/cppstyle.html/
-Use virtual inheritance to avoid problems whith multiple inheritance. (There is more often multiple inheritance when we use interfaces.)
+use profiling tools to optimize (memory access, cache miss, page fault, branch prediction) / gprof (profiling) and gcov (coverage testing)
 Start using git branching and merging functions to work on interleaved changes.
 different typecasting : http://www.cplusplus.com/doc/tutorial/typecasting/
-templates and generic programming
 C++11 attributes In-class member initializers in header : int{10}
-use profiling tools to optimize (memory access, cache miss, page fault, branch prediction) / gprof (profiling) and gcov (coverage testing)
-don't render at infinite speed, implement maximum framerate (will limit the variance of trajectory prediction)
-verify 80 characters limit
-
 
 
 -----  EVENTUALLY  -----
@@ -74,11 +70,14 @@ C++ '= default' for default copy constructor, operator=, destructor
 you shouldn't do "using namespace X" within a header file because it forces namespace pollution and subverts the namespaces
 control namespaces
 put default arguments in function declaration instead of function definition
+verify destructor destroy what was created by constructor (especially free the pointers)
+templates and generic programming : used one for Entity::getPosition
 
 
 
 -----  WILL NOT BE DONE  -----
 
 use unique_ptr for SDL_Surface*  ==>  implemented a wrapper object Surface with constructor and destructor
+Use virtual inheritance to avoid problems whith multiple inheritance. (There is more often multiple inheritance when we use interfaces.)  ==>  not useful in our project
 
 

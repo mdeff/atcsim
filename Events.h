@@ -16,7 +16,7 @@ public:
 
   // Default : call base class'es destructor and destructors of all members.
   // Do not throw any exception (which is what we want for a dtor).
-  virtual ~Events() throw() = default;
+  virtual ~Events() noexcept(true) = default;
 
   virtual void handleEvent(SDL_Event& event);
 

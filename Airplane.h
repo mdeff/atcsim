@@ -25,7 +25,7 @@ public:
   // There is no default constructor.
   Airplane() = delete;
   Airplane(unsigned int number, std::string identification, unsigned int
-           altitude, float cape, int velocity,
+           altitude, float cape, unsigned int velocity,
            struct CardinalPoint in, struct CardinalPoint out);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
@@ -37,23 +37,17 @@ public:
   
   // Default : call base class'es destructor and destructors of all members.
   // Do not throw any exception (which is what we want for a dtor).
-  virtual ~Airplane() throw() = default;
+  virtual ~Airplane() noexcept(true) = default;
   
   // Redefinition of virtual methods inherited from Entity class.
   virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) final;
   virtual void render(Surface& displaySurf) const final;
-    
+  
   // Redirection method used to implement double dispatching (visitor pattern).
   virtual void checkForCollisionDispatch(Entity& entity, enum PosType posType) const final;
   
-  // Return the airplane position.
-  const struct Point* getPosition(enum PosType posType) const;
-  
-  // Return the airplane position.
+  // Return the airplane altitude.
   unsigned int getAltitude() const;
-  
-  // Reset the simulation attributes.
-  virtual void resetSimulation() final;
   
   // Check if a point is inside an entity.
   virtual bool isInside(Point point, enum PosType posType = realPosition,
@@ -70,12 +64,12 @@ private:
   std::string identification_;
   unsigned int altitude_;
   
-  // It indicates if future collisions with some entities are predicted.
-  struct EntityTypes predictedCollision_;
-  
   // Airplane in and out cardinal points.
   struct CardinalPoint in_;
   struct CardinalPoint out_;
+  
+  // Indicate if the airplane is visible or not.
+  bool hidden_;
   
 //  std::queue<Point> pastPositions_;
   
@@ -98,3 +92,4 @@ private:
 };
 
 #endif	/* AIRPLANE_H */
+

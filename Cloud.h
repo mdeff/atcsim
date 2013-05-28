@@ -19,7 +19,7 @@ public:
   // There is no default constructor.
   Cloud() = delete;
   Cloud(const std::vector<int16_t>& xPoints, const std::vector<int16_t>& yPoints,
-        float cape, int velocity);
+        float cape, unsigned int velocity);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
   Cloud(const Cloud& orig) = default;
@@ -30,7 +30,7 @@ public:
   
   // Default : call base class'es destructor and destructors of all members.
   // Do not throw any exception (which is what we want for a dtor).
-  virtual ~Cloud() throw() = default;
+  virtual ~Cloud() noexcept(true) = default;
     
   // Redeclaration of virtual methods inherited from Entity class.
   virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) final;

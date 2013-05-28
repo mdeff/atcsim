@@ -30,7 +30,7 @@ public:
   
   // Default : call base class'es destructor and destructors of all members.
   // Do not throw any exception (which is what we want for a dtor).
-  virtual ~ForbiddenZone() throw() = default;
+  virtual ~ForbiddenZone() noexcept(true) = default;
   
   // Redeclaration of virtual methods inherited from Entity class.
   virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) final;

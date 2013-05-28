@@ -29,7 +29,7 @@ public:
   Polygon(const std::vector<int16_t>& xPoints,
           const std::vector<int16_t>& yPoints,
           uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha,
-          float cape, int velocity);
+          float cape, unsigned int velocity);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
   Polygon(const Polygon& orig) = default;
@@ -40,7 +40,7 @@ public:
   
   // Default : call base class'es destructor and destructors of all members.
   // Do not throw any exception (which is what we want for a dtor).
-  virtual ~Polygon() throw() = default;
+  virtual ~Polygon() noexcept(true) = default;
   
   // Redeclaration of virtual methods inherited from IEntity interface class.
   virtual void render(Surface& displaySurf) const final;
@@ -56,12 +56,13 @@ private:
   // Polygon corners.
   std::vector<int16_t> xCorners_, yCorners_;
   
-  // Maximum depth on the 2 axis, to determine surface minimum size.
+  // Maximum depth on the 2 axis, to determine SDL Surface minimum size.
   int16_t xMax_, yMax_;
   
   // Polygon color.
   uint8_t red_, green_, blue_, alpha_;
  
+  // Helper method for Polygon::isInside.
   int isLeft(const Point& point, size_t p0, size_t p1) const;
   
 };

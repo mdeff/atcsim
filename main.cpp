@@ -5,6 +5,8 @@
  * Created on 23. mars 2013, 17:54
  */
 
+
+#include <stdexcept>
 #include <iostream>
 
 #include <SDL/SDL.h>
@@ -26,19 +28,20 @@ void initialize();
 
 // This function simply cleans up any resources loaded, and insures a peaceful
 // quitting of the game. 
-// The cleanup() callback will be called at application exit to cleanup SDL stuff.
+// The cleanup callback will be called at application exit to cleanup SDL stuff.
 void cleanup();
 
 
 
 // int main(int argc, char** argv) {
 int main() {
-  
-initialize();
-  
+    
   try {
+    
     std::cout << "Simulation start." << std::endl;
-  
+    
+    initialize();
+    
     Game ATCsim;
     SDL_Event event;
 
@@ -51,6 +54,12 @@ initialize();
       ATCsim.render();
     }
     
+  // Catch exceptions inherited from the standard exception class.
+  // All exceptions from standard library, and also for this project.
+  } catch (std::exception& e) {
+    std::cerr << "Simulation error: " << e.what() << std::endl;
+    
+  // Catch all other exceptions (should not occur).
   } catch (...) {
     std::cerr << "Simulation error." << std::endl;
   }
@@ -66,15 +75,12 @@ void initialize() {
   atexit(cleanup);
   
   // Load and initialize SDL and TTF libraries.
-  if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-    std::cerr << "Unable to initialize SDL: " << SDL_GetError() << std::endl;
-    throw;
-  }
+  if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    throw std::runtime_error("Unable to initialize SDL: " + std::string(SDL_GetError()));
 
-  if (TTF_Init() != 0) {
-    std::cerr << "Unable to initialize TTF: " << TTF_GetError() << std::endl;
-    throw;
-  }
+  if (TTF_Init() != 0)
+    throw std::runtime_error("Unable to initialize TTF: " + std::string(TTF_GetError()));
+  
 }
 
 

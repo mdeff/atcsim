@@ -13,7 +13,7 @@
 
 Cloud::Cloud(const std::vector<int16_t>& xCorners,
              const std::vector<int16_t>& yCorners,
-             float cape, int velocity)
+             float cape, unsigned int velocity)
 :
 Polygon(xCorners, yCorners, 0, 0, 255, 128, cape, velocity) // Parent constructor.
 {
@@ -22,15 +22,14 @@ Polygon(xCorners, yCorners, 0, 0, 255, 128, cape, velocity) // Parent constructo
 
 
 void Cloud::compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
-  
   // This entity can move, we have to compute it.
-  computeMovement(posType, gameFieldWidth, gameFieldHeight);
-  
+  computeMovement(posType);
 }
 
 
 
 void Cloud::checkForCollisionDispatch(Entity& entity, enum PosType posType) const {
+  // Double dispatching (visitor pattern).
   entity.checkForCollision(this, posType);
 }
 

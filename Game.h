@@ -27,8 +27,9 @@ public:
   // Use a custom default constructor.
   Game();
   
+  // Although it does nothing more than default, it is needed for unique_ptr.
   // Do not throw any exception (which is what we want for a dtor).
-  virtual ~Game() throw();
+  virtual ~Game() noexcept(true);
   
   // Return the game stat, which is true if running.
   bool getState() const;
@@ -57,6 +58,9 @@ private:
   Surface sidePanel_;   // Side panel SDL surface
   bool running_;
   
+  // User score (points).
+  float score_;
+  
   // Game field size (used to check movement bounds).
   const int gameFieldWidth_;
   const int gameFieldHeight_;
@@ -66,7 +70,7 @@ private:
   
   // Do not allow object copy or move by making copy / move constructor and
   // copy / move assignment operator private members.
-  // It will fail to compile if somebody want to copy or move a Surface object.
+  // It will fail to compile if somebody want to copy or move a Game object.
   // Mark methods that won’t be implemented with '= delete' (C++11).
   Game(const Game& orig) = delete;
   Game& operator=(const Game& orig) = delete;
@@ -76,3 +80,4 @@ private:
 };
 
 #endif	/* GAME_H */
+

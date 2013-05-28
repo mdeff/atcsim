@@ -5,9 +5,6 @@
  * Created on 23. mars 2013, 17:54
  */
 
-#include <iostream>
-
-
 #include "Airplane.h"
 #include "Airway.h"
 #include "Cloud.h"
@@ -16,7 +13,6 @@
 #include "ForbiddenZone.h"
 #include "Framerate.h"
 #include "Game.h"
-#include "Score.h"
 #include "Surface.h"
 #include "Types.h"
 
@@ -28,6 +24,7 @@ window_(1000, 551, 32),
 background_("background.bmp"), // Load the background image.
 sidePanel_(200, 551),
 running_(true),
+score_(1000),
 gameFieldWidth_(background_.getWidth()),
 gameFieldHeight_(background_.getHeight()),
 entities_() {
@@ -45,18 +42,18 @@ entities_() {
   entities_.push_back(std::unique_ptr<Entity > (
           new Airway({470, 670, 440},
                      {551, 551, 330})));
-                     
-    entities_.push_back(std::unique_ptr<Entity > (
+  
+  entities_.push_back(std::unique_ptr<Entity > (
           new ForbiddenZone({260, 360, 360, 260},
                             {150, 150, 250, 250})));
-    entities_.push_back(std::unique_ptr<Entity > (
-          new ForbiddenZone({480, 780, 690, 650},
-                            {150, 120,  20, 330})));
+  entities_.push_back(std::unique_ptr<Entity > (
+          new ForbiddenZone({480, 670, 690, 780, 670, 650},
+                            {150, 130,  20, 120, 130, 330})));
   
   entities_.push_back(std::unique_ptr<Entity > (
           new Cloud({540, 620, 770, 790, 700, 580},
                     {400, 350, 400, 500, 540, 500}, 124.2f, 200)));
-
+  
   entities_.push_back(std::unique_ptr<Entity > (
           new Airplane(1, "AA293", 8000, 260.4f, 800, CardinalPoint(N), CardinalPoint(S))));
   entities_.push_back(std::unique_ptr<Entity > (
@@ -79,7 +76,7 @@ entities_() {
 
 
 
-Game::~Game() throw () {
+Game::~Game() noexcept(true) {
   // Default: call base class'es destructor and destructors of all members.
 }
 
@@ -95,14 +92,18 @@ void Game::compute() {
 
   // Compute the framerate.
   Framerate::compute();
+  
+  // Reset entities status and simulated data.
+  for (auto& entity : entities_) {
+    entity->resetStatus();
+    entity->resetSimulation();
+  }
 
-  // Do necessary computations for the airplanes, forbidden zones and clouds.
-  // Mostly movement calculation.
+  // Do necessary computations for each entity, mostly movement calculation.
   for (auto& entity : entities_) {
     entity->compute(realPosition, gameFieldWidth_, gameFieldHeight_);
   }
 
-//  std::cout << "Check collisions." << std::endl;
   // Check for collisions between entities.
   for (auto& entity1 : entities_) {
     for (auto& entity2 : entities_) {
@@ -112,13 +113,7 @@ void Game::compute() {
     }
   }
 
-  // Check for future collisions.
-  
-  // Reset entities simulated positions.
-  for (auto& entity : entities_) {
-    entity->resetSimulation();
-  }
-  
+  // Check for future collisions (future is NTICKSCOL long).  
   for (unsigned int i(NTICKSCOL); i > 0; --i) {
     
     // Simulate entities movements.
@@ -135,6 +130,32 @@ void Game::compute() {
       }
     }
   }
+  
+  // Check airplane status to add / remove points or terminate the game.
+  const struct AirplaneStatus* status;
+  for (auto& entity : entities_) {
+    status = entity->getStatus();
+    if (status->outRight) {
+      score_ += 100.0f;
+    } if (status->outWrong) {
+      score_ -= 100.0f;
+    } if (status->airplaneRealCollision) {
+//      running_ = false;
+//      score_ -= 100.0f;
+    } if (status->forbiddenZoneRealCollision) {
+//      running_ = false;
+//      score_ -= 100.0f;
+    } if (status->airwayRealCollision) {
+      score_ -= 1.0f;
+    } if (status->cloudRealCollision) {
+      score_ -= 0.1f;
+    }
+  }
+  
+  // No negative score.
+  if (score_ <= 0.0f)
+    score_ = 0.0f;
+  
 }
 
 
@@ -152,15 +173,17 @@ void Game::render() {
   // Blit the side panel surface on the window.
   window_.blit(sidePanel_, 800, 0);
   
-  // Render the points on the window.
-  Score::render(window_);
+  // Render the score on the window.
+  const std::string labelL1("Score: " + std::to_string(int(score_)));
+  Surface textSurf1(labelL1, 0, 0, 0, BOLDFONT, 14);
+  window_.blit(textSurf1, 810, 500);
   
   // Render the airplanes, forbidden zones and clouds on the window.
   for (auto& entity : entities_) {
     entity->render(window_);
   }
   
-  // Flip the window video buffers.
+  // Flip the video buffers.
   window_.flip();
 
 }

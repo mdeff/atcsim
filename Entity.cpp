@@ -14,23 +14,62 @@
 
 
 
-Entity::Entity(float cape, int velocity, Point initialPosition)
+Entity::Entity(float cape, unsigned int velocity, Point initialPosition)
 :
 currentCape_(cape),
 targetCape_(cape),
 velocity_(velocity),
 realPosition_(initialPosition), // Entity initial position.
 simPosition_(initialPosition),
-selected_(false)
+selected_(false),
+status_(),
+pi_(std::atan(1.0f) * 4.0f)
 {
 }
 
 
 
-void Entity::checkForCollision(const Airplane* airplane, enum PosType posType) {}
-void Entity::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {}
-void Entity::checkForCollision(const Airway* airway, enum PosType posType) {}
-void Entity::checkForCollision(const Cloud* cloud, enum PosType posType) {}
+// Void casting to avoid compiler warning about unused parameter.
+// We make it explicit that this is our intent.
+void Entity::checkForCollision(const Airplane* airplane, enum PosType posType) {(void)airplane; (void)posType;}
+void Entity::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {(void)forbiddenZone; (void)posType;}
+void Entity::checkForCollision(const Airway* airway, enum PosType posType) {(void)airway; (void)posType;}
+void Entity::checkForCollision(const Cloud* cloud, enum PosType posType) {(void)cloud; (void)posType;}
+
+
+
+// Const and non-const getPosition implementation.
+// Templated to avoid code duplication.
+template <typename TSrc, typename TRet>
+TRet getPositionT(TSrc entity, enum PosType posType) {
+  
+  TRet position;
+  
+  switch (posType) {
+    case simPosition:
+      position = &(entity->simPosition_);
+      break;
+    case realPosition:
+    default:
+      position = &(entity->realPosition_);
+  }
+  
+  return position;
+}
+
+
+
+// Constant method used in the general case.
+const struct Point* Entity::getPosition(enum PosType posType) const {
+  return getPositionT<const Entity*, const struct Point*>(this, posType);
+}
+
+
+
+// Non-constant method used by Entity::computeMovement.
+struct Point* Entity::getPosition(enum PosType posType) {
+  return getPositionT<Entity*, struct Point*>(this, posType);
+}
 
 
 
@@ -52,11 +91,31 @@ void Entity::setSelected(bool selected) {
 
 
 
+const struct AirplaneStatus* Entity::getStatus() const {
+  return &status_;
+}
+
+
+
+void Entity::resetStatus() {
+  status_.outRight = false;
+  status_.outWrong = false;
+  status_.airplaneSimCollision = false;
+  status_.forbiddenZoneSimCollision = false;
+  status_.airwaySimCollision = false;
+  status_.cloudSimCollision = false;
+  status_.airplaneRealCollision = false;
+  status_.forbiddenZoneRealCollision = false;
+  status_.airwayRealCollision = false;
+  status_.cloudRealCollision = false;
+}
+
+
+
 void Entity::setTargetCape(Point point) {
-  // cape = sin ( dx / dy )
   float dx = point.x - realPosition_.x;
   float dy = realPosition_.y - point.y;
-  targetCape_ = 180/PI * std::atan(dy / dx);
+  targetCape_ = 180/pi_ * std::atan(dy / dx);
   // Arctan return angle of +-90°, we want 0° to 360°.
   if (dx < 0)
     targetCape_ = targetCape_ + 180;
@@ -66,27 +125,16 @@ void Entity::setTargetCape(Point point) {
 
 
 
-void Entity::computeMovement(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
+void Entity::computeMovement(enum PosType posType) {
   
-  // Select the position to modify.
-  Point* position;
-  switch (posType) {
-    case realPosition:
-      position = &realPosition_;
-      break;
-    case simPosition:
-      position = &simPosition_;
-  }
+  // Select the position to modify (remove the pointer constness).
+  Point* position(getPosition(posType));
   
   // Compute new position based on current velocity, cape and game framerate.
-  if (position->x < gameFieldWidth -14 && position->x > 14 &&
-      position->y < gameFieldHeight-14 && position->y > 14) {
-    position->x += float(velocity_) * std::cos(currentCape_*PI/180.0f)
-                   / SPEEDCONVERT / float(Framerate::getFPS());
-    position->y -= float(velocity_) * std::sin(currentCape_*PI/180.0f)
-                   / SPEEDCONVERT / float(Framerate::getFPS());
-  }
-  
+  position->x += float(velocity_) * std::cos(currentCape_*pi_/180.0f)
+                 / SPEEDCONVERT / float(Framerate::getFPS());
+  position->y -= float(velocity_) * std::sin(currentCape_*pi_/180.0f)
+                 / SPEEDCONVERT / float(Framerate::getFPS());
 }
 
 
@@ -101,7 +149,7 @@ void Entity::updateCape() {
   
   // Increment or decrement the current cape, with a bound to target cape.
   // Consider framerate for computation.
-  float delta(DELTAANGLE / float(Framerate::getFPS()));
+  const float delta(DELTAANGLE / float(Framerate::getFPS()));
   if (currentCape_ < targetCape_)
     currentCape_ = std::min(currentCape_+delta, targetCape_);
   else if (currentCape_ > targetCape_)

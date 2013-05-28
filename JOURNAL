@@ -112,4 +112,17 @@
   -- airplane initial position based on input cardinal point (N, S, E, W)
   -- change score when airplane fly out of airways or inside cloud
 
+27.05.2013
+  -- implement a const and a non-const Entity::getPosition method using a template (to avoid code duplication) (we use const in the general case but non-const for Entity::computeMovement)
+  -- silence compiler warnings about unused function parameters with void casting (make it explicit that it is our intent)
+  -- fix compiler warnings about switch that doesn't have default case by adding one
+  -- exception specifiers (throw keyword) are deprecated in C++11, use noexcept(true) instead (mostly for dtor and move ctor) (http://stackoverflow.com/questions/12833241/difference-between-c03-throw-specifier-c11-noexcept)
+  -- implement exception throwing in Surface class using stdexcept exception classes, derived from std::exception
+
+28.05.2013
+  -- implement score management in Game.cpp instead of Airplane.cpp, delete Score namespace
+  -- create a new struct AirplaneStatus to indicate if an airplane is colliding, is anticipated to collide, is out of area
+  -- Game class takes actions (add/remove points, terminate) based on status returned by Entity::getStatus method
+  -- commit exercise P14 : score
+
 

@@ -33,7 +33,7 @@ public:
   
   // Use a custom destructor (we have to free the SDL_Surface).
   // Do not throw any exception (which is what we want for a dtor).
-  virtual ~Surface() throw();
+  virtual ~Surface() noexcept(true);
    
   int getWidth() const;
   int getHeight() const;

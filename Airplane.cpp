@@ -5,8 +5,6 @@
  * Created on 25. mars 2013, 21:39
  */
 
-#include <iostream>
-
 #include <cmath>
 #include <string>
 
@@ -17,47 +15,101 @@
 #include "Cloud.h"
 #include "Constants.h"
 #include "ForbiddenZone.h"
-#include "Score.h"
 #include "Surface.h"
 
 
 
 Airplane::Airplane(unsigned int number, std::string identification, unsigned int
-                   altitude, float cape, int velocity,
+                   altitude, float cape, unsigned int velocity,
                    struct CardinalPoint in, struct CardinalPoint out)
 :
 Entity(cape, velocity, in.getPosition()), // Parent constructor.
 number_(number),
 identification_(identification), // Flight number.
 altitude_(altitude),
-predictedCollision_(),
 in_(in),
-out_(out)
+out_(out),
+hidden_(false)
 {
 }
 
 
 
 void Airplane::compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
+    
+  // Nothing to compute if hidden.
+  if (hidden_)
+    return;
   
   // The cape of this entity can change (user input) : compute it.
   if (posType == realPosition)
     updateCape();
-  // This entity can move : compute it.
-  computeMovement(posType, gameFieldWidth, gameFieldHeight);
   
+  // Select the position from which to test.
+  const struct Point* pos(getPosition(posType));
+  
+  // Check if we are not out-of-field (not if already hidden).
+  // Before the edge for real position (otherwise airplane would be half out).
+  if (posType == realPosition && (
+          pos->x > gameFieldWidth -14 || pos->x < 14 ||
+          pos->y > gameFieldHeight-14 || pos->y < 14)) {
+        
+    hidden_ = true;
+    status_.outWrong = true;
+    
+    if (pos->x > 250 && pos->x < 450 && pos->y < 14) {
+      if (out_.cardinalPoint == N) {
+        status_.outRight = true;
+        status_.outWrong = false;
+      }
+    } else if (pos->x > 290 && pos->x < 470 && pos->y > gameFieldHeight-14) {
+      if (out_.cardinalPoint == S) {
+        status_.outRight = true;
+        status_.outWrong = false;
+      }
+    } else if (pos->x > 670 && pos->x < 800 && pos->y > gameFieldHeight-14) {
+      if (out_.cardinalPoint == E) {
+        status_.outRight = true;
+        status_.outWrong = false;
+      }
+    } else if (pos->y > 350 && pos->y < 551 && pos->x > gameFieldWidth-14) {
+      if (out_.cardinalPoint == E) {
+        status_.outRight = true;
+        status_.outWrong = false;
+      }
+    } else if (pos->y > 300 && pos->y < 500 && pos->x < 14) {
+      if (out_.cardinalPoint == W) {
+        status_.outRight = true;
+        status_.outWrong = false;
+      }
+    }
+    
+  // On edge for simulated position (trajectory line until edges).
+  } else if (posType == simPosition && (
+          pos->x > gameFieldWidth -0 || pos->x < 0 ||
+          pos->y > gameFieldHeight-0 || pos->y < 0)) {
+    
+  } else {
+    // This entity can move : compute it.
+    computeMovement(posType);
+  }
 }
 
 
 
 void Airplane::checkForCollisionDispatch(Entity& entity, enum PosType posType) const {
+  // Double dispatching (visitor pattern).
   entity.checkForCollision(this, posType);
 }
 
 
-
+  
 void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType) {
     
+  // No collisions if hidden.
+  if (hidden_)
+    return;
+  
   const Point* airplane1Pos = getPosition(posType);
   const Point* airplane2Pos = airplane->getPosition(posType);
   
@@ -67,11 +119,12 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
           static_cast<unsigned int>(std::abs(int(altitude_) -
           int(airplane->getAltitude()))) < DMINVERTCOL) {
     switch (posType) {
-      case realPosition:
-//        std::cout << "Collision with an airplane." << std::endl;
-        break;
       case simPosition:
-        predictedCollision_.airplane = true;
+        status_.airplaneSimCollision = true;
+        break;
+      case realPosition:
+      default:
+        status_.airplaneRealCollision = true;
     }
   }
 }
@@ -80,15 +133,18 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
 
 void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {
 
-  // Terminate the simulation if the airplane is inside a forbidden zone.
+  // No collisions if hidden.
+  if (hidden_)
+    return;
   
   if (forbiddenZone->isInside(*getPosition(posType), posType, false)) {
     switch (posType) {
-      case realPosition:
-//        std::cout << "Collision with a forbidden zone." << std::endl;
-        break;
       case simPosition:
-        predictedCollision_.forbiddenZone = true;
+        status_.forbiddenZoneSimCollision = true;
+        break;
+      case realPosition:
+      default:
+        status_.forbiddenZoneRealCollision = true;
     }
   }
 }
@@ -97,15 +153,18 @@ void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosTyp
 
 void Airplane::checkForCollision(const Airway* airway, enum PosType posType) {
 
-  // Remove points if the airplane is outside an airway.
+  // No collisions if hidden.
+  if (hidden_)
+    return;
   
   if (airway->isInside(*getPosition(posType), posType, false)) {
     switch (posType) {
-      case realPosition:
-        Score::addPoints(-1.0f);
-        break;
       case simPosition:
-        predictedCollision_.airway = true;
+        status_.airwaySimCollision = true;
+        break;
+      case realPosition:
+      default:
+        status_.airwayRealCollision = true;
     }
   }
 }
@@ -114,31 +173,20 @@ void Airplane::checkForCollision(const Airway* airway, enum PosType posType) {
 
 void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) {
 
-  // Remove points if the airplane is inside a cloud.
+  // No collisions if hidden.
+  if (hidden_)
+    return;
   
   if (cloud->isInside(*getPosition(posType), posType, false)) {
     switch (posType) {
-      case realPosition:
-        Score::addPoints(-0.02f);
-        break;
       case simPosition:
-        predictedCollision_.cloud = true;
+        status_.cloudSimCollision = true;
+        break;
+      case realPosition:
+      default:
+        status_.cloudRealCollision = true;
     }
   }  
-}
-
-
-
-const struct Point* Airplane::getPosition(enum PosType posType) const {
-  const struct Point* position;
-  switch (posType) {
-    case realPosition:
-      position = &realPosition_;
-      break;
-    case simPosition:
-      position = &simPosition_;
-  }
-  return position;
 }
 
 
@@ -149,24 +197,14 @@ unsigned int Airplane::getAltitude() const {
 
 
 
-void Airplane::resetSimulation() {
-  Entity::resetSimulation();
-  predictedCollision_.reset();
-}
-
-
-
 bool Airplane::isInside(Point point, enum PosType posType, bool mouse) const {
   
+  // Cannot be inside if hidden.
+  if (hidden_)
+    return false;
+  
   // Select the position from which to test.
-  const Point* position;
-  switch (posType) {
-    case realPosition:
-      position = &realPosition_;
-      break;
-    case simPosition:
-      position = &simPosition_;
-  }
+  const Point* position(getPosition(posType));
   
   if (point.x >= position->x-10 && point.x <= position->x+10 &&
       point.y >= position->y-10 && point.y <= position->y+10)
@@ -180,6 +218,13 @@ bool Airplane::isInside(Point point, enum PosType posType, bool mouse) const {
 
 void Airplane::render(Surface& displaySurf) const {
   
+  // Print airplane informations on the side panel.
+  renderSidePanelInfo(displaySurf);
+  
+  // Don't render airplane if hidden.
+  if (hidden_)
+    return;
+  
   // Airplane labels.
   const std::string labelL1(identification_);
   const std::string labelL2(std::to_string(altitude_) + "m   " +
@@ -190,9 +235,9 @@ void Airplane::render(Surface& displaySurf) const {
   
   // Default text color is black, become orange if warning, red if danger.
   uint8_t red(0), green(0), blue(0);
-  if (predictedCollision_.airplane || predictedCollision_.forbiddenZone) {
+  if (status_.airplaneSimCollision || status_.forbiddenZoneSimCollision) {
     red = 255;
-  } else if (predictedCollision_.airway || predictedCollision_.cloud) {
+  } else if (status_.airwaySimCollision || status_.cloudSimCollision) {
     red = 255;
     green = 128;
   }
@@ -201,7 +246,7 @@ void Airplane::render(Surface& displaySurf) const {
   Surface textSurf1(labelL1, red, green, blue, BOLDFONT, 14);
   Surface textSurf2(labelL2, 0, 0, 0, STDFONT, 14);
   Surface textSurf3(labelL3, 0, 0, 0, STDFONT, 14);
-    
+  
   // Change airplane color if selected by user.
   red = green = blue = 100;
   if (selected_) {
@@ -232,10 +277,7 @@ void Airplane::render(Surface& displaySurf) const {
     SDL_GetMouseState(&x, &y);
     traceLineFromAirplane(displaySurf, Point(x,y), red, green, blue);
   }
-  
-  // Print airplane informations on the side panel.
-  renderSidePanelInfo(displaySurf);
-  
+    
 }
 
 
@@ -246,28 +288,29 @@ void Airplane::renderSidePanelInfo(Surface& displaySurf) const {
   const std::string labelL2("in: " + in_.toString() + "    out: " + out_.toString());
   std::string labelL3("Status: OK");
   
-  if (currentCape_ != targetCape_)
-    labelL3 = "Airplane turning !";
-  
   // Default text color is black, become red if warning.
   uint8_t redL2(0), greenL2(160);
   
-  if (predictedCollision_.airplane) {
+  if (hidden_) {
+    labelL3 = "Airplane out of area.";
+  } else if (status_.airplaneSimCollision) {
     labelL3 = "Danger: airplane collision !";
     redL2 = 255;
     greenL2 = 0;
-  } else if (predictedCollision_.forbiddenZone) {
+  } else if (status_.forbiddenZoneSimCollision) {
     labelL3 = "Danger: forbidden zone !";
     redL2 = 255;
     greenL2 = 0;
-  } else if (predictedCollision_.airway) {
+  } else if (status_.airwaySimCollision) {
     labelL3 = "Warning: out of airway !";
     redL2 = 255;
     greenL2 = 128;
-  } else if (predictedCollision_.cloud) {
+  } else if (status_.cloudSimCollision) {
     labelL3 = "Warning: turbulence zone !";
     redL2 = 255;
     greenL2 = 128;
+  } else if (currentCape_ != targetCape_) {
+    labelL3 = "Airplane turning !";
   }
   
   Surface textSurf1(labelL1, 0, 0, 0, BOLDFONT, 14);
@@ -277,7 +320,6 @@ void Airplane::renderSidePanelInfo(Surface& displaySurf) const {
   displaySurf.blit(textSurf1, 810, int16_t((number_-1) * 70 + 20));
   displaySurf.blit(textSurf2, 820, int16_t((number_-1) * 70 + 40));
   displaySurf.blit(textSurf3, 820, int16_t((number_-1) * 70 + 60));
-  
 }
 
 
@@ -302,6 +344,5 @@ void Airplane::traceLineFromAirplane(Surface& displaySurf, Point endPoint,
   displaySurf.blit(predTrajectorySurf,
           int16_t(xPred>0?realPosition_.x:realPosition_.x+xPred),
           int16_t(yPred>0?realPosition_.y:realPosition_.y+yPred));
-  
 }
 
