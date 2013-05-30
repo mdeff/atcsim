@@ -4,7 +4,10 @@
 #include "Framerate.h"
 
 
-//=============================================================================
+
+namespace ATCsim {  // Project ATCsim namespace.
+
+
 
 namespace Framerate {
   
@@ -50,4 +53,7 @@ namespace Framerate {
   }
   
 }
+  
+
+}  // End of project ATCsim namespace.
 

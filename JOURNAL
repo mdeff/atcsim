@@ -124,5 +124,13 @@
   -- create a new struct AirplaneStatus to indicate if an airplane is colliding, is anticipated to collide, is out of area
   -- Game class takes actions (add/remove points, terminate) based on status returned by Entity::getStatus method
   -- commit exercise P14 : score
+  -- implement Game::renderUserDialogBox that will render a dialog box to ask the user if he wish to stop or restart the game
+  -- limit enumaration and struct scope by defining them inside the class they belong to (could also have used namespace or struct)
+  -- delete Types.h header which is no longer needed
+  -- remove struct, enum, class keywords before type name, they are useless
+
+30.05.2013
+  -- put all project symbols inside ATCsim namespace
+  -- commit exercise P15 : simulation end
 
 

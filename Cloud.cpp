@@ -11,6 +11,10 @@
 
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
+
 Cloud::Cloud(const std::vector<int16_t>& xCorners,
              const std::vector<int16_t>& yCorners,
              float cape, unsigned int velocity)
@@ -21,15 +25,18 @@ Polygon(xCorners, yCorners, 0, 0, 255, 128, cape, velocity) // Parent constructo
 
 
 
-void Cloud::compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
+void Cloud::compute(PosTypes posType, int gameFieldWidth, int gameFieldHeight) {
   // This entity can move, we have to compute it.
   computeMovement(posType);
 }
 
 
 
-void Cloud::checkForCollisionDispatch(Entity& entity, enum PosType posType) const {
+void Cloud::checkForCollisionDispatch(Entity& entity, PosTypes posType) const {
   // Double dispatching (visitor pattern).
   entity.checkForCollision(this, posType);
 }
+  
+
+}  // End of project ATCsim namespace.
 

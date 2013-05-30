@@ -6,6 +6,9 @@
 #define FPS_H
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
 namespace Framerate {
     
 	void compute();
@@ -13,6 +16,9 @@ namespace Framerate {
 	float getSpeedFactor();
   
 }
+  
+
+}  // End of project ATCsim namespace.
 
 
 #endif	/* FPS_H */

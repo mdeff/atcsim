@@ -13,6 +13,10 @@
 
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
+
 Polygon::Polygon(const std::vector<int16_t>& xCorners,
                  const std::vector<int16_t>& yCorners,
                  uint8_t red, uint8_t green,
@@ -101,7 +105,7 @@ int Polygon::isLeft(const Point& point, size_t p0, size_t p1) const {
 //               V[] = vertex points of a polygon V[n+1] with V[n]!=V[0]
 //      Return:  wn = the winding number (=0 only when P is outside)
 
-bool Polygon::isInside(Point point, enum PosType posType, bool mouse) const {
+bool Polygon::isInside(Point point, PosTypes posType, bool mouse) const {
   
   // We cannot click on a polygon, so the mouse is never inside it.
   if (mouse)
@@ -133,4 +137,7 @@ bool Polygon::isInside(Point point, enum PosType posType, bool mouse) const {
   // If the winding number is greater than 0, the point is inside the polygon.
   return wn > 0 ? true : false;
 }
+  
+
+}  // End of project ATCsim namespace.
 

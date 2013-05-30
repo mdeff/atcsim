@@ -16,6 +16,9 @@
 #include "Entity.h"
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
 // Forward declarations (no header includes) (namespace pollution, build time).
 class Surface;
 
@@ -46,7 +49,7 @@ public:
   virtual void render(Surface& displaySurf) const final;
   
   // Check if a point is inside an entity.
-  virtual bool isInside(Point point, enum PosType posType = realPosition,
+  virtual bool isInside(Point point, PosTypes posType = realPosition,
                         bool mouse = false) const final;
   
 protected:
@@ -66,6 +69,10 @@ private:
   int isLeft(const Point& point, size_t p0, size_t p1) const;
   
 };
+  
+
+}  // End of project ATCsim namespace.
+
 
 #endif	/* POLYGONS_H */
 

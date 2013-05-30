@@ -9,7 +9,7 @@
 #define	ENTITY_H
 
 
-#include "Types.h"
+namespace ATCsim {  // Project ATCsim namespace.
 
 
 // Forward declarations (no header includes) (namespace pollution, build time).
@@ -22,6 +22,19 @@ class Surface;
 
 class Entity {
   
+public:
+
+  // Is used to inform a method to use the real or simulated entity position.
+  enum PosTypes {realPosition, simPosition};
+  
+  // Point structure represents entity position on the XY plane.
+  struct Point {
+    float x, y;
+    Point() : x(), y() {}
+    Point(float xInit, float yInit) : x(xInit), y(yInit) {}
+    Point(int xInit, int yInit) : x(float(xInit)), y(float(yInit)) {}
+  };
+
   // Theses classes need access to checkForCollision() private methods.
   friend class Airplane;
   friend class Airway;
@@ -32,9 +45,7 @@ class Entity {
   // Not a member template because it would have to be const or non-const.
   // Used to implement a const and non-const getPosition method.
   template <typename SRC, typename RET>
-  friend RET getPositionT(SRC entity, enum PosType posType);
-  
-public:
+  friend RET getPositionT(SRC entity, PosTypes posType);
 
   // There is no default constructor.
   Entity() = delete;
@@ -55,18 +66,18 @@ public:
   virtual ~Entity() noexcept(true) = default;
 
   // Abstract methods that will have to be defined by subclasses.
-  virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) = 0;
+  virtual void compute(PosTypes posType, int gameFieldWidth, int gameFieldHeight) = 0;
   virtual void render(Surface& displaySurf) const = 0;
   
   // Redirection method used to implement double dispatching (visitor pattern).
   virtual void checkForCollisionDispatch(Entity& entity,
-                                         enum PosType posType) const = 0;
+                                         PosTypes posType) const = 0;
   
   // Reset the simulation attributes.
   void resetSimulation();
   
   // Check if a point is inside an entity.
-  virtual bool isInside(Point point, enum PosType posType = realPosition,
+  virtual bool isInside(Point point, PosTypes posType = realPosition,
                         bool mouse = false) const = 0;
   
   // Get or set if the entity is selected by the user.
@@ -76,18 +87,32 @@ public:
   // Set the target cape of an entity.
   void setTargetCape(Point point);
   
+  // Airplane status (real and simulated collisions, out status).
+  struct AirplaneStatus {
+    bool outRight;
+    bool outWrong;
+    bool airplaneSimCollision;
+    bool forbiddenZoneSimCollision;
+    bool airwaySimCollision;
+    bool cloudSimCollision;
+    bool airplaneRealCollision;
+    bool forbiddenZoneRealCollision;
+    bool airwayRealCollision;
+    bool cloudRealCollision;
+  };
+  
   // Get or reset entity status (for airplanes).
-  const struct AirplaneStatus* getStatus() const;
+  const AirplaneStatus* getStatus() const;
   void resetStatus();
   
 protected:
   
   // Get a (const, non-const) pointer to the entity real or simulated position.
-  const struct Point* getPosition(enum PosType posType) const;
-  struct Point* getPosition(enum PosType posType);
+  const Point* getPosition(PosTypes posType) const;
+  Point* getPosition(PosTypes posType);
   
   // Compute the movement of an entity.
-  void computeMovement(enum PosType posType);
+  void computeMovement(PosTypes posType);
   
   // Update current cape up to target cape.
   void updateCape();
@@ -104,25 +129,28 @@ protected:
   bool selected_;
   
   // Airplane status (real and simulated collisions, out status).
-  struct AirplaneStatus status_;
+  AirplaneStatus status_;
   
 private:
   
   // Collision handling functions : take different actions based on entity type.
   virtual void checkForCollision(const Airplane* airplane,
-                                 enum PosType posType);
+                                 PosTypes posType);
   virtual void checkForCollision(const ForbiddenZone* forbiddenZone,
-                                 enum PosType posType);
+                                 PosTypes posType);
   virtual void checkForCollision(const Airway* airway,
-                                 enum PosType posType);
+                                 PosTypes posType);
   virtual void checkForCollision(const Cloud* cloud,
-                                 enum PosType posType);
+                                 PosTypes posType);
   
   // Pi is needed to convert from degrees to gradiants. We could also have used
   // M_PI (defined in math.h) but it's not standard C++, althought POSIX.
   const float pi_;
 
 };
+  
+
+}  // End of project ATCsim namespace.
 
 
 #endif	/* ENTITY_H */

@@ -15,7 +15,11 @@
 
 
 // Forward declarations (no header includes) (namespace pollution, build time).
+// This struct is defined in SDL header (global namespace, not ATCsim).
 struct SDL_Surface;
+
+
+namespace ATCsim {  // Project ATCsim namespace.
 
 
 class Surface {
@@ -82,6 +86,10 @@ private:
   Surface& operator=(Surface&& orig) = delete;
  
 };
+  
+
+}  // End of project ATCsim namespace.
+
 
 #endif	/* SURFACE_H */
 

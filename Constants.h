@@ -13,6 +13,9 @@
 #include <string>
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
 // namespace Constants {
 
 
@@ -28,7 +31,7 @@
 //const unsigned int WINDOWYSIZE(551);
 
 // Convert entity speed from km/h (around 800) to pixel/s (divided by SPEEDCONVERT).
-const float SPEEDCONVERT(20.0f);//(100.0f);
+const float SPEEDCONVERT(100.0f);//(20.0f);//
 
 // Airplane cape change speed, in degree per second.
 const float DELTAANGLE(5.0f);
@@ -43,6 +46,9 @@ const unsigned int DMINCOL(20);
 // Define the minimum vertical distance (altitude) between two airplanes
 // before detecting a collision.
 const unsigned int DMINVERTCOL(200);
+  
+
+}  // End of project ATCsim namespace.
 
 
 #endif	/* CONSTANTS_H */

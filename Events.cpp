@@ -2,7 +2,11 @@
 //==============================================================================
 #include "Events.h"
 
-//==============================================================================
+
+
+namespace ATCsim {  // Project ATCsim namespace.
+
+
 
 void Events::handleEvent(SDL_Event& event) {
   switch (event.type) {
@@ -321,3 +325,8 @@ void Events::onUser(Uint8 type, int code, void* data1, void* data2) {
 }
 
 //==============================================================================
+
+  
+
+}  // End of project ATCsim namespace.
+

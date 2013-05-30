@@ -9,7 +9,12 @@
 #define	AIRPLANE_H
 
 
+#include <string>
+
 #include "Entity.h"
+
+
+namespace ATCsim {  // Project ATCsim namespace.
 
 
 // Forward declarations (no header includes) (namespace pollution, build time).
@@ -22,11 +27,53 @@ class Airplane : public Entity {
   
 public:
   
+  
+  
+  // Cardinal points from which airplanes enter and quit simulation.
+enum CardinalPoints {N, S, E, W};
+
+
+struct CardinalPoint {
+  
+  CardinalPoints cardinalPoint;
+  
+  CardinalPoint(CardinalPoints point) : cardinalPoint(point) {}
+  
+  Point getPosition() const {
+    Point ret;
+    switch(cardinalPoint) {
+      default:
+      case N: ret = Point(359,      0+15); break;
+      case S: ret = Point(382,    551-15); break;
+      case E: ret = Point(800-15, 470);    break;
+      case W: ret = Point(  0+15, 383);    break;
+    }
+    return ret;
+  }
+  
+  std::string toString() const {
+    std::string ret;
+    switch(cardinalPoint) {
+      default:
+      case N: ret = "North"; break;
+      case S: ret = "Sud";   break;
+      case E: ret = "East";  break;
+      case W: ret = "West";  break;
+    }
+    return ret;
+  }
+  
+};
+
+
+
+
+
   // There is no default constructor.
   Airplane() = delete;
   Airplane(unsigned int number, std::string identification, unsigned int
            altitude, float cape, unsigned int velocity,
-           struct CardinalPoint in, struct CardinalPoint out);
+           CardinalPoint in, CardinalPoint out);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
   Airplane(const Airplane& orig) = default;
@@ -40,17 +87,17 @@ public:
   virtual ~Airplane() noexcept(true) = default;
   
   // Redefinition of virtual methods inherited from Entity class.
-  virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) final;
+  virtual void compute(PosTypes posType, int gameFieldWidth, int gameFieldHeight) final;
   virtual void render(Surface& displaySurf) const final;
   
   // Redirection method used to implement double dispatching (visitor pattern).
-  virtual void checkForCollisionDispatch(Entity& entity, enum PosType posType) const final;
+  virtual void checkForCollisionDispatch(Entity& entity, PosTypes posType) const final;
   
   // Return the airplane altitude.
   unsigned int getAltitude() const;
   
   // Check if a point is inside an entity.
-  virtual bool isInside(Point point, enum PosType posType = realPosition,
+  virtual bool isInside(Point point, PosTypes posType = realPosition,
                         bool mouse = false) const final;
   
 protected:
@@ -65,8 +112,8 @@ private:
   unsigned int altitude_;
   
   // Airplane in and out cardinal points.
-  struct CardinalPoint in_;
-  struct CardinalPoint out_;
+  CardinalPoint in_;
+  CardinalPoint out_;
   
   // Indicate if the airplane is visible or not.
   bool hidden_;
@@ -75,13 +122,13 @@ private:
   
   // Collision handling functions : take different actions based on entity type.
   virtual void checkForCollision(const Airplane* airplane,
-                                 enum PosType posType) final;
+                                 PosTypes posType) final;
   virtual void checkForCollision(const Cloud* cloud,
-                                 enum PosType posType) final;
+                                 PosTypes posType) final;
   virtual void checkForCollision(const Airway* airway,
-                                 enum PosType posType) final;
+                                 PosTypes posType) final;
   virtual void checkForCollision(const ForbiddenZone* forbiddenZone,
-                                 enum PosType posType) final;
+                                 PosTypes posType) final;
   
   // Print informations about the airplane on the side panel.
   void renderSidePanelInfo(Surface& displaySurf) const;
@@ -90,6 +137,10 @@ private:
   void traceLineFromAirplane(Surface& displaySurf, Point endPoint, uint8_t red, uint8_t green, uint8_t blue) const;
   
 };
+  
+
+}  // End of project ATCsim namespace.
+
 
 #endif	/* AIRPLANE_H */
 

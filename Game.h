@@ -16,6 +16,9 @@
 #include "Surface.h"
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
 // Forward declarations (no header includes) (namespace pollution, build time).
 class Entity;
 
@@ -31,8 +34,9 @@ public:
   // Do not throw any exception (which is what we want for a dtor).
   virtual ~Game() noexcept(true);
   
-  // Return the game stat, which is true if running.
-  bool getState() const;
+  // Return the game state.
+  enum GameStates {run, restart, exit};
+  GameStates getState() const;
   
   // This method handles all the data updates, such as a NPCs moving across
   // the screen, decreasing your health bar, or whatever.
@@ -45,21 +49,35 @@ public:
 
   // This method handles all input events from the mouse, keyboard, joysticks,
   // or other devices.
-  void handleEvent(SDL_Event& event);
+//  void handleEvent(SDL_Event& event);
   virtual void onExit() final;
   virtual void onLButtonDown(int mX, int mY) final;
+  virtual void onLButtonUp(int mX, int mY) final;
   
 protected:
   
 private:
   
-  Surface window_;      // Main window SDL surface.
-  Surface background_;  // Background bitmap SDL surface.
-  Surface sidePanel_;   // Side panel SDL surface
-  bool running_;
+  Surface window_;         // Main window SDL surface.
+  Surface background_;     // Background bitmap SDL surface.
+  Surface sidePanel_;      // Side panel SDL surface.
+//  Surface userDialogBox_;  // User dialog box SDL surface.
+  
+  // Indiquate game state : run, restart or exit.
+  GameStates state_;
   
   // User score (points).
   float score_;
+  
+  // Number of active airplanes inside the simulation.
+  unsigned int nActiveAirplanes_;
+  
+  // Indiquate to show a dialog who ask the user if he wish to restart or quit
+  // the simulation.
+  bool dialogBox_;
+  
+  // Indique if the player loosed the game.
+  bool gameOver_;
   
   // Game field size (used to check movement bounds).
   const int gameFieldWidth_;
@@ -67,6 +85,9 @@ private:
   
   // Store the entities (moving objects).
   std::vector< std::unique_ptr<Entity> > entities_;
+  
+  // Ask the user if he wish to restart or quit the simulation.
+  void renderUserDialogBox();
   
   // Do not allow object copy or move by making copy / move constructor and
   // copy / move assignment operator private members.
@@ -78,6 +99,10 @@ private:
   Game& operator=(Game&& orig) = delete;
   
 };
+  
+
+}  // End of project ATCsim namespace.
+
 
 #endif	/* GAME_H */
 

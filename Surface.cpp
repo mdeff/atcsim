@@ -18,6 +18,10 @@
 
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
+
 //Surface::Surface(SDL_Surface* surface)
 //:
 //surface_(surface) {
@@ -235,4 +239,7 @@ void Surface::drawFilledPolygon(const std::vector<int16_t>& x, const std::vector
   if (filledPolygonRGBA(surface_, x.data(), y.data(), int(n), r, g, b, a) != 0)
     throw std::runtime_error("Unable to draw filled polygon: " + std::string(SDL_GetError()));
 }
+  
+
+}  // End of project ATCsim namespace.
 

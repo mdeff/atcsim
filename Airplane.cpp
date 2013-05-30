@@ -19,9 +19,13 @@
 
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
+
 Airplane::Airplane(unsigned int number, std::string identification, unsigned int
                    altitude, float cape, unsigned int velocity,
-                   struct CardinalPoint in, struct CardinalPoint out)
+                   CardinalPoint in, CardinalPoint out)
 :
 Entity(cape, velocity, in.getPosition()), // Parent constructor.
 number_(number),
@@ -35,7 +39,7 @@ hidden_(false)
 
 
 
-void Airplane::compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) {
+void Airplane::compute(PosTypes posType, int gameFieldWidth, int gameFieldHeight) {
     
   // Nothing to compute if hidden.
   if (hidden_)
@@ -46,7 +50,7 @@ void Airplane::compute(enum PosType posType, int gameFieldWidth, int gameFieldHe
     updateCape();
   
   // Select the position from which to test.
-  const struct Point* pos(getPosition(posType));
+  const Point* pos(getPosition(posType));
   
   // Check if we are not out-of-field (not if already hidden).
   // Before the edge for real position (otherwise airplane would be half out).
@@ -97,14 +101,14 @@ void Airplane::compute(enum PosType posType, int gameFieldWidth, int gameFieldHe
 
 
 
-void Airplane::checkForCollisionDispatch(Entity& entity, enum PosType posType) const {
+void Airplane::checkForCollisionDispatch(Entity& entity, PosTypes posType) const {
   // Double dispatching (visitor pattern).
   entity.checkForCollision(this, posType);
 }
 
 
   
-void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType) {
+void Airplane::checkForCollision(const Airplane* airplane, PosTypes posType) {
     
   // No collisions if hidden.
   if (hidden_)
@@ -131,7 +135,7 @@ void Airplane::checkForCollision(const Airplane* airplane, enum PosType posType)
 
 
 
-void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {
+void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, PosTypes posType) {
 
   // No collisions if hidden.
   if (hidden_)
@@ -151,7 +155,7 @@ void Airplane::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosTyp
 
 
 
-void Airplane::checkForCollision(const Airway* airway, enum PosType posType) {
+void Airplane::checkForCollision(const Airway* airway, PosTypes posType) {
 
   // No collisions if hidden.
   if (hidden_)
@@ -171,7 +175,7 @@ void Airplane::checkForCollision(const Airway* airway, enum PosType posType) {
 
 
 
-void Airplane::checkForCollision(const Cloud* cloud, enum PosType posType) {
+void Airplane::checkForCollision(const Cloud* cloud, PosTypes posType) {
 
   // No collisions if hidden.
   if (hidden_)
@@ -197,7 +201,7 @@ unsigned int Airplane::getAltitude() const {
 
 
 
-bool Airplane::isInside(Point point, enum PosType posType, bool mouse) const {
+bool Airplane::isInside(Point point, PosTypes posType, bool mouse) const {
   
   // Cannot be inside if hidden.
   if (hidden_)
@@ -309,7 +313,7 @@ void Airplane::renderSidePanelInfo(Surface& displaySurf) const {
     labelL3 = "Warning: turbulence zone !";
     redL2 = 255;
     greenL2 = 128;
-  } else if (currentCape_ != targetCape_) {
+  } else if (int(currentCape_) != int(targetCape_)) {
     labelL3 = "Airplane turning !";
   }
   
@@ -345,4 +349,8 @@ void Airplane::traceLineFromAirplane(Surface& displaySurf, Point endPoint,
           int16_t(xPred>0?realPosition_.x:realPosition_.x+xPred),
           int16_t(yPred>0?realPosition_.y:realPosition_.y+yPred));
 }
+
+
+
+}  // End of project ATCsim namespace.
 

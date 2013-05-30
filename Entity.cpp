@@ -14,6 +14,10 @@
 
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
+
 Entity::Entity(float cape, unsigned int velocity, Point initialPosition)
 :
 currentCape_(cape),
@@ -31,25 +35,25 @@ pi_(std::atan(1.0f) * 4.0f)
 
 // Void casting to avoid compiler warning about unused parameter.
 // We make it explicit that this is our intent.
-void Entity::checkForCollision(const Airplane* airplane, enum PosType posType) {(void)airplane; (void)posType;}
-void Entity::checkForCollision(const ForbiddenZone* forbiddenZone, enum PosType posType) {(void)forbiddenZone; (void)posType;}
-void Entity::checkForCollision(const Airway* airway, enum PosType posType) {(void)airway; (void)posType;}
-void Entity::checkForCollision(const Cloud* cloud, enum PosType posType) {(void)cloud; (void)posType;}
+void Entity::checkForCollision(const Airplane* airplane, PosTypes posType) {(void)airplane; (void)posType;}
+void Entity::checkForCollision(const ForbiddenZone* forbiddenZone, PosTypes posType) {(void)forbiddenZone; (void)posType;}
+void Entity::checkForCollision(const Airway* airway, PosTypes posType) {(void)airway; (void)posType;}
+void Entity::checkForCollision(const Cloud* cloud, PosTypes posType) {(void)cloud; (void)posType;}
 
 
 
 // Const and non-const getPosition implementation.
 // Templated to avoid code duplication.
 template <typename TSrc, typename TRet>
-TRet getPositionT(TSrc entity, enum PosType posType) {
+TRet getPositionT(TSrc entity, Entity::PosTypes posType) {
   
   TRet position;
   
   switch (posType) {
-    case simPosition:
+    case Entity::simPosition:
       position = &(entity->simPosition_);
       break;
-    case realPosition:
+    case Entity::realPosition:
     default:
       position = &(entity->realPosition_);
   }
@@ -60,15 +64,15 @@ TRet getPositionT(TSrc entity, enum PosType posType) {
 
 
 // Constant method used in the general case.
-const struct Point* Entity::getPosition(enum PosType posType) const {
-  return getPositionT<const Entity*, const struct Point*>(this, posType);
+const Entity::Point* Entity::getPosition(PosTypes posType) const {
+  return getPositionT<const Entity*, const Point*>(this, posType);
 }
 
 
 
 // Non-constant method used by Entity::computeMovement.
-struct Point* Entity::getPosition(enum PosType posType) {
-  return getPositionT<Entity*, struct Point*>(this, posType);
+Entity::Point* Entity::getPosition(PosTypes posType) {
+  return getPositionT<Entity*, Point*>(this, posType);
 }
 
 
@@ -91,7 +95,7 @@ void Entity::setSelected(bool selected) {
 
 
 
-const struct AirplaneStatus* Entity::getStatus() const {
+const Entity::AirplaneStatus* Entity::getStatus() const {
   return &status_;
 }
 
@@ -125,7 +129,7 @@ void Entity::setTargetCape(Point point) {
 
 
 
-void Entity::computeMovement(enum PosType posType) {
+void Entity::computeMovement(PosTypes posType) {
   
   // Select the position to modify (remove the pointer constness).
   Point* position(getPosition(posType));
@@ -162,4 +166,7 @@ void Entity::updateCape() {
     currentCape_ += 360.0f;
   
 }
+  
+
+}  // End of project ATCsim namespace.
 

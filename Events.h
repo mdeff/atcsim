@@ -5,6 +5,10 @@
 
 #include <SDL/SDL.h>
 
+
+namespace ATCsim {  // Project ATCsim namespace.
+
+
 //==============================================================================
 
 class Events {
@@ -87,6 +91,8 @@ private:
   
 };
 
-//==============================================================================
+
+}  // End of project ATCsim namespace.
+
 
 #endif	/* EVENTS_H */

@@ -12,6 +12,9 @@
 #include "Polygon.h"
 
 
+namespace ATCsim {  // Project ATCsim namespace.
+
+
 class Airway : public Polygon {
   
 public:
@@ -33,16 +36,19 @@ public:
   virtual ~Airway() noexcept(true) = default;
   
   // Redeclaration of virtual methods inherited from Entity class.
-  virtual void compute(enum PosType posType, int gameFieldWidth, int gameFieldHeight) final;
+  virtual void compute(PosTypes posType, int gameFieldWidth, int gameFieldHeight) final;
   
   // Redirection method used to implement double dispatching (visitor pattern).
-  virtual void checkForCollisionDispatch(Entity& entity, enum PosType posType) const final;
+  virtual void checkForCollisionDispatch(Entity& entity, PosTypes posType) const final;
   
 protected:
   
 private:
 
 };
+  
+
+}  // End of project ATCsim namespace.
 
 
 #endif	/* AIRWAYS_H */
