@@ -27,8 +27,7 @@ class Polygon : public Entity {
   
 public:
   
-  // There is no default constructor.
-  Polygon() = delete;
+  // Constructor takes x and y coordinates, color, cape and velocity of a new polygon.
   Polygon(const std::vector<int16_t>& xPoints,
           const std::vector<int16_t>& yPoints,
           uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha,
@@ -67,6 +66,10 @@ private:
  
   // Helper method for Polygon::isInside.
   int isLeft(const Point& point, size_t p0, size_t p1) const;
+
+  // Prohibit default constructor usage.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
+  Polygon() = delete;
   
 };
   

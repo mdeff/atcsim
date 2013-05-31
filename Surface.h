@@ -26,8 +26,6 @@ class Surface {
   
 public:
   
-  // There is no default constructor.
-  Surface() = delete;
   // Define some constructors.
   Surface(int weight, int height);
   Surface(int weight, int height, int colorDepth);
@@ -78,13 +76,15 @@ private:
   // Do not allow object copy or move by making copy / move constructor and
   // copy / move assignment operator private members.
   // It will fail to compile if somebody want to copy or move a Surface object.
+  // Also prohibit default constructor usage.
   // Mark methods that won’t be implemented with '= delete' (C++11).
   // We should deal with SDL_Surface copy and don't need to at the moment.
+  Surface() = delete;
   Surface(const Surface& orig) = delete;
   Surface& operator=(const Surface& orig) = delete;
   Surface(Surface&& orig) = delete;
   Surface& operator=(Surface&& orig) = delete;
- 
+  
 };
   
 

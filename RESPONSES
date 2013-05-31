@@ -54,3 +54,15 @@ ForbiddenZone::compute n'en appelle aucune. Cloud::compute appelle quant à elle
 uniquement Entity::computeMovement car il n'y a pas de modification de cape sur
 les nuages.
 
+[Question P16.1]
+
+Nous n'avons pour l'instant qu'implémenter la configuration des zones interdites
+par fichier de configuration. Les autres entitiées sont toujours configurées en
+dur dans le programme.
+Balises utilisées : <System> <ForbiddenZones> <ForbiddenZone> <xPoints> <yPoints>
+
+[Question P16.2]
+
+void extract(std::vector< std::unique_ptr<Entity> >& entities);
+
+

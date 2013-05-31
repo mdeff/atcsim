@@ -69,8 +69,9 @@ struct CardinalPoint {
 
 
 
-  // There is no default constructor.
-  Airplane() = delete;
+
+  // Constructor takes number, identification, altitude, cape, velocity and
+  // input / output cardinal points of a new airplane.
   Airplane(unsigned int number, std::string identification, unsigned int
            altitude, float cape, unsigned int velocity,
            CardinalPoint in, CardinalPoint out);
@@ -83,7 +84,7 @@ struct CardinalPoint {
   Airplane& operator=(Airplane&& orig) = default;
   
   // Default : call base class'es destructor and destructors of all members.
-  // Do not throw any exception (which is what we want for a dtor).
+  // Does not throw any exception (which is what we want for a dtor).
   virtual ~Airplane() noexcept(true) = default;
   
   // Redefinition of virtual methods inherited from Entity class.
@@ -135,6 +136,10 @@ private:
   
   // Trace a line from the airplane center to an end point.
   void traceLineFromAirplane(Surface& displaySurf, Point endPoint, uint8_t red, uint8_t green, uint8_t blue) const;
+  
+  // Prohibit default constructor usage.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
+  Airplane() = delete;
   
 };
   

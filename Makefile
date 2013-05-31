@@ -38,6 +38,9 @@ APPNAME = ATCsim
 .clang:
 	clang++ *.cpp ${LIBRARIES} ${STD} -Weverything ${NONOISYWARNINGS} -O2 -o ${APPNAME}_clang
 
+default:
+	g++ *.cpp ${LIBRARIES} ${STD} -O2 -o ${APPNAME}_gcc
+
 all: .gcc .clang
 gcc: .gcc
 clang: .clang

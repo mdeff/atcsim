@@ -20,11 +20,14 @@ Enguerrand Granoux, enguerrand.granoux@epfl.ch
 
 -----  GET, BUILD and RUN  -----
 
+You need a recent version of GCC (>= 4.7) to compile our project due to the use
+of C++11 new features.
+
   cd /path/to/project/
   git clone https://defferra@git.epfl.ch/repo/atcsim.git (GASPAR authentication)
   cd atcsim
   make
-  ./ATCsim
+  ./ATCsim system_description.xml
 
 -----  USAGE  -----
 

@@ -47,8 +47,7 @@ public:
   template <typename SRC, typename RET>
   friend RET getPositionT(SRC entity, PosTypes posType);
 
-  // There is no default constructor.
-  Entity() = delete;
+  // Constructor takes cape, velocity and initial position of a new entity.
   Entity(float cape, unsigned int velocity, Point initialPosition);
   
   // Use the default (member to member) copy ctor and copy assignment operator.
@@ -59,10 +58,10 @@ public:
   Entity& operator=(Entity&& orig) = default;
   
   // Virtual destructor to avoid undefined behaviours if someone tries to
-  // delete an object of type IEntity.
-  // For exemple : IEntity * obj = new Airplane(...); delete obj;
+  // delete an object of type Entity.
+  // For exemple : Entity * obj = new Airplane(...); delete obj;
   // Default : call base class'es destructor and destructors of all members.
-  // Do not throw any exception (which is what we want for a dtor).
+  // Does not throw any exception (which is what we want for a dtor).
   virtual ~Entity() noexcept(true) = default;
 
   // Abstract methods that will have to be defined by subclasses.
@@ -147,6 +146,10 @@ private:
   // M_PI (defined in math.h) but it's not standard C++, althought POSIX.
   const float pi_;
 
+  // Prohibit default constructor usage.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
+  Entity() = delete;
+  
 };
   
 

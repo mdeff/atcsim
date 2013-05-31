@@ -19,8 +19,7 @@ class ForbiddenZone : public Polygon {
   
 public:
   
-  // There is no default constructor.
-  ForbiddenZone() = delete;
+  // Constructor takes x and y coordinates of a new forbidden zone.
   ForbiddenZone(const std::vector<int16_t>& xPoints,
                 const std::vector<int16_t>& yPoints);
   
@@ -32,7 +31,7 @@ public:
   ForbiddenZone& operator=(ForbiddenZone&& orig) = default;
   
   // Default : call base class'es destructor and destructors of all members.
-  // Do not throw any exception (which is what we want for a dtor).
+  // Does not throw any exception (which is what we want for a dtor).
   virtual ~ForbiddenZone() noexcept(true) = default;
   
   // Redeclaration of virtual methods inherited from Entity class.
@@ -44,6 +43,10 @@ public:
 protected:
   
 private:
+
+  // Prohibit default constructor usage.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
+  ForbiddenZone() = delete;
 
 };
   

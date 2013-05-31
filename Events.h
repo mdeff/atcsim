@@ -19,7 +19,7 @@ public:
   Events() = default;
 
   // Default : call base class'es destructor and destructors of all members.
-  // Do not throw any exception (which is what we want for a dtor).
+  // Does not throw any exception (which is what we want for a dtor).
   virtual ~Events() noexcept(true) = default;
 
   virtual void handleEvent(SDL_Event& event);
@@ -82,7 +82,7 @@ private:
   
   // Do not allow object copy or move by making copy / move constructor and
   // copy / move assignment operator private members.
-  // It will fail to compile if somebody want to copy or move a Surface object.
+  // It will fail to compile if somebody want to copy or move a Events object.
   // Mark methods that won’t be implemented with '= delete' (C++11).
   Events(const Events& orig) = delete;
   Events& operator=(const Events& orig) = delete;

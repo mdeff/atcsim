@@ -5,14 +5,12 @@
  * Created on 23. mars 2013, 17:54
  */
 
-#include "Airplane.h"
 #include "Airway.h"
-#include "Cloud.h"
 #include "Constants.h"
 #include "Entity.h"
-#include "ForbiddenZone.h"
 #include "Framerate.h"
 #include "Game.h"
+#include "Parser.h"
 #include "Surface.h"
 
 
@@ -21,7 +19,7 @@ namespace ATCsim {  // Project ATCsim namespace.
 
 
 
-Game::Game()
+Game::Game(std::string configFileName)
 : Events(), // Parent constructor.
 window_(1000, 551, 32),
 background_("background.bmp"), // Load the background image.
@@ -34,8 +32,10 @@ gameOver_(false),
 gameFieldWidth_(background_.getWidth()),
 gameFieldHeight_(background_.getHeight()),
 entities_() {
-
-  // Add airplanes, airways, forbidden zones and clouds to the heterogeneous collection.
+  
+  // Add airways to the entities heterogeneous collection.
+  // Airways are not defined in the configuration file because other things
+  // depend on it, like airplane input / output cardinal points.
   entities_.push_back(std::unique_ptr<Entity > (
           new Airway({0, 250, 300,   0},
                      {0,   0, 200, 300})));
@@ -49,25 +49,10 @@ entities_() {
           new Airway({470, 670, 440},
                      {551, 551, 330})));
   
-  entities_.push_back(std::unique_ptr<Entity > (
-          new ForbiddenZone({260, 360, 360, 260},
-                            {150, 150, 250, 250})));
-  entities_.push_back(std::unique_ptr<Entity > (
-          new ForbiddenZone({480, 670, 690, 780, 670, 650},
-                            {150, 130,  20, 120, 130, 330})));
-  
-  entities_.push_back(std::unique_ptr<Entity > (
-          new Cloud({540, 620, 770, 790, 700, 580},
-                    {400, 350, 400, 500, 540, 500}, 124.2f, 200)));
-  
-  entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(1, "AA293", 8000, 260.4f, 800, Airplane::CardinalPoint(Airplane::N), Airplane::CardinalPoint(Airplane::S))));
-  entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(2, "LX8829", 9811, 90.3f, 600, Airplane::CardinalPoint(Airplane::S), Airplane::CardinalPoint(Airplane::W))));
-  entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(3, "DLH22", 7510, 166.8f, 700, Airplane::CardinalPoint(Airplane::E), Airplane::CardinalPoint(Airplane::S))));
-  entities_.push_back(std::unique_ptr<Entity > (
-          new Airplane(4, "BER120", 7440, 20.3f, 400, Airplane::CardinalPoint(Airplane::W), Airplane::CardinalPoint(Airplane::E))));
+  // Extract entities (forbidden zones, clouds and airplanes) configurations
+  // from a configuration file.
+  Parser parser(configFileName);
+  parser.extract(entities_);
   
   // Draw the side panel background (white with black outline).
   sidePanel_.drawFilledRectangle(0, 0, 199, 550, 255, 255, 255, 255);

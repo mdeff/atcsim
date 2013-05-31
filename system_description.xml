@@ -1,0 +1,25 @@
+<System>
+
+	<!-- Forbidden zones declaration -->
+	<ForbiddenZones>
+		<ForbiddenZone>
+			<xPoints>
+				260 360 360 260
+			</xPoints>
+			<yPoints>	
+				150 150 250 250
+			</yPoints>
+		</ForbiddenZone>
+		<ForbiddenZone>
+			<xPoints>
+				480 670 690 780 670 650
+			</xPoints>
+			<yPoints>
+				150 130  20 120 130 330
+			</yPoints>
+		</ForbiddenZone>
+	</ForbiddenZones>
+
+
+</System>
+

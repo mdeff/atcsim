@@ -27,11 +27,12 @@ class Game : public Events {
   
 public:
   
-  // Use a custom default constructor.
-  Game();
+  // Constructor takes the configuration file name.
+  Game(std::string configFileName);
   
-  // Although it does nothing more than default, it is needed for unique_ptr.
-  // Do not throw any exception (which is what we want for a dtor).
+  // Although it does nothing more than default, it should be defined for unique_ptr.
+  // Default : call base class'es destructor and destructors of all members.
+  // Does not throw any exception (which is what we want for a dtor).
   virtual ~Game() noexcept(true);
   
   // Return the game state.
@@ -92,7 +93,9 @@ private:
   // Do not allow object copy or move by making copy / move constructor and
   // copy / move assignment operator private members.
   // It will fail to compile if somebody want to copy or move a Game object.
+  // Also prohibit default constructor usage.
   // Mark methods that won’t be implemented with '= delete' (C++11).
+  Game() = delete;
   Game(const Game& orig) = delete;
   Game& operator=(const Game& orig) = delete;
   Game(Game&& orig) = delete;

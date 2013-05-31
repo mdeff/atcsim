@@ -19,8 +19,7 @@ class Airway : public Polygon {
   
 public:
   
-  // There is no default constructor.
-  Airway() = delete;
+  // Constructor takes x and y coordinates of a new airway.
   Airway(const std::vector<int16_t>& xPoints,
          const std::vector<int16_t>& yPoints);
   
@@ -32,7 +31,7 @@ public:
   Airway& operator=(Airway&& orig) = default;
   
   // Default : call base class'es destructor and destructors of all members.
-  // Do not throw any exception (which is what we want for a dtor).
+  // Does not throw any exception (which is what we want for a dtor).
   virtual ~Airway() noexcept(true) = default;
   
   // Redeclaration of virtual methods inherited from Entity class.
@@ -45,6 +44,10 @@ protected:
   
 private:
 
+  // Prohibit default constructor usage.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
+  Airway() = delete;
+  
 };
   
 

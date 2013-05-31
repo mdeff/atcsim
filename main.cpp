@@ -21,7 +21,7 @@ namespace ATCsim {  // Project ATCsim namespace.
 
 
 // Program main function, where execution start.
-int main();
+int main(std::string configFileName);
 
 // This function handles all the loading of data, whether it be textures, maps,
 // NPCs, or whatever.
@@ -33,12 +33,11 @@ void initialize();
 void cleanup();
 
 // Function which instanciates an instance of the game.
-Game::GameStates play();
+Game::GameStates play(std::string configFileName);
 
 
 
-// int main(int argc, char** argv) {
-int main() {
+int main(std::string configFileName) {
 
   int ret(0);
 
@@ -50,7 +49,7 @@ int main() {
     initialize();
 
     // Play until user decide to quit.
-    while (play() != Game::exit);
+    while (play(configFileName) != Game::exit);
 
   // Catch exceptions inherited from the standard exception class.
   // All exceptions from standard library, and also for this project.
@@ -70,9 +69,9 @@ int main() {
 
 
 
-Game::GameStates play() {
+Game::GameStates play(std::string configFileName) {
 
-  Game game;
+  Game game(configFileName);
   SDL_Event event;
   Game::GameStates state(Game::run);
 
@@ -123,7 +122,19 @@ void cleanup() {
 
 
 // Should have a global main symbol.
-int main() {
-  return ATCsim::main();
+int main(int argc, char** argv) {
+  
+  // Return error if haven't two parameters.
+  // First one is by convention the folder where the executable resides.
+  // Seconde one is the first user passed parameter (configuration file name).
+  if (argc != 2) {
+    std::cerr << "A configuration file name should be passed by parameter." << std::endl;
+    return 1;
+  
+  // Pass the configuration file name to the simulation main function.
+  } else {
+    return ATCsim::main(std::string(argv[1]));
+  }
+  
 }
 

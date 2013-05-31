@@ -19,8 +19,7 @@ class Cloud : public Polygon {
   
 public:
   
-  // There is no default constructor.
-  Cloud() = delete;
+  // Constructor takes x and y initial coordinates, cape and velocity of a new cloud.
   Cloud(const std::vector<int16_t>& xPoints, const std::vector<int16_t>& yPoints,
         float cape, unsigned int velocity);
   
@@ -32,7 +31,7 @@ public:
   Cloud& operator=(Cloud&& orig) = default;
   
   // Default : call base class'es destructor and destructors of all members.
-  // Do not throw any exception (which is what we want for a dtor).
+  // Does not throw any exception (which is what we want for a dtor).
   virtual ~Cloud() noexcept(true) = default;
     
   // Redeclaration of virtual methods inherited from Entity class.
@@ -44,6 +43,10 @@ public:
 protected:
   
 private:
+
+  // Prohibit default constructor usage.
+  // Mark methods that won’t be implemented with '= delete' (C++11).
+  Cloud() = delete;
 
 };
   
