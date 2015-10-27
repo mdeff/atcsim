@@ -17,6 +17,7 @@ Implement exceptions handling and throwing (without exception specifications at 
 Add Doxygen / Javadoc comments to source code
 Automatically generate documentation based on Doxygen / Javadoc comments
 Generate automatically the class hierarchy
+Use a UML diagram for class hierarchy
 
 create unit tests
 Add licence information (GPL or BSD)

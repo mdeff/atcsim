@@ -133,4 +133,8 @@
   -- put all project symbols inside ATCsim namespace
   -- commit exercise P15 : simulation end
 
-
+31.05.2013
+  -- implement the readout of a configuration file to configure forbidden zones
+  -- commit exercise P16 : parsing configuration file
+  
+  

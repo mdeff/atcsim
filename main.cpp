@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
   
   // Return error if haven't two parameters.
   // First one is by convention the folder where the executable resides.
-  // Seconde one is the first user passed parameter (configuration file name).
+  // Second one is the first user passed parameter (configuration file name).
   if (argc != 2) {
     std::cerr << "A configuration file name should be passed by parameter." << std::endl;
     return 1;

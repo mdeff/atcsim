@@ -9,8 +9,7 @@
 #define	CONSTANTS_H
 
 
-#include <cmath>    // For std::atan().
-#include <string>
+//#include <string>
 
 
 namespace ATCsim {  // Project ATCsim namespace.
@@ -22,7 +21,7 @@ namespace ATCsim {  // Project ATCsim namespace.
 // Standard and bold fonts.
 #define BOLDFONT "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 //const std::string BOLDFONT = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf";
-//const std::strDELTAANGLEing STDFONT("/usr/share/fonts/truetype/freefont/FreeSans.ttf");
+//const std::string STDFONT("/usr/share/fonts/truetype/freefont/FreeSans.ttf");
 //const std::string STDFONT("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf");
 #define STDFONT "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
 
