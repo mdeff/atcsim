@@ -1,5 +1,7 @@
 # ATCsim
 
+[Michaël Defferrard](https://deff.ch), [Enguerrand Granoux](https://ch.linkedin.com/in/egranoux)
+
 ATCsim (Air Traffic Control simulation) is the 2013 project of an introduction
 course on object-oriented programming in C++ at EPFL (CS-118). It simulates an
 (obviously simplified) Air Traffic Control workstation.
@@ -30,8 +32,3 @@ make
 
 Basic constants (like entity speed control, distance before collision etc.) can
 be changed in the Constants.h header file.
-
-## Authors
-
-* Michaël Defferrard, michael.defferrard@epfl.ch
-* Enguerrand Granoux, enguerrand.granoux@epfl.ch
